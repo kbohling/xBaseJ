@@ -115,6 +115,13 @@ public DBTFile(DBF iDBF, String name, boolean destroy, int type) throws IOExcept
   database = iDBF;
 
   String tname;
+  String ext = Util.getxBaseJProperty("memoFileExtension");
+  if (ext.length()>0) {
+    extension = ext;
+  }
+  else
+  if (type == DBF.FOXPRO_WITH_MEMO) // foxpro
+	  extension = "fpt";
 
   tname = new String(name.substring(0,name.length()-3) + extension);
 
