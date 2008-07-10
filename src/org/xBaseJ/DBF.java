@@ -58,31 +58,31 @@ import org.xBaseJ.indexes.NDX;
 
 public class DBF extends Object {
 
-	private String dosname;
-	private int current_record = 0;
-	private short fldcount = 0;
-	private File ffile;
+	protected String dosname;
+	protected int current_record = 0;
+	protected short fldcount = 0;
+	protected File ffile;
 	public RandomAccessFile file;
-	private Vector fld_root;
-	private DBTFile dbtobj = null;
-	private byte delete_ind = (byte) ' ';
+	protected Vector fld_root;
+	protected DBTFile dbtobj = null;
+	protected byte delete_ind = (byte) ' ';
 
 
-	private byte version = 3;
-	private byte l_update[] = new byte[3];
-	private int count = 0;
-	private short offset = 0;
-	private short lrecl = 0;
-	private byte incomplete_transaction = 0;
-	private byte encrypt_flag = 0;
-	private byte reserve[] = new byte[12];
-	private byte MDX_exist = 0;
-	private byte language = 0;
-	private byte reserve2[] = new byte[2];
+	protected byte version = 3;
+	protected byte l_update[] = new byte[3];
+	protected int count = 0;
+	protected short offset = 0;
+	protected short lrecl = 0;
+	protected byte incomplete_transaction = 0;
+	protected byte encrypt_flag = 0;
+	protected byte reserve[] = new byte[12];
+	protected byte MDX_exist = 0;
+	protected byte language = 0;
+	protected byte reserve2[] = new byte[2];
 
-	private Index jNDX;
-	private Vector jNDXes;
-	private Vector jNDXID;
+	protected Index jNDX;
+	protected Vector jNDXes;
+	protected Vector jNDXID;
 	public MDXFile MDXfile = null;
 	public static final byte DBASEIII = 3;
 	public static final byte DBASEIV = 4;
@@ -294,7 +294,7 @@ public class DBF extends Object {
 	 *                                    Java error caused by called methods
 	 */
 
-	private void openDBF(String DBFname) throws IOException, xBaseJException {
+	protected void openDBF(String DBFname) throws IOException, xBaseJException {
 		int i;
 		jNDX = null;
 		jNDXes = new Vector(1);
@@ -384,7 +384,7 @@ public class DBF extends Object {
 		}
 	}
 
-	private void createDBF(String DBFname, int format, boolean destroy)
+	protected void createDBF(String DBFname, int format, boolean destroy)
 		throws xBaseJException, IOException, SecurityException {
 		jNDX = null;
 		jNDXes = new Vector(1);
@@ -1689,7 +1689,7 @@ public class DBF extends Object {
 		update(false);
 	}
 
-	private void seek(long recno) throws IOException {
+	protected void seek(long recno) throws IOException {
 
 		long calcpos = (offset + (lrecl * recno));
 		file.seek(calcpos);
@@ -1824,7 +1824,7 @@ public class DBF extends Object {
 		return (delete_ind == DELETED);
 	}
 
-	private void db_offset(int format, boolean memoPresent) {
+	protected void db_offset(int format, boolean memoPresent) {
 
 		if (format == FOXPRO_WITH_MEMO)
 			if (memoPresent)
@@ -1853,7 +1853,7 @@ public class DBF extends Object {
 
 	}
 
-	private void read_dbhead() throws IOException {
+	protected void read_dbhead() throws IOException {
 		short currentrecord = 0; // not really used
 
 		file.seek(0);
@@ -1909,7 +1909,7 @@ public class DBF extends Object {
 
 	}
 
-	private Field read_Field_header() throws IOException, xBaseJException {
+	protected Field read_Field_header() throws IOException, xBaseJException {
 
 		Field tField;
 		int i;
@@ -1969,7 +1969,7 @@ public class DBF extends Object {
 		return tField;
 	}
 
-	private void write_Field_header(Field tField)
+	protected void write_Field_header(Field tField)
 		throws IOException, xBaseJException {
 
 		byte[] byter = new byte[15];
