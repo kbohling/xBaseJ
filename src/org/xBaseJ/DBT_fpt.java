@@ -110,7 +110,8 @@ public byte[] readBytes(byte[] input) throws IOException, xBaseJException
 
 
 
-
+  
+   file.skipBytes(4); /* [ 1985813 ] Bug in DBT_fpt.java */
    int size = file.readInt();
 
    orisize = size;
