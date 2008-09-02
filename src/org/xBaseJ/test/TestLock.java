@@ -57,7 +57,7 @@ public class TestLock extends TestCase {
 		Field str_field = new CharField("st", 10);
 		writer.addField(str_field);
 		writer.close();
-		writer = new DBF("temp.dbf");
+		writer = new DBF("testfiles/temp.dbf");
 		str_field = writer.getField(1);
 		str_field.put("abcd");
 		writer.write(true);

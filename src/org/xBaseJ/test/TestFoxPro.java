@@ -30,7 +30,11 @@ package org.xBaseJ.test;
 */
 
 
+import java.io.File;
+
 import org.xBaseJ.DBF;
+import org.xBaseJ.fields.CharField;
+import org.xBaseJ.fields.MemoField;
 
 import junit.framework.TestCase;
 
@@ -51,6 +55,28 @@ public void testStart()
     {
        fail(e.getMessage());
     }
-
 }
+
+
+public void testCreate() {
+    try {
+    	DBF fp = new DBF("testfiles/foxprotest.dbf", DBF.FOXPRO_WITH_MEMO, true);
+    	
+    	fp.addField(new CharField("name", 10));
+    	fp.addField(new MemoField("memo"));
+    	fp.close();
+    	File f = new File("testfiles/foxprotest.dbf");
+    	if (f.exists() == false)
+    		fail("can't find foxpro dbf file");
+    	f = new File("testfiles/foxprotest.fpt");
+    	if (f.exists() == false)
+    		fail("can't find foxpro fpt file");
+    }
+    catch (Exception e)
+    { 
+      e.printStackTrace();
+   	  fail(e.getMessage());
+    }
+}
+
 }
