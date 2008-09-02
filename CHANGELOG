@@ -1,3 +1,10 @@
+Release 2.2.2 
+
+  1.  [ 1985813 ] Bug in DBT_fpt.java
+     add file.skipBytes(4) to bypass memo field type in FPT files.
+     
+   2.  added missing subdirectory name in test scripts.
+   
 Release 2.2.1
 
   1 Changed license from GENERAL PUBLIC LICENSE (GPL) to LESSER GENERAL PUBLIC LICENSE (LGPL).
