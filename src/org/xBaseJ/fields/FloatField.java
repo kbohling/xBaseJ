@@ -45,7 +45,7 @@ public class FloatField extends NumField{
 	private static final long serialVersionUID = 1L;
 private byte decPosition = 0;
 
-static DecimalFormatSymbols dfs = DecimalFormatSymbols.getInstance();
+static DecimalFormatSymbols dfs = new DecimalFormatSymbols();
 static char decimalSeparator = dfs.getDecimalSeparator();
 
 
