@@ -38,13 +38,13 @@ import org.xBaseJ.xBaseJException;
 public class CharField extends Field{
 
 /**
-	 *
+ **
 	 */
 	private static final long serialVersionUID = 1L;
 
 public Object clone() throws  CloneNotSupportedException
 {
-  CharField tField = (CharField) super.clone();
+  CharField  tField = (CharField) super.clone();
   tField.Name = new String(Name);
   tField.Length = Length;
   return tField;

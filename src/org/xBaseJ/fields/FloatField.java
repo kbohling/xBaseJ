@@ -31,6 +31,7 @@ package org.xBaseJ.fields;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.text.DecimalFormatSymbols;
 
 import org.xBaseJ.xBaseJException;
 
@@ -43,6 +44,10 @@ public class FloatField extends NumField{
 	 */
 	private static final long serialVersionUID = 1L;
 private byte decPosition = 0;
+
+static DecimalFormatSymbols dfs = DecimalFormatSymbols.getInstance();
+static char decimalSeparator = dfs.getDecimalSeparator();
+
 
 public FloatField() {super();}
 
@@ -96,11 +101,11 @@ public void put(String inValue) throws xBaseJException
       }
 
    int i;
-
+   
   for (i=0; i<inValue.length(); i++) {
      if (inValue.charAt(i) == '-')
         signOn = true;
-     if (Character.isDigit(inValue.charAt(i)) || inValue.charAt(i) == '.')
+     if (Character.isDigit(inValue.charAt(i)) || inValue.charAt(i) == decimalSeparator)
         break;
      }
 
@@ -112,7 +117,7 @@ public void put(String inValue) throws xBaseJException
    int start = i;
 
   for (; i<inValue.length(); i++) {
-     if (!Character.isDigit(inValue.charAt(i)) && inValue.charAt(i) != '.')
+     if (!Character.isDigit(inValue.charAt(i)) && inValue.charAt(i) != decimalSeparator)
         break;
      }
 

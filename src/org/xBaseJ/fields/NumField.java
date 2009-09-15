@@ -32,6 +32,7 @@ package org.xBaseJ.fields;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 
 import org.xBaseJ.xBaseJException;
 
@@ -43,6 +44,8 @@ public class NumField extends Field{
 	 */
 private static final long serialVersionUID = 1L;
 private byte decPosition = 0;
+static DecimalFormatSymbols dfs = DecimalFormatSymbols.getInstance();
+static char decimalSeparator = dfs.getDecimalSeparator();
 
 public NumField() {super();}
 
@@ -135,7 +138,7 @@ if (decoffset > 0)
   format.append('0');
 
 if (decPosition > 0)  {
-  format.append('.');
+  format.append(decimalSeparator);
   for (i=0; i<decPosition; i++)  format.append('0');
   }
 
@@ -172,7 +175,7 @@ public void put(String inValue) throws xBaseJException
   for (i1=0; i1<inValue.length(); i1++)
      {
       if (inValue.charAt(i1) == '-') break;
-      if (inValue.charAt(i1) == '.') break;
+      if (inValue.charAt(i1) == decimalSeparator) break;
       if (inValue.charAt(i1) < '0') continue;
       if (inValue.charAt(i1) > '9') continue;
       break;
@@ -197,7 +200,8 @@ public void put(String inValue) throws xBaseJException
       i1++;
 	 }
 
-    if ( (i1 < inValue.length())  &&  (inValue.charAt(i1) == '.') )       i1++;
+    if ( (i1 < inValue.length())  &&  (inValue.charAt(i1) == decimalSeparator) ) 
+    	i1++;
 
 
     char decForm[] = new char[worklen];
@@ -217,7 +221,7 @@ public void put(String inValue) throws xBaseJException
 
     if (decPosition > 0)
 	 {
-      charArray[startpos] = '.';
+      charArray[startpos] = decimalSeparator;
       startpos--;
      }
 
@@ -311,7 +315,7 @@ public void put(double inValue) throws xBaseJException
     if (decPosition > 0)
     {
         int pos = getLength()-getDecimalPositionCount();
-        sb.setCharAt(pos,'.');
+        sb.setCharAt(pos,decimalSeparator);
 
         for (pos++; pos < getLength()+1; pos++)
             sb.setCharAt(pos,'0');
