@@ -1,3 +1,7 @@
+Release 2.2.3
+
+  1. Decimal separator made to use locale defined character.
+
 Release 2.2.2 
 
   1.  [ 1985813 ] Bug in DBT_fpt.java
