@@ -1,3 +1,8 @@
+Release 2009/09/16 
+
+	1. When storing the decimal seperator use the '.' character.  When
+	  getting from the db restore with the locale defined character.
+
 Release 2.2.3
 
   1. Decimal separator made to use locale defined character.
