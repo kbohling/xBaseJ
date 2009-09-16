@@ -32,6 +32,7 @@ package org.xBaseJ;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.io.UnsupportedEncodingException;
 
 
 public class DBT_fpt extends DBTFile
@@ -128,7 +129,12 @@ public byte[] readBytes(byte[] input) throws IOException, xBaseJException
 
 public byte[] write(String value, int originalSize, boolean write, byte originalPos[]) throws IOException, xBaseJException
 {
-     return write(value.getBytes(), originalSize, write, originalPos);
+	try {
+		return write(value.getBytes(DBF.encodedType), originalSize, write,
+				originalPos);
+	} catch (UnsupportedEncodingException UEE) {
+		return write(value.getBytes(), originalSize, write, originalPos);
+	}
 }
 
 public byte[] write(byte inBytes[], int originalSize, boolean write, byte originalPos[]) throws IOException, xBaseJException
