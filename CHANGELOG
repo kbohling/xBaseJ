@@ -2,6 +2,8 @@ Release 2009/09/16
 
 	1. When storing the decimal seperator use the '.' character.  When
 	  getting from the db restore with the locale defined character.
+	  
+	2. When writing String data with DBT_FPT use encoding logic.
 
 Release 2.2.3
 
