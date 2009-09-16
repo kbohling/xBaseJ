@@ -252,7 +252,8 @@ public void put(String inValue) throws xBaseJException
       }
 
 
-  super.put(new String(charArray));
+    
+  super.put(new String(charArray).replace(decimalSeparator, '.'));
 
   }
 

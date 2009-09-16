@@ -171,7 +171,7 @@ public void put(String inValue) throws xBaseJException
           break;
       charray[i] = ' ';
     }
-  super.put(new String(charray));
+  super.put(new String(charray).replace(decimalSeparator, '.'));
   }
 
 /**
