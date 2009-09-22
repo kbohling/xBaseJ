@@ -1,3 +1,11 @@
+Release 2009/09/22 
+
+	1. Replaced the Log4J usage in the Util class with Apache
+	  Commons Logging.  You can still use Log4J, Commons Logging will
+	  use that library if it finds it in the classpath.
+	  
+	2. Updated documentation and added examples to source tree.
+
 Release 2009/09/16 
 
 	1. When storing the decimal seperator use the '.' character.  When
