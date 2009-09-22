@@ -33,17 +33,11 @@ package org.xBaseJ.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.apache.log4j.Logger;
-
-
-
 /**
  * @author joseph mcverry
  *
  */
 public class AllxBaseJTests  {
-	static Logger logr = Logger.getLogger(AllxBaseJTests.class);
-
 
 	public static Test suite() {
 
