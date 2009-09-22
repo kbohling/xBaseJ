@@ -37,7 +37,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.log4j.Logger;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.xBaseJ.fields.DateField;
 
 
@@ -45,7 +47,7 @@ import org.xBaseJ.fields.DateField;
 
 public class Util extends Object {
 
-    static Logger logr = Logger.getLogger(Util.class);
+    static Log logr = LogFactory.getLog(Util.class);
 
     static boolean log4JConfigured = false;
 
