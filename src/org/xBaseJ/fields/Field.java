@@ -195,15 +195,8 @@ public int getLength()
 
 /**
  * @return char field type
- * @throws xBaseJException
- *                       undefined field type
 */
-public char getType() throws xBaseJException
-{
-  if (true)
-      throw new xBaseJException("Undefined field");
-  return '_';
-}
+public abstract char getType();
 
 /**
  * @return int - the number of decimal positions for numeric fields, zero returned otherwise
