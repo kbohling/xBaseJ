@@ -27,6 +27,15 @@ package org.xBaseJ;
  * License along with this library; if not, write to the Free
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
+ *  Change History
+ *  Date      Developer                 Desc
+ *  20091010  Roland Hughes (rth)   Fixed null pointer exception which
+ *                                  happened when calling close() without
+ *                                  any NDX files open.
+ *                                  
+ *                                  
+ *                                  
+ *                                  
 */
 
 import java.io.EOFException;
@@ -1749,6 +1758,7 @@ public class DBF extends Object {
 		Index NDXes;
 		NDX n;
 
+        if (jNDXes != null) {
 		for (i = 1; i <= jNDXes.size(); i++) {
 			NDXes = (Index) jNDXes.elementAt(i - 1);
 			if (NDXes instanceof NDX) {
@@ -1756,6 +1766,7 @@ public class DBF extends Object {
 				n.close();
 			}
 		}
+        }  // end test for null jNDXes  20091010_rth
 
 		if (MDXfile != null)
 			MDXfile.close();
