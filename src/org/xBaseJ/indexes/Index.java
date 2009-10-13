@@ -27,6 +27,16 @@ package org.xBaseJ.indexes;
  * License along with this library; if not, write to the Free
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
+ *  Change History
+ *  Date      Developer                 Desc
+ *  20091007  Roland Hughes (rth)   Made a patch to make date index work.
+ *                                  The way things are, Date and Numeric
+ *                                  will only work if they are keys by
+ *                                  themselves.  If you need dates or
+ *                                  numbers to be part of a segmented key
+ *                                  you need to declare them as Character
+ *                                  columns.
+ *                                  
 */
 
 import java.io.File;
@@ -125,9 +135,19 @@ public  int find_entry(String key) throws   xBaseJException, IOException
   if (keyType == 'F')
      return find_entry(new NodeKey(new NodeFloat(Double.valueOf(key).doubleValue())));
 
-  if (keyType == 'N')   {
-     Double d = new Double(key);
-     return find_entry(new NodeKey(d));
+  if (keyType == 'N')   {                   // 20091009_rth - begin 
+     double d = 0.0;
+     Field f;
+
+     f = (Field) keyControl.elementAt(0);
+     if (f.get() == null);
+     else if (f.get().length() == 0);
+     else if (f.getType() == 'D')
+             d =  Util.doubleDate(key);
+     else d =  Double.valueOf(key ).doubleValue() ;
+
+                                            // 20091009_rth - end
+     return find_entry(new NodeKey(new Double(d)));
      }
 
   return find_entry(new NodeKey(key));
