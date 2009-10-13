@@ -212,8 +212,6 @@ if (madebigger || write)
  for (int x=0; pos<10; pos++,x++)
    ten[pos] = newTen[x];
 
- if (false) throw new xBaseJException();
-
  return ten;
 }
 
