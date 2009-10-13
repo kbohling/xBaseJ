@@ -27,6 +27,14 @@ package org.xBaseJ.indexes;
  * License along with this library; if not, write to the Free
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
+ *  Change History
+ *  Date      Developer                 Desc
+ *  20091007  Roland Hughes (rth)   key size was wrong for date and numeric
+ *                                  changed from 16 to 8
+ *
+ *  20091010  Roland Hughes (rth)   reIndex() was using read() and should
+ *                                  have been using gotoRecord().  read() is
+ *                                  influenced by any attached NDX.
 */
 
 import java.io.File;
@@ -183,7 +191,11 @@ public  NDX(String name, String NDXString, DBF indatabase, boolean destroy, bool
       if (type == 'F')
 	throw new xBaseJException("Can't make float field part of a key");
 
-    if (key_type == ' ')
+    //  the else portion of this can only get called when we
+    //  have more than one field making up the key.
+    //  It is ugly, but that's the way it is.
+    //
+    if (key_type == ' ')  
       key_type = type;
     else
     if (key_type == 'D' && type == 'N')
@@ -202,7 +214,7 @@ public  NDX(String name, String NDXString, DBF indatabase, boolean destroy, bool
   if (key_type == 'D' || key_type == 'N')
     {
      keyType = 'N';
-     key_length = 16;
+     key_length = 8;        // 20091007_rth
      }
   else
     {
@@ -396,108 +408,6 @@ public void  bIndex() throws   xBaseJException, IOException
   return;
 }
 
-public void reIndex2() throws xBaseJException, IOException
-{
-	int i;
-	int  reccount = database.getRecordCount();
-	ArrayList  al = new ArrayList(database.getRecordCount());
-	database.gotoRecord(1);
-	KeyList kl=null;
-    for (i = 1; i < reccount; i++)
-	  {
-	    kl = new KeyList(build_key(), database.getCurrentRecordNumber());
-	    al.add(kl);
-	    database.read();
-	    }
-    topNode = null;
-    nfile.close();
-    file.delete();
-    nfile = new RandomAccessFile(file, "rw");
-    anchor_write();
-    Collections.sort(al, kl);
-    if (kl==null)
-    	return;
-
-    if (database.getRecordCount() > 0)
-        reIndexWork2(al, 0);
-
-    anchor_write();
-
-}
-
-
-private void reIndexWork2(ArrayList inAL, int level) throws IOException, xBaseJException {
-
-	int pos = 0;
-	top_Node = next_available;
-	workNode = new Node(nfile, key_per_Node, key_length, keyType, top_Node, level > 0);
-	next_available++;
-	workNode.set_pos(0);
-	NodeKey lastKey = null;
-	ArrayList  al = null;
-	KeyList kl;
-
-	for (int ial = 0; ial<inAL.size(); ial++)
-	  {
-		 kl = (KeyList) inAL.get(ial);
-		 if (ial == 0)
-		 {
-		 	kl = new KeyList(kl.value, workNode.get_record_number());
-		 	al = new ArrayList();
-		 	al.add(kl);
-		 }
-
-	     if (pos == key_per_Node)
-	        {
-	           if ((al == null && pos == 1 &&  level > 0) || pos == 0)
-	             {
-	                top_Node--;
-	                next_available--;
-	                topNode = workNode; // just in case its not set
-	                for (int i=pos; i<key_per_Node; i++)
-	                   {
-	                        workNode.set_pos(i);
-	                        workNode.set_key_value(lastKey);
-	                    }
-	                workNode.write();
-	              }
-	           if (level == 0)
-	                workNode.set_keys_in_this_Node(pos);
-	           else
-	                workNode.set_keys_in_this_Node(pos-1);
-	                 for (int i=pos; i<key_per_Node; i++)
-	                   {
-	                        workNode.set_pos(i);
-	                        workNode.set_key_value(lastKey);
-	                    }
-
-	  		 	kl = new KeyList(kl.value, workNode.get_record_number());
-			 	al.add(kl);
-			    workNode.write();
-			    top_Node = next_available;
-			    workNode = new Node(nfile, key_per_Node, key_length, keyType, top_Node, level > 0);
-			    next_available++;
-			    pos = 0;
-			    workNode.set_pos(0);
-	        }
-	    pos++;
-	    kl = (KeyList) inAL.get(ial);
-	    lastKey = kl.value;
-	    workNode.set_key_value(lastKey);
-	    if (level == 0)
-	        workNode.set_key_record_number(kl.getWhere());
-	    else
-	        workNode.set_lower_level(kl.getWhere());
-	  }
-	  workNode.pos_up();
-
-    if (al.size()>1)
-	   reIndexWork2(al, ++level);
-
-
-	}
-
-
 
 
 public void  reIndex() throws   xBaseJException, IOException
@@ -508,19 +418,20 @@ public void  reIndex() throws   xBaseJException, IOException
    BinaryTree topTree = null;
 
   if (database.getRecordCount() > 0) {
-  database.gotoRecord(1);
+  //database.gotoRecord(1);     20091010_rth
   top_Node = 0;
   next_available = 1;
   for (i = 1; i <= reccount; i++)
   {
+    database.gotoRecord(i);     // 20091010_rth
     lastkey = build_key();
     if (topTree == null)
         topTree = new BinaryTree(lastkey, i, topTree);
     else
         new BinaryTree(lastkey, i, topTree);
 
-    if (i < reccount)
-        database.read();
+    //if (i < reccount)         20091010_rth
+    //    database.read();
     }
 
 
