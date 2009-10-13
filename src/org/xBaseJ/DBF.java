@@ -32,18 +32,25 @@ package org.xBaseJ;
  *  20091010  Roland Hughes (rth)   Fixed null pointer exception which
  *                                  happened when calling close() without
  *                                  any NDX files open.
- *                                  
- *                                  
- *                                  
- *                                  
+ *
+ *
+ *  20091012  Roland Hughes  (rth)  renameTo() only works when the rename
+ *                                  isn't occurring across partitions or
+ *                                  physical devices.  Added copyTo() to
+ *                                  copy just the DBF, not any associated
+ *                                  memo file.
+ *
 */
 
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.RandomAccessFile;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
@@ -763,7 +770,11 @@ public class DBF extends Object {
 	public void renameTo(String newname) throws IOException {
 		file.close();
 		File n = new File(newname);
-		ffile.renameTo(n);
+		boolean b = ffile.renameTo(n);          // 20091012_rth - begin
+        if ( !b) {
+            copyTo( newname);
+            ffile.delete();
+        }                                       // 20091012_rth - end
 		dosname = newname;
 	}
 
@@ -2226,4 +2237,23 @@ public class DBF extends Object {
 
 
 	}
+
+    //  20091012_rth
+    //      Added this method to get around problem with renameTo().
+    //      When temporary file is on different device than original
+    //      database rename fails.
+    //      Java never provided a universal interface for system level file
+    //      copy.
+    public void copyTo(String newname) throws IOException {
+        FileChannel srcChannel = new FileInputStream(dosname).getChannel();
+        FileChannel dstChannel = new FileOutputStream(newname).getChannel();
+
+        // Copy file contents from source to destination
+        dstChannel.transferFrom(srcChannel, 0, srcChannel.size());
+
+        // Close the channels
+        srcChannel.close();
+        dstChannel.close();
+
+    }  // end copyTo method
 }
