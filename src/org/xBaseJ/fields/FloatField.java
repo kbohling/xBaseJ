@@ -94,6 +94,7 @@ return 'F';
 public void put(String inValue) throws xBaseJException
   {
 
+	
    boolean signOn = false;
    if (inValue.trim().length() == 0)
       { super.put("");
@@ -167,6 +168,8 @@ public void put(String inValue) throws xBaseJException
   if (signOn) charray[0] = '-';
   for (i = 0; i < charray.length-1; i++)
     {
+//	  if (signOn && i == 0)
+//		  continue;
       if (charray[i] != '0')
           break;
       charray[i] = ' ';
@@ -218,7 +221,15 @@ public void put(float inValue) throws xBaseJException
 */
 public void put(double inValue) throws xBaseJException
   {
-   put (String.valueOf(inValue));
+   double d = inValue;
+   double d10 = Math.pow(10, Length-decPosition);
+   d %= d10;
+   d10 = Math.pow(.1, decPosition+1);
+   if (d > 0)
+	   d += d10;
+   if (d < 0)
+	   d -= d10;
+   put (String.valueOf(d));
   }
 
 
