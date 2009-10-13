@@ -27,7 +27,11 @@ Release 2009/10/13
 	
 	11. Updated RMI Field class getType in base package no longer
 	throws xBaseJException.
-
+	
+	12. DBF renameTo() only works when the rename  
+	isn't occurring across partitions or physical devices.
+	
+	 
 Release 2009/09/22 
 
 	1. Replaced the Log4J usage in the Util class with Apache
