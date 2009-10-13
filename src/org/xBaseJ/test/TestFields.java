@@ -34,6 +34,11 @@ import java.io.IOException;
 
 import org.xBaseJ.xBaseJException;
 import org.xBaseJ.fields.CharField;
+import org.xBaseJ.fields.DateField;
+import org.xBaseJ.fields.FloatField;
+import org.xBaseJ.fields.LogicalField;
+import org.xBaseJ.fields.NumField;
+import org.xBaseJ.fields.PictureField;
 
 import junit.framework.TestCase;
 
@@ -68,5 +73,28 @@ public class TestFields extends TestCase {
 		TestFields.assertEquals("a",f.get());
 
 	}
+	
+	public void testType()  {
+		try {
+			CharField  c = new CharField("C", 1);
+			assertEquals('C', c.getType());
+			DateField  d = new DateField("D");
+			assertEquals('D', d.getType());
+			FloatField f = new FloatField("F", 10, 2); 
+			assertEquals('F', f.getType());
+			NumField n = new NumField("N", 10, 2);
+			assertEquals('N', n.getType());
+			LogicalField l = new LogicalField("L");
+			assertEquals('L', l.getType());
+			PictureField p = new PictureField("P");
+			assertEquals('P', p.getType());
+			
+		} catch (xBaseJException e) {
+			fail(e.getMessage());
+		} catch (IOException e) {
+			fail(e.getMessage());
+		}
+	}
+	
 
 }
