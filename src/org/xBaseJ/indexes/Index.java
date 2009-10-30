@@ -36,6 +36,8 @@ package org.xBaseJ.indexes;
  *                                  numbers to be part of a segmented key
  *                                  you need to declare them as Character
  *                                  columns.
+ *  20091007  joe mcverry (jrm)     Corrected error in checking date indexing.
+ *                                  
  *                                  
 */
 
@@ -140,10 +142,9 @@ public  int find_entry(String key) throws   xBaseJException, IOException
      Field f;
 
      f = (Field) keyControl.elementAt(0);
-     if (f.get() == null);
-     else if (f.get().length() == 0);
-     else if (f.getType() == 'D')
-             d =  Util.doubleDate(key);
+     
+     if (f.getType() == 'D') // 20091030_jrm - begin
+             d =  Util.doubleDate(key); // 20091030_jrm - end
      else d =  Double.valueOf(key ).doubleValue() ;
 
                                             // 20091009_rth - end
