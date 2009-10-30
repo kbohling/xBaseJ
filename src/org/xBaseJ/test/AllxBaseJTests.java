@@ -60,6 +60,7 @@ public class AllxBaseJTests  {
 		suite.addTestSuite(TestNoBlanks.class);
 		suite.addTestSuite(TestPack.class);
 		suite.addTestSuite(TestConcurrInsert.class);
+		suite.addTestSuite(TestIndexAfterAdding.class);
 		return suite;
 	}
 
