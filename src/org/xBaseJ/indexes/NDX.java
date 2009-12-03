@@ -417,8 +417,7 @@ public void  reIndex() throws   xBaseJException, IOException
    NodeKey lastkey;
    BinaryTree topTree = null;
 
-  if (database.getRecordCount() > 0) {
-  //database.gotoRecord(1);     20091010_rth
+
   top_Node = 0;
   next_available = 1;
   for (i = 1; i <= reccount; i++)
@@ -429,12 +428,7 @@ public void  reIndex() throws   xBaseJException, IOException
         topTree = new BinaryTree(lastkey, i, topTree);
     else
         new BinaryTree(lastkey, i, topTree);
-
-    //if (i < reccount)         20091010_rth
-    //    database.read();
     }
-
-
 
   topNode = null;
   nfile.close();
@@ -446,8 +440,6 @@ public void  reIndex() throws   xBaseJException, IOException
       reIndexWork(topTree.getLeast(), 0);
 
   anchor_write();
-
- }
 
   return;
 }
