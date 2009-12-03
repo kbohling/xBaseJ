@@ -32,6 +32,7 @@ package org.xBaseJ.test;
 
 import org.xBaseJ.DBF;
 import org.xBaseJ.fields.CharField;
+import org.xBaseJ.fields.Field;
 import org.xBaseJ.fields.LogicalField;
 import org.xBaseJ.fields.MemoField;
 import org.xBaseJ.fields.NumField;
@@ -45,7 +46,7 @@ import junit.framework.TestCase;
  */
 public class TestPack extends TestCase {
 
-	public void setUp()
+	public void build()
 	{
 		try{
 			//Create a new dbf file
@@ -125,15 +126,19 @@ public class TestPack extends TestCase {
 			aDB.write();
 
 			aDB.close();
+			
+			aDB = null;
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
+			fail(e.getLocalizedMessage());
 		}
 	}
 
 	public void testPack()
 	{
+		build();
 		try {
 		DBF dbf = new DBF("testfiles/class.DBF");
 
@@ -155,6 +160,7 @@ public class TestPack extends TestCase {
 				assertEquals("JAVA501", bean);
 		}
 
+		dbf = null;
 
 
 		}
@@ -183,4 +189,58 @@ public class TestPack extends TestCase {
 			}
 
 	}
+	
+	/*
+	 * If you delete every
+record in a DBF, then call pack followed by a reindex, then attempt to
+re-add a record which contains a prior unique key value, you will fail with
+a duplicate key error. It appears the index doesn't get initialized when
+reindex knows there are zero records on file.
+	 */
+	public void testBugDeleteAllPackReindexReadd()
+	{
+		build();
+	try {
+		DBF aDB = new DBF("testfiles/class.DBF");
+		aDB.useIndex("testfiles/classId.ndx");
+		aDB.useIndex("testfiles/TchrClass.ndx");
+		
+	
+		for (int i = 0; i < aDB.getRecordCount(); i++) {
+			aDB.gotoRecord(i+1);
+			aDB.delete();
+		}
+		aDB.pack();
+		aDB.getIndex(1).reIndex();
+		aDB.getIndex(2).reIndex();
+		Field classId = aDB.getField("classId");
+		Field className = aDB.getField("className");
+		Field teacherId = aDB.getField("teacherId");
+		Field daysMeet = aDB.getField("daysMeet");
+		Field timeMeet =aDB.getField("timeMeet");
+		Field credits = aDB.getField("credits");
+		Field UnderGrad = aDB.getField("UnderGrad");
+		Field discuss = aDB.getField("discuss");
+		
+		classId.put("JAVA10100");
+		className.put("Introduction to JAVA");
+		teacherId.put("120120120");
+		daysMeet.put("NYNYNYN");
+		timeMeet.put("0800");
+		discuss.put("Intro class");
+
+		aDB.write();
+		aDB = null;
+		
+	}
+	catch (Exception e)
+	{
+		e.printStackTrace();
+		fail(e.getLocalizedMessage());
+		
+	}
+
+	}
+  
+
 }
