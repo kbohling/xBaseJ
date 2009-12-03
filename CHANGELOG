@@ -1,3 +1,8 @@
+
+Release 2009/12/03
+
+	1. Index class had issues when packing an empty dbf.
+
 Release 2009/10/13
 
 	1. Method reIndex2 removed for all indexing classes.
