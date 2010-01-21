@@ -1,16 +1,36 @@
-<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<style type="text/css">
+
+body {
+margin-left: 10%;
+margin-right: 10%;
+padding: 0;
+font: 70%  verdana, helvetica, "Trebuchet MS", arial,sans-serif;
+line-height: 1.8em;
+color: #666;
+}
+</style>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="description" content="dBase or xBase access for java">
+<meta name="keywords" content="dbase, xbase, java, dbf, dbt, ndx, mdx, fpt, foxpro, clipper">
+<meta name="verify-v1" content="aFflnp4hVRI35WISvzWV8YuMC13R0WPVIbMDKHyO/WA=" />
+<META name="y_key" content="7e7c7f0da49ba6be">
+<title>xBaseJ - dBase Access for Java</title>
 </head>
-<BODY BACKGROUND="/images/graylines.gif">
+<body>
 
-<center><h2>xBaseJ 2.2 - Java Objects To Read and Write to dBase Files.</h2></center>
+<h2>xBaseJ 2.2 - Java Objects To Read and Write to dBase Files.</h2>
 
-<p>This current release supports DBF, DBT, NDX MDX, and FPT files.
+<p>This current release supports DBF, DBT, NDX MDX, and FPT files.</p>
 
 <hr>
+<a href="http://sourceforge.net/projects/xbasej/">SourceForge Download and Summary Page</a>
+<hr>
 
-<center><h2>Features</h2></center>
+<h2>Features</h2>
 
 
 <h3>Navigational Access</h3>
@@ -23,7 +43,7 @@ and FoxPro files.
 
 <h3>High Capacity Channel Access</h3>
 
-Implements channel I/O methods and routines. 
+Implements channel I/O methods and routines.
 
 <h3>A RMI Server and RMI Client Package</h3>
 
@@ -37,7 +57,7 @@ MECHANISMS.
 <h3>xBaseJ has two classes, dbfShow and dbfViewer, for a GUI access local databases.</h3>
 <h4>dbfShow an AWT application navigates a database record by record</h4>
 
-<hr SIZE=3 WIDTH="59%">
+<hr>
 
 <h4>dbfViewer a Swing application displays the database as a table.</h4>
 
@@ -49,24 +69,24 @@ MECHANISMS.
 &nbsp;&nbsp;&nbsp; xBaseJ has a class, dbfHTML, that creates an HTML output
 file of your databases.
 
-<hr SIZE=3 WIDTH="55%">
+<hr>
 
 <h3>Field level objects</h3>
 
 
 &nbsp;&nbsp;&nbsp; Each Field in the database is an object unto itself.
-<hr SIZE=3 WIDTH="55%">
+<hr>
 
 &nbsp;&nbsp;&nbsp;
 A Java class that reads a dbf file and creates
 a Java bean to simplify your coding effort
-<hr SIZE=3 WIDTH="55%">
+<hr>
 <h3><a href="../xBaseJMailer.html">xBaseJMailer</a></h3>
 An E-Mailer application that
     reads a dbf file to generate and send e-mail messages.
 
 
-<hr SIZE=3 WIDTH="55%">
+<hr>
 
 
 <h3>Current dBase Format Supported</h3>
@@ -85,14 +105,27 @@ indexes.</i>
 FoxPro - DBF, FPT
 <i>no support for FoxPro indexes.</i>
 
-<hr SIZE=3 WIDTH="55%">
+<hr>
+<h2>Examples</h2>
+<ul>
+<li><a href="example1.html">This is a sample program that will build one dbf and two associated index files.</a>
+<li><a href="example2.html">This is a sample program that will read the database created and using some java and dbase logic show
+certain records.</a>
+<li><a href="example3.html">This sample program will build one dbf and one index files.  This sample is different
+in that the fields are referenced using another style.</a>
+<li><a href="example4.html">This sample shows how to use indexes and relate two databases by a common field value.</a>
+</ul>
+
+
+
+<hr>
 <h3>Known Problems</h3>
 
 
 There is some incompatibility with dBase V and MDX files use numeric indexes and indexes using date fields.
 
 
-<hr SIZE=3 WIDTH="55%">
+<hr>
 <h3>xBaseJ.Properties</h3>
 
 Properties may be set in one of two ways.
@@ -101,15 +134,15 @@ First, with the xBaseJ.properties file.  Contents of which are the standard prop
 ignoreDBFLengthCheck=true
 ignoreMissingMDXFile=false
 </code>
-<hr WIDTH="40%">
+<hr>
 Second by using the xBaseJ.Util.setxBaseJProperty method passing the name value pair as two parameters.
 <code>
 import xBaseJ.util;
 ...
 setxBaseJProperty("ignoreDBFLengthCheck", "true");
 </code>
-<hr WIDTH="40%">
-<center><h4>Property Descriptions</h4></center>
+<hr>
+<h4>Property Descriptions</h4>
 <TABLE  BORDER=1 CELLSPACING=2 CELLPADDING=2 >
 <tr>
 <th>Name
@@ -119,7 +152,6 @@ setxBaseJProperty("ignoreDBFLengthCheck", "true");
 </tr>
 <tr>
 <td>checkPropertyFileForChanges
-
 <td>Indicates to recheck the property file system date
 to see if it has changed since the last get properties call.
 <td>True, Yes, False, No
@@ -165,10 +197,10 @@ use "DBT" some use "FPT", others have been used.
 </tr>
 </table>
 
-<center>
-<h1>The Classes</h1></center>
 
-<TABLE ALIGN="left" BORDER=1 CELLSPACING=2 CELLPADDING=2 >
+<h2>The Classes</h2>
+
+<TABLE ALIGN="left" BORDER=1 CELLSPACING=2 CELLPADDING=2>
 <tr>
 <th>Classes</th>
 <th>Documentation</th>
@@ -177,13 +209,14 @@ use "DBT" some use "FPT", others have been used.
 <tr>
 <td>DBF</td>
 
-<td><a href="xBaseJ/xBaseJ/DBF.html">Methods</a></td>
+<td><a href="api/org/xBaseJ/DBF.html">Methods</a></td>
 
 <td>DBF class is used to create an database object. It contains several
 methods for database access and control</td>
 </tr>
 
 <tr>
+
 <th>Classes</th>
 
 <th>Documentation</th>
@@ -194,7 +227,7 @@ methods for database access and control</td>
 <tr>
 <td>Index</td>
 
-<td><a href="xBaseJ/xBaseJ/Index.html">Abstract class for Index files and tags</a></td>
+<td><a href="api/org/xBaseJ/indexes/Index.html">Abstract class for Index files and tags</a></td>
 
 <td></td>
 </tr>
@@ -227,7 +260,7 @@ methods for database access and control</td>
 
 <td>Field</td>
 
-<td><a href="xBaseJ/xBaseJ/Field.html">Abstract class</a></td>
+<td><a href="api/org/xBaseJ/fields/Field.html">Abstract class</a></td>
 
 <td>Used by the Field classes</td>
 </tr>
@@ -235,7 +268,7 @@ methods for database access and control</td>
 <tr>
 <td>CharField</td>
 
-<td><a href="xBaseJ/xBaseJ/CharField.html">character Field subclass</a></td>
+<td><a href="api/org/xBaseJ/fields/CharField.html">character Field subclass</a></td>
 
 <td>Used to access Field types of 'C'</td>
 </tr>
@@ -243,7 +276,7 @@ methods for database access and control</td>
 <tr>
 <td>DateField</td>
 
-<td><a href="xBaseJ/xBaseJ/DateField.html">date Field subclass</a></td>
+<td><a href="api/org/xBaseJ/fields/DateField.html">date Field subclass</a></td>
 
 <td>Used to access Field types of 'D'</td>
 </tr>
@@ -251,7 +284,7 @@ methods for database access and control</td>
 <tr>
 <td>LogicalField</td>
 
-<td><a href="xBaseJ/xBaseJ/LogicalField.html">logical Field subclass</a></td>
+<td><a href="api/org/xBaseJ/fields/LogicalField.html">logical Field subclass</a></td>
 
 <td>Used to access Field types of 'L'</td>
 </tr>
@@ -259,7 +292,7 @@ methods for database access and control</td>
 <tr>
 <td>MemoField</td>
 
-<td><a href="xBaseJ/xBaseJ/MemoField.html">memo Field subclass</a></td>
+<td><a href="api/org/xBaseJ/fields/MemoField.html">memo Field subclass</a></td>
 
 <td>Used to access Field types of 'M'</td>
 
@@ -268,7 +301,7 @@ methods for database access and control</td>
 <tr>
 <td>PictureField</td>
 
-<td><a href="xBaseJ/xBaseJ/PictureField.html">picture Field subclass</a></td>
+<td><a href="api/org/xBaseJ/fields/PictureField.html">picture Field subclass</a></td>
 
 <td>Used to access Field types of 'P'</td>
 </tr>
@@ -276,7 +309,7 @@ methods for database access and control</td>
 <tr>
 <td>NumField</td>
 
-<td><a href="xBaseJ/xBaseJ/NumField.html">numeric Field subclass</a></td>
+<td><a href="api/org/xBaseJ/fields/NumField.html">numeric Field subclass</a></td>
 
 <td>Used to access Field types of 'N'</td>
 </tr>
@@ -284,7 +317,7 @@ methods for database access and control</td>
 <tr>
 <td>FloatField</td>
 
-<td><a href="xBaseJ/xBaseJ/FloatField.html">float Field subclass</a></td>
+<td><a href="api/org/xBaseJ/fields/FloatField.html">float Field subclass</a></td>
 
 <td>Used to access Field types of 'F'</td>
 </tr>
@@ -300,10 +333,10 @@ methods for database access and control</td>
 <tr>
 <td>dbfShow</td>
 
-<td><a href="xBaseJ/xBaseJ/dbfShow.html">Java Frame.</a></td>
+<td><a href="api/org/xBaseJ/awt/dbfShow.html">Java Frame.</a></td>
 
 <td>This is a Java frame we wrote for testing the class. Write to us and
-we'll send you the source. 
+we'll send you the source.
 <br>To run this Java application use the following command line:
 <br>java xBaseJ.dbfShow</td>
 </tr>
@@ -311,7 +344,7 @@ we'll send you the source.
 <tr>
 <td>dbfViewer</td>
 
-<td><a href="xBaseJ/xBaseJ/dbfViewer.html">Java Swing JFrame.</a></td>
+<td><a href="api/org/xBaseJ/swing/dbfViewer.html">Java Swing JFrame.</a></td>
 
 <td>This is a Java swing jframe we wrote for testing the class.
 
@@ -331,7 +364,7 @@ we'll send you the source.
 
 <td>rmi/Server</td>
 
-<td><a href="xBaseJ/xBaseJ/rmi/Server.html">The RMI Server.</a></td>
+<td><a href="api/org/xBaseJ/rmi/Server.html">The RMI Server.</a></td>
 
 <td>Use this to create RMI access to your xBase files.</td>
 </tr>
@@ -340,7 +373,7 @@ we'll send you the source.
 <tr>
 <td>rmi/DBFServerInterface</td>
 
-<td><a href="xBaseJ/xBaseJ/rmi/DBFServerInterface.html">The Client Access to Server is by an Interface</a></td>
+<td><a href="api/org/xBaseJ/rmi/DBFServerInterface.html">The Client Access to Server is by an Interface</a></td>
 
 <td>Used in conjunction with server. This is the interface that operates on
 the client machine.</td>
@@ -349,7 +382,7 @@ the client machine.</td>
 <tr>
 <td>rmi/DBFInterface</td>
 
-<td><a href="xBaseJ/xBaseJ/rmi/DBFInterface.html">The Client Access to DBF objects is by an Interface</a></td>
+<td><a href="api/org/xBaseJ/rmi/DBFInterface.html">The Client Access to DBF objects is by an Interface</a></td>
 
 <td>Access fields and other database constructs.</td>
 </tr>
@@ -358,7 +391,7 @@ the client machine.</td>
 <tr>
 <td>rmi/Field</td>
 
-<td><a href="xBaseJ/xBaseJ/rmi/FieldInterface.html">The Client Access to Field objects also by an Interface</a></td>
+<td><a href="api/org/xBaseJ/rmi/FieldInterface.html">The Client Access to Field objects also by an Interface</a></td>
 
 <td>Here are the getter/setter methods for the field objects</td>
 <td></td>
@@ -385,9 +418,27 @@ the DTD specifications.</td>
 </table>
 
 
-<center>
-<h1>
-Publish or Perish</h1></center>
+
+
+
+ <p>
+    <a href="http://validator.w3.org/check?uri=referer"><img
+        src="http://www.w3.org/Icons/valid-html401"
+        alt="Valid HTML 4.01 Transitional" height="31" width="88"></a>
+  </p>
+
+<p>
+
+
+
+
+
+<b>dBASE webring </b>
+<font face=arial size=-1 color="#000000"> [ <a href="http://H.webring.com/wrman?ring=dbase&amp;addsite" target=_top>Join Now</a> | <a href="http://H.webring.com/hub?ring=dbase&amp;id=39&amp;hub" target=_top>Ring Hub</a> | <a href="http://H.webring.com/go?ring=dbase&amp;id=39&amp;random" target=_top>Random</a> | <b><a href="http://H.webring.com/go?ring=dbase&amp;id=39&amp;prev" target=_top>&lt;&lt; Prev</a> | <a href="http://H.webring.com/go?ring=dbase&amp;id=39&amp;next" target=_top>Next &gt;&gt;</a></b> ] </font>
+
+<p>
+<a href="http://sourceforge.net/donate/index.php?group_id=213094"><img src="http://images.sourceforge.net/images/project-support.jpg" width="88" height="32" border="0" alt="Support This Project"> </a>
+<h1>Publish or Perish</h1>
 
 </body>
 </html>
