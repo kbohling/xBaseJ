@@ -1,4 +1,26 @@
+Release 2011/04/01
 
+ 	1. Util.java - Moved test for x86 architecture to static method to 
+ 	   improve system performance.  2951954
+ 	   
+ 	2. Index.java - Moved uniqueKey test before code to build key to 
+ 	   improve system performance. 2949611 
+ 	   
+ 	3. DbfDumper.java- new sample program. 2997132
+ 	
+ 	4. Field.java - added static method to test field type. 2997153
+ 	   see isCharField, isDateField, isLogicalField...  This also
+ 	   updates code that used the instanceof class  test.
+ 	   
+ 	5. DBF.java - improved logic to delete temporary MDX files. 2972349
+ 	
+ 	6. Index.java - Fix error -> Reindex won't work after pack removes 
+ 	   all records.  2897506 	    
+ 	   
+ 	7. Several test case programs did not use case sensitive file names 
+ 	   which caused running test applicaton in case sensitive environment
+ 	   to fail.
+ 	   
 Release 2009/12/03
 
 	1. Index class had issues when packing an empty dbf.
