@@ -1,7 +1,7 @@
 package org.xBaseJ.test;
 /**
  * xBaseJ - Java access to dBase files
- *<p>Copyright 1997-2007 - American Coders, LTD  - Raleigh NC USA
+ *<p>Copyright 1997-2011 - American Coders, LTD  - Raleigh NC USA
  *<p>All rights reserved
  *<p>Currently supports only dBase III format DBF, DBT and NDX files
  *<p>                        dBase IV format DBF, DBT, MDX and NDX files
@@ -32,12 +32,12 @@ package org.xBaseJ.test;
 
 import java.io.IOException;
 
+import junit.framework.TestCase;
+
 import org.xBaseJ.Util;
 import org.xBaseJ.xBaseJException;
 import org.xBaseJ.fields.CharField;
 import org.xBaseJ.fields.DateField;
-
-import junit.framework.TestCase;
 
 
 
@@ -56,7 +56,7 @@ public class TestNoBlanks extends TestCase {
 		}
 		try {
 			Util.closexBaseJProperty();
-			Util.copyFile("testfiles/noblanks.xbasej.txt", "org.xBaseJ.properties");
+			Util.copyFile("testfiles/noblanks.xBaseJ.txt", "org.xBaseJ.properties");
 		} catch (Exception e1) {
 			e1.printStackTrace();
 			System.exit(0);
@@ -97,7 +97,7 @@ public class TestNoBlanks extends TestCase {
 	public void tearDown() {
 		try {
 			Util.closexBaseJProperty();
-			Util.copyFile("testfiles/reset.xbasej.txt", "org.xBaseJ.properties");
+			Util.copyFile("testfiles/reset.xBaseJ.txt", "org.xBaseJ.properties");
 		} catch (Exception e1) {
 			e1.printStackTrace();
 			System.exit(0);

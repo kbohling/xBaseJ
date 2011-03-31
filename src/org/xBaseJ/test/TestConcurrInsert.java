@@ -1,7 +1,7 @@
 package org.xBaseJ.test;
 /**
  * xBaseJ - Java access to dBase files
- *<p>Copyright 1997-2007 - American Coders, LTD  - Raleigh NC USA
+ *<p>Copyright 1997-2011 - American Coders, LTD  - Raleigh NC USA
  *<p>All rights reserved
  *<p>Currently supports only dBase III format DBF, DBT and NDX files
  *<p>                        dBase IV format DBF, DBT, MDX and NDX files
@@ -30,12 +30,12 @@ package org.xBaseJ.test;
 */
 
 
+import junit.framework.TestCase;
+
 import org.xBaseJ.DBF;
 import org.xBaseJ.fields.CharField;
 import org.xBaseJ.fields.Field;
 import org.xBaseJ.fields.NumField;
-
-import junit.framework.TestCase;
 
 public class TestConcurrInsert extends TestCase {
 
@@ -74,7 +74,7 @@ public class TestConcurrInsert extends TestCase {
 		     DBF reader;
 			try {
 				reader = new DBF("testfiles/concurr.dbf");
-			     assertEquals(reader.getRecordCount(),99);
+			     assertEquals(99, reader.getRecordCount());
 			}
 		    catch (Exception ex) {
 					      fail(ex.getMessage());

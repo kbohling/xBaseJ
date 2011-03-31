@@ -1,7 +1,7 @@
 package org.xBaseJ.test;
 /**
  * xBaseJ - Java access to dBase files
- *<p>Copyright 1997-2007 - American Coders, LTD  - Raleigh NC USA
+ *<p>Copyright 1997-2011 - American Coders, LTD  - Raleigh NC USA
  *<p>All rights reserved
  *<p>Currently supports only dBase III format DBF, DBT and NDX files
  *<p>                        dBase IV format DBF, DBT, MDX and NDX files
@@ -30,14 +30,14 @@ package org.xBaseJ.test;
 */
 
 
+import junit.framework.TestCase;
+
 import org.xBaseJ.DBF;
 import org.xBaseJ.fields.CharField;
 import org.xBaseJ.fields.Field;
 import org.xBaseJ.fields.LogicalField;
 import org.xBaseJ.fields.MemoField;
 import org.xBaseJ.fields.NumField;
-
-import junit.framework.TestCase;
 
 /**
  * test packing logic
@@ -140,13 +140,13 @@ public class TestPack extends TestCase {
 	{
 		build();
 		try {
-		DBF dbf = new DBF("testfiles/class.DBF");
+		DBF dbf = new DBF("testfiles/class.dbf");
 
-		assertEquals(dbf.getRecordCount(), 4);
+		assertEquals(4, dbf.getRecordCount());
 
 		dbf.pack();
 
-		assertEquals(dbf.getRecordCount(), 3);
+		assertEquals(3, dbf.getRecordCount());
 
 		for (int i = 1; i < 4; i++)
 		{

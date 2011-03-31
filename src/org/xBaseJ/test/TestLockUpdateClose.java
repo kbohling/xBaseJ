@@ -1,7 +1,7 @@
 package org.xBaseJ.test;
 /**
  * xBaseJ - Java access to dBase files
- *<p>Copyright 1997-2007 - American Coders, LTD  - Raleigh NC USA
+ *<p>Copyright 1997-2011 - American Coders, LTD  - Raleigh NC USA
  *<p>All rights reserved
  *<p>Currently supports only dBase III format DBF, DBT and NDX files
  *<p>                        dBase IV format DBF, DBT, MDX and NDX files
@@ -32,11 +32,11 @@ package org.xBaseJ.test;
 
 import java.io.IOException;
 
+import junit.framework.TestCase;
+
 import org.xBaseJ.DBF;
 import org.xBaseJ.fields.CharField;
 import org.xBaseJ.fields.Field;
-
-import junit.framework.TestCase;
 
 /**
  * @author Joe McVerry - American Coders, Ltd.
@@ -54,6 +54,11 @@ public class TestLockUpdateClose extends TestCase {
 	}
 
 	public void testLockUpdateWithClose() {
+		String os = System.getProperty("os.name").toLowerCase();
+		//linux or unix
+	    if (os.indexOf( "nix") >=0 || os.indexOf( "nux") >=0)
+	    	return;
+
 		try {
 			org.xBaseJ.Util.setxBaseJProperty("useSharedLocks", "true");
 		} catch (IOException e) {
@@ -71,7 +76,6 @@ public class TestLockUpdateClose extends TestCase {
 
 			str_field.put("abcd2");
 			writer.write(true);
-
 			// update the first record
 			writer.gotoRecord(1, true);
 			str_field.put("updated");

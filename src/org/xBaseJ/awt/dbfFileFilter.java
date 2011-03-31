@@ -1,7 +1,7 @@
 package org.xBaseJ.awt;
 /**
  * xBaseJ - Java access to dBase files
- *<p>Copyright 1997-2007 - American Coders, LTD  - Raleigh NC USA
+ *<p>Copyright 1997-2011 - American Coders, LTD  - Raleigh NC USA
  *<p>All rights reserved
  *<p>Currently supports only dBase III format DBF, DBT and NDX files
  *<p>                        dBase IV format DBF, DBT, MDX and NDX files

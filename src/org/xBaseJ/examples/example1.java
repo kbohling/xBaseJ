@@ -10,7 +10,7 @@ package org.xBaseJ.examples;
 
 
 
-import org.xBaseJ.*;
+import org.xBaseJ.DBF;
 import org.xBaseJ.fields.CharField;
 import org.xBaseJ.fields.LogicalField;
 import org.xBaseJ.fields.NumField;

@@ -1,7 +1,7 @@
 package org.xBaseJ.fields;
 /**
  * xBaseJ - Java access to dBase files
- *<p>Copyright 1997-2007 - American Coders, LTD  - Raleigh NC USA
+ *<p>Copyright 1997-2011 - American Coders, LTD  - Raleigh NC USA
  *<p>All rights reserved
  *<p>Currently supports only dBase III format DBF, DBT and NDX files
  *<p>                        dBase IV format DBF, DBT, MDX and NDX files
@@ -54,7 +54,13 @@ public boolean Deleted;
 public ByteBuffer bytebuffer;
 
 public long myoffset;
-
+public boolean isCharField() {return getType() == 'C';}
+public boolean isDateField() {return getType() == 'D';}
+public boolean isFloatField() {return getType() == 'F';}
+public boolean isMemoField() {return getType() == 'M';}
+public boolean isLogicalField() {return getType() == 'L';}
+public boolean isNumField() {return getType() == 'N';}
+public boolean isPictureField() {return getType() == 'P';}
 
     /** used by externalize methods
      * @param in ObjectInput stream

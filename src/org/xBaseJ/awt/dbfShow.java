@@ -1,7 +1,7 @@
 package org.xBaseJ.awt;
 /**
  * xBaseJ - Java access to dBase files
- *<p>Copyright 1997-2007 - American Coders, LTD  - Raleigh NC USA
+ *<p>Copyright 1997-2011 - American Coders, LTD  - Raleigh NC USA
  *<p>All rights reserved
  *<p>Currently supports only dBase III format DBF, DBT and NDX files
  *<p>                        dBase IV format DBF, DBT, MDX and NDX files
@@ -27,6 +27,9 @@ package org.xBaseJ.awt;
  * License along with this library; if not, write to the Free
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
+ *  20110401  Joe McVerry (jrm)    Replaced instanceof call with static
+ *                                 field test (eg isDateField());
+
 */
 
 import java.awt.AWTException;
@@ -204,7 +207,7 @@ public void setupDBFields(String dbname)  throws Exception
             {
                j = i - 1;
                f = db.getField(i);
-               if (f  instanceof MemoField || f  instanceof PictureField) {
+               if (f.isMemoField() || f.isPictureField()) {
                   b = new Button(db.getField(i).getName());
                   b.addActionListener(this);
                   addComponent(viewPane, b, 1, j, 1, 1, GridBagConstraints.HORIZONTAL, GridBagConstraints.EAST);
@@ -272,10 +275,10 @@ public void setupDBFields(String dbname)  throws Exception
          for (i = 1; i <= db.getFieldCount(); i++)
             {
                f = db.getField(i);
-               if (f instanceof MemoField || f instanceof PictureField) {
+               if (f.isMemoField() || f.isPictureField()) {
                   }
                else
-               if (f instanceof LogicalField) {
+               if (f.isLogicalField()) {
                   lf = (LogicalField) f;
                   c  = (Checkbox) fldObjects.elementAt(i-1);
                   lf.put(c.getState());
@@ -339,7 +342,7 @@ public void setupDBFields(String dbname)  throws Exception
          for (i = 1; i <= db.getFieldCount(); i++)
             {
                f = db.getField(i);
-               if (f  instanceof MemoField) {
+               if (f.isMemoField()) {
                   }
                else
                if (f.getType() == 'L') {
@@ -383,7 +386,7 @@ public void setupDBFields(String dbname)  throws Exception
                try
                {
                  f = db.getField(i);
-                 if (f  instanceof MemoField) f.put("");
+                 if (f.isMemoField()) f.put("");
                  else if (f.getType() == 'L')
                   {
                     c  = (Checkbox) fldObjects.elementAt(i-1);
@@ -530,7 +533,7 @@ public void setupDBFields(String dbname)  throws Exception
             {
                try {
                f = db.getField(i);
-               if (f  instanceof MemoField) {
+               if (f.isMemoField()) {
                          if (event.getActionCommand().equals(f.getName())){
                            md = new memoDialog(this, f);
                            md.setVisible(true);

@@ -1,7 +1,7 @@
 package org.xBaseJ;
 /**
  * xBaseJ - Java access to dBase files
- *<p>Copyright 1997-2007 - American Coders, LTD  - Raleigh NC USA
+ *<p>Copyright 1997-2011 - American Coders, LTD  - Raleigh NC USA
  *<p>All rights reserved
  *<p>Currently supports only dBase III format DBF, DBT and NDX files
  *<p>                        dBase IV format DBF, DBT, MDX and NDX files
@@ -27,6 +27,10 @@ package org.xBaseJ;
  * License along with this library; if not, write to the Free
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
+ *  Change History
+ *  Date      Developer                 Desc
+ *  20110401  Joe McVerry (jrm)   created static field x86Architecture to reduce # of system calls.
+ 
 */
 
 
@@ -36,7 +40,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -62,6 +65,9 @@ public class Util extends Object {
     static boolean recheckProperties;
 
 	private static String servletContextPath = null;
+	
+	private static boolean x86Architecture = ((System.getProperty("os.arch").indexOf("86") == 0)
+            && (System.getProperty("os.arch").compareTo("vax") != 0));
 
     static 	{
         try {
@@ -82,8 +88,7 @@ public class Util extends Object {
 
 
     public static long x86(long in) {
-        if ((System.getProperty("os.arch").indexOf("86") == 0)
-                && (System.getProperty("os.arch").compareTo("vax") != 0))
+        if (x86Architecture)
             return in;
 
         boolean negative = false;
@@ -126,8 +131,7 @@ public class Util extends Object {
     }
 
     public static int x86(int in) {
-        if ((System.getProperty("os.arch").indexOf("86") == 0)
-                && (System.getProperty("os.arch").compareTo("vax") != 0)) {
+        if (x86Architecture) {
             return in;
         }
         boolean negative = false;
@@ -151,8 +155,7 @@ public class Util extends Object {
     }
 
     public static short x86(short in) {
-        if ((System.getProperty("os.arch").indexOf("86") == 0)
-                && (System.getProperty("os.arch").compareTo("vax") != 0))
+        if (x86Architecture)
             return in;
         short is, save = in;
         boolean negative = false;

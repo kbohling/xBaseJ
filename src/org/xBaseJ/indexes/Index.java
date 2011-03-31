@@ -1,7 +1,7 @@
 package org.xBaseJ.indexes;
 /**
  * xBaseJ - Java access to dBase files
- *<p>Copyright 1997-2007 - American Coders, LTD  - Raleigh NC USA
+ *<p>Copyright 1997-2011 - American Coders, LTD  - Raleigh NC USA
  *<p>All rights reserved
  *<p>Currently supports only dBase III format DBF, DBT and NDX files
  *<p>                        dBase IV format DBF, DBT, MDX and NDX files
@@ -37,6 +37,8 @@ package org.xBaseJ.indexes;
  *                                  you need to declare them as Character
  *                                  columns.
  *  20091007  joe mcverry (jrm)     Corrected error in checking date indexing.
+ *                                  
+ *  20110401  joe mcverry (jrm)     Moved unique_key check to before building a key.
  *                                  
  *                                  
 */
@@ -176,10 +178,10 @@ public void check_for_duplicates(int count) throws xBaseJException, IOException
    if (topNode == null)  // no index records yet
       return;
 
-   int ret = find_entry(build_key(), findFirstMatchingKey);
-
    if (unique_key == 0)
-      return;
+	      return;
+
+   int ret = find_entry(build_key(), findFirstMatchingKey);
 
    if (ret == keyNotFound)
       return;

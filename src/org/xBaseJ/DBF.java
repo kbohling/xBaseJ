@@ -1,7 +1,7 @@
 package org.xBaseJ;
 /**
  * xBaseJ - Java access to dBase files
- *<p>Copyright 1997-2007 - American Coders, LTD  - Raleigh NC USA
+ *<p>Copyright 1997-2011 - American Coders, LTD  - Raleigh NC USA
  *<p>All rights reserved
  *<p>Currently supports only dBase III format DBF, DBT and NDX files
  *<p>                        dBase IV format DBF, DBT, MDX and NDX files
@@ -40,17 +40,20 @@ package org.xBaseJ;
  *                                  copy just the DBF, not any associated
  *                                  memo file.
  *
+ *  20110401  Joe McVerry (jrm)    Replaced instanceof call with static
+ *                                 field test (eg isDateField());
+ *                                 
+ *                                 ID: 2972349 - use different nameing
+ *                                 functions for deleting temp files.
 */
 
 import java.io.EOFException;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.RandomAccessFile;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
@@ -510,8 +513,8 @@ public class DBF extends Object {
 		for (j = 0; j < aField.length; j++) {
 			for (i = 1; i <= fldcount; i++) {
 				tField = getField(i);
-				if (tField instanceof MemoField
-					|| tField instanceof PictureField)
+				if (tField.isMemoField()
+					|| tField.isPictureField())
 					oldMemo = true;
 				if (aField[j].getName().equalsIgnoreCase(tField.getName()))
 					throw new xBaseJException(
@@ -556,7 +559,7 @@ public class DBF extends Object {
 		if (createTemp) {
 
 			File f = File.createTempFile("org.xBaseJ", ffile.getName());
-			newName = f.getName();
+			newName = f.getAbsolutePath();
 
 			f.delete();
 
@@ -612,9 +615,9 @@ public class DBF extends Object {
 
 					throw new xBaseJException("Clone not supported logic error");
 				}
-				if (tField instanceof MemoField)
+				if (tField.isMemoField())
 					 ((MemoField) tField).setDBTObj(tempDBF.dbtobj);
-				if (tField instanceof PictureField)
+				if (tField.isPictureField())
 					 ((PictureField) tField).setDBTObj(tempDBF.dbtobj);
 				tField.setBuffer(tempDBF.buffer);
 				tempDBF.fld_root.addElement(tField);
@@ -626,9 +629,9 @@ public class DBF extends Object {
 				tempDBF.fld_root.addElement(aField[i]);
 				tempDBF.write_Field_header(aField[i]);
 				tField = (Field) aField[i];
-				if (tField instanceof MemoField)
+				if (tField.isMemoField())
 					 ((MemoField) tField).setDBTObj(tempDBF.dbtobj);
-				if (tField instanceof PictureField)
+				if (tField.isPictureField())
 					 ((PictureField) tField).setDBTObj(tempDBF.dbtobj);
 
 			}
@@ -661,9 +664,9 @@ public class DBF extends Object {
 
 			for (i = 1; i <= savefldcnt; i++) {
 				tField = (Field) getField(i);
-				if (tField instanceof MemoField)
+				if (tField.isMemoField())
 					 ((MemoField) tField).setDBTObj(dbtobj);
-				if (tField instanceof PictureField)
+				if (tField.isPictureField())
 					 ((PictureField) tField).setDBTObj(tempDBF.dbtobj);
 				write_Field_header(tField);
 			}
@@ -671,9 +674,9 @@ public class DBF extends Object {
 			for (i = 0; i < aField.length; i++) {
 				aField[i].setBuffer(buffer);
 				tField = (Field) aField[i];
-				if (tField instanceof MemoField)
+				if (tField.isMemoField())
 					 ((MemoField) tField).setDBTObj(dbtobj);
-				if (tField instanceof PictureField) {
+				if (tField.isPictureField()) {
 					((PictureField) tField).setDBTObj(dbtobj);
 				}
 				fld_root.addElement(aField[i]);
@@ -716,6 +719,14 @@ public class DBF extends Object {
 		}
 		if (tempDBF.dbtobj != null) {
 			tempDBF.dbtobj.file.close();
+			if (newName != null && newName.length() > 4) {
+				String tempMDXFilename = newName.substring(0, newName.length() - 4) +
+				".mdx";
+				File tempMDXFile = new File(tempMDXFilename);
+				if (tempMDXFile.exists()) {
+				tempMDXFile.deleteOnExit();
+				}
+			}
 			tempDBF.dbtobj.rename(dosname);
 			if ((version == DBASEIII || version == DBASEIII_WITH_MEMO)
 			&& (MDX_exist == 0)) {
@@ -759,9 +770,9 @@ public class DBF extends Object {
 		for (i = 1; i <= fldcount; i++) {
 			tField = (Field) getField(i);
 			tField.setBuffer(buffer);
-			if (tField instanceof MemoField)
+			if (tField.isMemoField())
 				 ((MemoField) tField).setDBTObj(dbtobj);
-			if (tField instanceof PictureField)
+			if (tField.isPictureField())
 				 ((PictureField) tField).setDBTObj(dbtobj);
 		}
 
@@ -1676,7 +1687,7 @@ public class DBF extends Object {
 
 		for (i = 0; i < fldcount; i++) {
 			tField = (Field) fld_root.elementAt(i);
-			if (tField instanceof MemoField)
+			if (tField.isMemoField())
 				tField.update();
 			else
 				tField.write();
@@ -2107,7 +2118,7 @@ public class DBF extends Object {
 			MemoField mField;
 			for (i = 1; i <= fldcount; i++) {
 				tField = getField(i);
-				if (tField instanceof MemoField) {
+				if (tField.isMemoField()) {
 					mField = (MemoField) tField;
 					mField.setDBTObj(dbtobj);
 				}

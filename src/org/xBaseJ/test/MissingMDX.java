@@ -1,7 +1,7 @@
 package org.xBaseJ.test;
 /**
  * xBaseJ - Java access to dBase files
- *<p>Copyright 1997-2007 - American Coders, LTD  - Raleigh NC USA
+ *<p>Copyright 1997-2011 - American Coders, LTD  - Raleigh NC USA
  *<p>All rights reserved
  *<p>Currently supports only dBase III format DBF, DBT and NDX files
  *<p>                        dBase IV format DBF, DBT, MDX and NDX files
@@ -33,13 +33,12 @@ package org.xBaseJ.test;
 import java.io.File;
 import java.io.IOException;
 
+import junit.framework.TestCase;
+
 import org.xBaseJ.DBF;
 import org.xBaseJ.Util;
 import org.xBaseJ.xBaseJException;
 import org.xBaseJ.fields.CharField;
-
-
-import junit.framework.TestCase;
 
 public class MissingMDX extends TestCase {
 
@@ -51,13 +50,13 @@ public class MissingMDX extends TestCase {
 		f.delete();
 		f = new File("testFiles/test.mdx");
 		f.delete();
-		DBF d = new DBF("testFiles/test.dbf", DBF.DBASEIV, true );
+		DBF d = new DBF("testfiles/test.dbf", DBF.DBASEIV, true );
 		d.addField(new CharField("one", 10));
 		d.close();
-		f = new File("testFiles/test.mdx");
+		f = new File("testfiles/test.mdx");
 		f.delete();
 		try {
-			d = new DBF("testFiles/test.dbf");
+			d = new DBF("testfiles/test.dbf");
 			d.write();
 			d.close();
 		} catch (xBaseJException e) {
@@ -69,19 +68,19 @@ public class MissingMDX extends TestCase {
 
 	public void testSetPropertyMissingMDXTrue() throws  xBaseJException, IOException
 	{
-		File f = new File("testFiles/test.dbf");
+		File f = new File("testfiles/test.dbf");
 		f.delete();
-		f = new File("testFiles/test.mdx");
+		f = new File("testfiles/test.mdx");
 		f.delete();
-		DBF d = new DBF("testFiles/test.dbf", DBF.DBASEIV, true );
+		DBF d = new DBF("testfiles/test.dbf", DBF.DBASEIV, true );
 		d.addField(new CharField("one", 10));
 		d.close();
-		f = new File("testFiles/test.mdx");
+		f = new File("testfiles/test.mdx");
 		f.delete();
 		try {
 			Util.setxBaseJProperty("ignoreMissingMDX", "true");
 			assertEquals(Util.getxBaseJProperty("ignoreMissingMDX"), "true");
-			d = new DBF("testFiles/test.dbf");
+			d = new DBF("testfiles/test.dbf");
 			d.write();
 			d.close();
 		} catch (xBaseJException e) {
@@ -92,19 +91,19 @@ public class MissingMDX extends TestCase {
 	}
 	public void testSetPropertyMissingMDXFalse() throws  xBaseJException, IOException
 	{
-		File f = new File("testFiles/test.dbf");
+		File f = new File("testfiles/test.dbf");
 		f.delete();
-		f = new File("testFiles/test.mdx");
+		f = new File("testfiles/test.mdx");
 		f.delete();
-		DBF d = new DBF("testFiles/test.dbf", DBF.DBASEIV, true );
+		DBF d = new DBF("testfiles/test.dbf", DBF.DBASEIV, true );
 		d.addField(new CharField("one", 10));
 		d.close();
-		f = new File("testFiles/test.mdx");
+		f = new File("testfiles/test.mdx");
 		f.delete();
 		try {
 			Util.setxBaseJProperty("ignoreMissingMDX", "false");
 			assertEquals(Util.getxBaseJProperty("ignoreMissingMDX"), "false");
-			d = new DBF("testFiles/test.dbf");
+			d = new DBF("testfiles/test.dbf");
 			d.write();
 			d.close();
 		} catch (xBaseJException e) {

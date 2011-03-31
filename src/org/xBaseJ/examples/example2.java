@@ -7,7 +7,7 @@ package org.xBaseJ.examples;
  * @author joseph mcverry
  *
  */
-import org.xBaseJ.*;
+import org.xBaseJ.DBF;
 import org.xBaseJ.fields.CharField;
 import org.xBaseJ.fields.LogicalField;
 import org.xBaseJ.fields.NumField;
