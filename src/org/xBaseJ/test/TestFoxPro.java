@@ -45,38 +45,38 @@ public class TestFoxPro extends TestCase {
     }
 
 
-public void testStart()
-{
-    try{
-        DBF fp = new DBF("testfiles/memofile.dbf");
-        System.out.println(fp.getVersion());
-       }
-    catch (Exception e)
-    {
-       fail(e.getMessage());
-    }
+//public void testStart()
+//{ i lost the copy of memofile.dbf
+//    try{
+//        DBF fp = new DBF("testfiles/memofile.dbf");
+//        System.out.println(fp.getVersion());
+//       }
+//    catch (Exception e)
+//    {
+//       fail(e.getMessage());
+//    }
+//}
+public void testCreateAll() {
+	try {
+		
+		DBF fp = new DBF("testfiles/foxprotest.dbf", DBF.FOXPRO_WITH_MEMO, true);
+		fp.addField(new CharField("name", 10));
+		fp.addField(new MemoField("memo"));
+		fp.close();
+		File f = new File("testfiles/foxprotest.dbf");
+		if (f.exists() == false)
+			fail("can't find foxpro dbf file");
+		f = new File("testfiles/foxprotest.fpt");
+		if (f.exists() == false)
+			fail("can't find foxpro fpt file");
+			
+	}
+	catch (Exception e) {
+		e.printStackTrace();
+		fail(e.getMessage());
+	} 
+	
 }
 
-
-public void testCreate() {
-    try {
-    	DBF fp = new DBF("testfiles/foxprotest.dbf", DBF.FOXPRO_WITH_MEMO, true);
-    	
-    	fp.addField(new CharField("name", 10));
-    	fp.addField(new MemoField("memo"));
-    	fp.close();
-    	File f = new File("testfiles/foxprotest.dbf");
-    	if (f.exists() == false)
-    		fail("can't find foxpro dbf file");
-    	f = new File("testfiles/foxprotest.fpt");
-    	if (f.exists() == false)
-    		fail("can't find foxpro fpt file");
-    }
-    catch (Exception e)
-    { 
-      e.printStackTrace();
-   	  fail(e.getMessage());
-    }
-}
 
 }
