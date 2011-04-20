@@ -35,6 +35,9 @@ package org.xBaseJ.indexes;
  *  20091010  Roland Hughes (rth)   reIndex() was using read() and should
  *                                  have been using gotoRecord().  read() is
  *                                  influenced by any attached NDX.
+ *                                  
+ *  20110420  Joe McVerry   (jm)    removed stat > 0 from from for loop in find_entry.
+ *                                  this was creating duplicate index update problem.
 */
 
 import java.io.File;
@@ -301,12 +304,12 @@ public int  find_entry(NodeKey findKey, Node aNode,
     until = aNode.get_keys_in_this_Node();
 
   for (aNode.set_pos(0);
-       aNode.get_pos() < until  && stat > 0;
+       aNode.get_pos() < until;
        aNode.pos_up())
   {
     leaf = aNode.get_lower_level();
     rec = aNode.get_key_record_number();
-    if (aNode.get_pos() < (aNode.get_keys_in_this_Node()))
+    if (aNode.get_pos() < aNode.get_keys_in_this_Node())
     {				/* leafs make us do this */
       stat = findKey.compareKey(aNode.get_key_value());
       if (stat > 0)
@@ -329,7 +332,7 @@ public int  find_entry(NodeKey findKey, Node aNode,
      workNode = Node_2;
      rec = find_entry(findKey, Node_2, findrec);
      return (rec);		/* if rec < 0 then didn't find the record yet */
-    }				/* leaf > 0 */
+    }				/* if leaf > 0 */
 
 
     if (stat < 0)		/* can't find the key  but ...  */
@@ -364,7 +367,8 @@ public int  find_entry(NodeKey findKey, Node aNode,
 
   }				/* end for */
 
-  return (foundMatchingKeyButNotRecord);			/* at end of current line but keep looking for recursion */
+  return (foundMatchingKeyButNotRecord);			
+  /* at end of current line but keep looking for recursion */
 }
 
 
