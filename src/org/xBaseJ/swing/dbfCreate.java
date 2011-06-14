@@ -112,8 +112,8 @@ public class dbfCreate extends JFrame implements ActionListener, WindowListener,
 
         menuFile = new JMenu("File");
         menuBar.add(menuFile);
-        menuOpen = new JMenuItem("Copy from...");
-        menuCreate = new JMenuItem("Create...");
+        menuOpen = new JMenuItem("Copy from..");
+        menuCreate = new JMenuItem("Create..");
         menuFile.add(menuOpen);
         menuFile.add(menuCreate);
 

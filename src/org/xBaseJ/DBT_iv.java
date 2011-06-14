@@ -66,30 +66,19 @@ public void setNextBlock() throws IOException
 }
 
 
-public byte[] readBytes(byte[] input) throws IOException, xBaseJException
-{
-
- int i;
- for (i = 0; i < 10; i++)
-   {
-    if (input[i] >= BYTEZERO && input[i] <= '9')
-      break;
-    if (input[i] == BYTESPACE)
-         input[i] = BYTEZERO;
-   }
-
-  String sPos = new String(input, 0, 10);
-
- for (i = 0; i < sPos.length(); i++)
-     if (sPos.charAt(i) != BYTESPACE) break;
-
- if (i == sPos.length()) return null;
-
+ public byte[] readBytes(byte[] input) throws IOException, xBaseJException
+ {
+ for (int i = 0; i < 10; i++)
+ {
+ if (input[i] == 0) input[i] = BYTESPACE;
+ }
+ String sPos = new String(input, 0, 10).trim();
+ if (sPos.length()==0) return null;
  long lPos = Long.parseLong(sPos.trim());
-
  if (lPos == 0) return null;
- file.seek(lPos * memoBlockSize);
+ if (lPos * memoBlockSize>= file.length()) return null;
 
+ file.seek(lPos * memoBlockSize);
 
   int orisize;
 

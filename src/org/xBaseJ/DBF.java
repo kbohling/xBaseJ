@@ -2174,7 +2174,7 @@ public class DBF extends Object {
 	}
 
 	/** gets the character encoding string value.
-	  * @return String "8859_1", "CP850", ...
+	  * @return String "8859_1", "CP850", ..
 	  */
 
 	public static String getEncodingType() {

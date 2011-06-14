@@ -418,7 +418,7 @@ public int  find_entry(NodeKey findKey, MNode aNode,
     }				/* leaf > 0 */
 
 
-    if (stat < 0)		/* can't find the key  but ...  */
+    if (stat < 0)		/* can't find the key  but ..  */
      {
 
       if (findrec > 0)

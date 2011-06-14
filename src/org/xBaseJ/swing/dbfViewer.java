@@ -138,12 +138,12 @@ public class dbfViewer extends JFrame implements ActionListener, WindowListener,
 
         menuFile = new JMenu("File");
         menuBar.add(menuFile);
-        menuOpen = new JMenuItem("Open...");
+        menuOpen = new JMenuItem("Open..");
         menuOpen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.ALT_MASK));
         menuPrint = new JMenuItem("Print");
         menuPrint.setEnabled(startEnabled);
         menuPrint.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.ALT_MASK));
-        menuSave = new JMenuItem("Save...");
+        menuSave = new JMenuItem("Save..");
         menuSave.setEnabled(startEnabled);
         menuSave.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.ALT_MASK));
         menuFile.add(menuOpen);

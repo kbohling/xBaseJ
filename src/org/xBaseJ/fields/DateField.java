@@ -237,6 +237,10 @@ public int compareTo(Calendar compareThis) throws xBaseJException
 public Calendar getCalendar() throws xBaseJException
 {
 Calendar getter = Calendar.getInstance();
+getter.set(Calendar.HOUR_OF_DAY, 0);
+getter.set(Calendar.MINUTE, 0);
+getter.set(Calendar.SECOND,0);
+getter.set(Calendar.MILLISECOND , 0);
 getter.set(Calendar.YEAR, Integer.parseInt(get(Calendar.YEAR)));
 getter.set(Calendar.MONTH, Integer.parseInt(get(Calendar.MONTH))-1);
 getter.set(Calendar.DAY_OF_MONTH, Integer.parseInt(get(Calendar.DAY_OF_MONTH)));

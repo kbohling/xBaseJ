@@ -89,7 +89,7 @@ public TagHeader(MDXFile ifile, short ipos, short len, char type, boolean unique
 mfile = ifile;
 nfile = ifile.raFile;
 setPos(ipos);
-//don 't know why these are used so....
+//don 't know why these are used so..
 resrvd3 = 27;
 flags |= 8;
 flags |= (byte) (unique ? 2 : 0);

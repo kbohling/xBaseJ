@@ -68,10 +68,7 @@ import org.xBaseJ.DBF;
 import org.xBaseJ.xBaseJException;
 import org.xBaseJ.fields.Field;
 import org.xBaseJ.fields.LogicalField;
-import org.xBaseJ.fields.MemoField;
-import org.xBaseJ.fields.PictureField;
-
-
+ 
 public class dbfShow extends Frame
       implements ActionListener, WindowListener, AdjustmentListener, ItemListener
   {
@@ -131,7 +128,7 @@ public class dbfShow extends Frame
          MenuBar mb = new MenuBar();
          this.setMenuBar(mb);
          Menu file = new Menu("File");
-         opener = new MenuItem("Open...");
+         opener = new MenuItem("Open..");
          file.add(opener);
          opener.addActionListener(this);
          packer = new MenuItem("Pack");
