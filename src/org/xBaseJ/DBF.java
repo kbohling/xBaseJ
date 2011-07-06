@@ -40,11 +40,20 @@ package org.xBaseJ;
  *                                  copy just the DBF, not any associated
  *                                  memo file.
  *
+
  *  20110401  Joe McVerry (jrm)    Replaced instanceof call with static
  *                                 field test (eg isDateField());
  *                                 
  *                                 ID: 2972349 - use different nameing
- *                                 functions for deleting temp files.
+ *                                 functions for deleting temp files. 
+ *                                 
+ *  20110706  Joe McVerry (jrm)   delete and undelete method now use 
+ *  					record locking instead of file locking.
+ *  
+ *  20110706  Joe McVerry (jrm)   The suffix of the temp file for DBF.pack() 
+ *  					must be preceeded by a ".". Otherwise it crashes in 
+ *  					MDXFile.java:94 and others.  
+ *  					tracker ID: 3335462
 */
 
 import java.io.EOFException;
@@ -1736,12 +1745,12 @@ public class DBF extends Object {
 
 	public void delete() throws IOException, xBaseJException {
 
-        lock();
+	    	lockRecord();
 		seek(current_record-1);
 		delete_ind = DELETED;
 
 		file.writeByte(delete_ind);
-        unlock();
+		unlockRecord();
 
 	}
 
@@ -1755,12 +1764,12 @@ public class DBF extends Object {
 
 	public void undelete() throws IOException, xBaseJException {
 
-		lock();
+		lockRecord();
 		seek(current_record-1);
 		delete_ind = NOTDELETED;
 
 		file.writeByte(delete_ind);
-		unlock();
+		unlockRecord();
 
 
 	}
@@ -2074,7 +2083,7 @@ public class DBF extends Object {
 		if (parent == null)
 			parent = ".";
 
-		File f = File.createTempFile("tempxbase", "tmp");
+		File f = File.createTempFile("tempxbase", ".tmp");
  		String tempname = f.getAbsolutePath();
 
 		DBF tempDBF = new DBF(tempname, version, true);
