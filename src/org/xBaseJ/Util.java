@@ -30,6 +30,8 @@ package org.xBaseJ;
  *  Change History
  *  Date      Developer                 Desc
  *  20110401  Joe McVerry (jrm)   created static field x86Architecture to reduce # of system calls.
+ *  20110707  Joe McVerry (jrm)   Properties are not loaded from classpath. In this case is propIS != null, but propFIle == null.
+ *  							tracker ID: 3335370
  
 */
 
@@ -267,7 +269,7 @@ public class Util extends Object {
             if (propFile == null && propIS == null) {
 
                 propIS = getPropertiesFile();
-                if (propFile != null) {
+                if (propIS != null) {
                 	lastUpdate = propFile.lastModified();
                 	logr.debug("loading properties");
                 	props.load(propIS);
