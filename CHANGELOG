@@ -1,3 +1,26 @@
+Release 2012/01/19
+
+    1.  CurrencyField.java - new field class.
+         
+    2.  field classes - added static type attribute.
+    
+    3.  Float.java - improved number parsing logic.
+    
+    4.  *.java - updated references for static field type
+                     added reference to new CurrencyField class.
+                     
+    5.  Field.java - improved encoding type logic for put(String)
+                           method.                 
+
+Release 2011/07/07
+
+    1.  DBF.java - delete and undelete methods now lock at record
+         level.  They no longer lock the entire file. 3356961
+         
+    2.  DBF.java - added a '.' character to temp file name. 3335462
+    
+    3.  Util.java - corrected reference to propIS object. 3335370
+
 Release 2011/04/21
 
     1.  Fixed Duplicate key condition in NDX class.
