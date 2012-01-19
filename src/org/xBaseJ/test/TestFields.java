@@ -30,12 +30,15 @@ package org.xBaseJ.test;
 */
 
 
+import java.io.File;
 import java.io.IOException;
 
 import junit.framework.TestCase;
 
+import org.xBaseJ.DBF;
 import org.xBaseJ.xBaseJException;
 import org.xBaseJ.fields.CharField;
+import org.xBaseJ.fields.CurrencyField;
 import org.xBaseJ.fields.DateField;
 import org.xBaseJ.fields.FloatField;
 import org.xBaseJ.fields.LogicalField;
@@ -88,6 +91,8 @@ public class TestFields extends TestCase {
 			assertEquals('L', l.getType());
 			PictureField p = new PictureField("P");
 			assertEquals('P', p.getType());
+			CurrencyField cc = new CurrencyField("Money");
+			assertEquals('Y', cc.getType());
 			
 		} catch (xBaseJException e) {
 			fail(e.getMessage());
@@ -96,5 +101,28 @@ public class TestFields extends TestCase {
 		}
 	}
 	
+	
+	public void testFloat() {
+	    try {
+		DBF db = new DBF("testfiles/float.dbf", true);
+		FloatField f = new FloatField("F", 10,3);
+		db.addField(f);
+		f.put(987.123f);
+		db.write();
+		db.close();
+		db = new DBF("testfiles/float.dbf");
+		f = (FloatField) db.getField("F");
+		db.read();
+		assertEquals("   987.123", f.get());
+		} catch (xBaseJException e) {
+			fail(e.getMessage());
+		} catch (IOException e) {
+			fail(e.getMessage());
+		}
+		finally {
+		    File f = new File("testfiles/float.dbf");
+		    f.delete();
+		}
+	}
 
 }

@@ -27,6 +27,7 @@ package org.xBaseJ;
  * License along with this library; if not, write to the Free
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
+ *20110119  Joe McVerry (jrm)   Added static field type and CurrencyField class.
 */
 
 import java.io.CharArrayWriter;
@@ -34,6 +35,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import org.xBaseJ.fields.CharField;
+import org.xBaseJ.fields.CurrencyField;
 import org.xBaseJ.fields.DateField;
 import org.xBaseJ.fields.Field;
 import org.xBaseJ.fields.FloatField;
@@ -178,6 +180,9 @@ public class XBASEXMLParser extends org.xml.sax.helpers.DefaultHandler {
 							break;
 						case 'P' :
 							dbf.addField(new PictureField(fldName));
+							break;
+						case '$' :
+							dbf.addField(new CurrencyField(fldName));
 							break;
 
 					}

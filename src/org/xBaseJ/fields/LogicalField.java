@@ -27,6 +27,7 @@ package org.xBaseJ.fields;
  * License along with this library; if not, write to the Free
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
+ *20110119  Joe McVerry (jrm)   Added static field type and CurrencyField class.
 */
 
 import java.io.IOException;
@@ -44,6 +45,7 @@ public class LogicalField extends Field{
 	private static final long serialVersionUID = 1L;
 public final static byte BYTETRUE = (byte) 'T';
 public final static byte BYTEFALSE = (byte) 'F';
+public static final char type = 'L';
 
 public Object clone() throws  CloneNotSupportedException
 {
@@ -87,7 +89,7 @@ public LogicalField(String iName) throws xBaseJException, IOException
 
 public char getType()
 {
-return 'L';
+return type;
 }
 
 /**

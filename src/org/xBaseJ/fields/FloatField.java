@@ -27,6 +27,7 @@ package org.xBaseJ.fields;
  * License along with this library; if not, write to the Free
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
+ *20110119  Joe McVerry (jrm)   Added static field type and CurrencyField class.
 */
 
 import java.io.IOException;
@@ -47,6 +48,7 @@ private byte decPosition = 0;
 
 static DecimalFormatSymbols dfs = new DecimalFormatSymbols();
 static char decimalSeparator = dfs.getDecimalSeparator();
+public static final char type = 'F';
 
 
 public FloatField() {super();}
@@ -83,7 +85,7 @@ public FloatField(String iName, int iLength, int DecPoint) throws xBaseJExceptio
 */
 public char getType()
 {
-return 'F';
+return type;
 }
 /**
  * sets the field contents.
@@ -136,7 +138,7 @@ public void put(String inValue) throws xBaseJException
      }
 
 
-   inDouble = new Double(duble);
+   inDouble = new Double(duble+.01);
    long longv = inDouble.longValue();
 
    if (longv < 0){

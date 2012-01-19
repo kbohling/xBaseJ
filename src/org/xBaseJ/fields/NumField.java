@@ -27,6 +27,7 @@ package org.xBaseJ.fields;
  * License along with this library; if not, write to the Free
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
+ *  20110119  Joe McVerry (jrm)   Added static field type and CurrencyField class. 
 */
 
 import java.io.IOException;
@@ -46,6 +47,7 @@ private static final long serialVersionUID = 1L;
 private byte decPosition = 0;
 static DecimalFormatSymbols dfs = new DecimalFormatSymbols();
 static char decimalSeparator = dfs.getDecimalSeparator();
+public static final char type = 'N';
 
 public NumField() {super();}
 
@@ -95,7 +97,7 @@ public NumField(String iName, int iLength, int inDecPosition) throws xBaseJExcep
 */
 public char getType()
 {
-return 'N';
+return type;
 }
 
 /**

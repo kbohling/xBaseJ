@@ -28,7 +28,8 @@ package org.xBaseJ.fields;
  * License along with this library; if not, write to the Free
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- */
+ *  20110119  Joe McVerry (jrm)   Added static field type and CurrencyField class. 
+*/
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -45,7 +46,8 @@ public class MemoField extends Field {
 	 */
     private static final long serialVersionUID = 1L;
     boolean foxPro = false;
-
+    public static final char type = 'M';
+    
     public MemoField() {
 	super();
     }
@@ -146,7 +148,7 @@ public class MemoField extends Field {
      * return the character 'M' indicating a memo field
      */
     public char getType() {
-	return 'M';
+	return type;
     }
 
     /**

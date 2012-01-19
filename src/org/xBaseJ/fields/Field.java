@@ -27,6 +27,12 @@ package org.xBaseJ.fields;
  * License along with this library; if not, write to the Free
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
+ **  Change History
+ *  Date      Developer                 Desc
+ *  20120119  Joe McVerry   Added Currency Field
+ *                                       Improved encoding logic for put(String) method
+ *
+ 
 */
 
 
@@ -61,6 +67,7 @@ public boolean isMemoField() {return getType() == 'M';}
 public boolean isLogicalField() {return getType() == 'L';}
 public boolean isNumField() {return getType() == 'N';}
 public boolean isPictureField() {return getType() == 'P';}
+public boolean isCurrencyFIeld() {return getType() == 'Y';}
 
     /** used by externalize methods
      * @param in ObjectInput stream
@@ -264,31 +271,33 @@ public void update()
  *                     value length too long
  */
 
-public void put(String inValue) throws xBaseJException
-  {
-    byte b[];
-    int i;
+    public void put(String inValue) throws xBaseJException {
+	byte b[];
+	int i;
+	try {
+	    b = inValue.getBytes(DBF.encodedType);
+	} catch (UnsupportedEncodingException UEE) {
+	    b = inValue.getBytes();
+	}
 
-    if (inValue.length() > Length)
-      throw new xBaseJException("Field length too long");
+	if (b.length > Length)
+	    throw new xBaseJException("Field length too long");
 
-    i = Math.min(inValue.length(),Length);
+	i = Math.min(b.length, Length);
 
-    try {b = inValue.getBytes(DBF.encodedType);}
-    catch (UnsupportedEncodingException UEE){ b = inValue.getBytes();}
+	for (i = 0; i < b.length; i++)
+	    buffer[i] = b[i];
 
-    for (i = 0; i < b.length; i++)
-       buffer[i] = b[i];
+	byte fill;
+	if (Util.fieldFilledWithSpaces())
+	    fill = (byte) ' ';
+	else
+	    fill = 0;
 
-    byte fill;
-    if (Util.fieldFilledWithSpaces())
-      fill =  (byte)' ';
-    else fill =  0;
+	for (i = b.length; i < Length; i++)
+	    buffer[i] = fill;
 
-    for (i=inValue.length(); i < Length; i++)
-    		buffer[i] = fill;
-
-  }
+    }
 
 /**
  * set field contents with binary data, no database updates until a DBF update or write is issued

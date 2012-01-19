@@ -54,6 +54,8 @@ package org.xBaseJ;
  *  					must be preceeded by a ".". Otherwise it crashes in 
  *  					MDXFile.java:94 and others.  
  *  					tracker ID: 3335462
+ *  
+ *  20110119  Joe McVerry (jrm)   Added static field type and CurrencyField class. 
 */
 
 import java.io.EOFException;
@@ -71,6 +73,7 @@ import java.util.Calendar;
 import java.util.Vector;
 
 import org.xBaseJ.fields.CharField;
+import org.xBaseJ.fields.CurrencyField;
 import org.xBaseJ.fields.DateField;
 import org.xBaseJ.fields.Field;
 import org.xBaseJ.fields.FloatField;
@@ -1983,26 +1986,29 @@ public class DBF extends Object {
 		file.readFully(byter, 0, 14);
 
 		switch (type) {
-			case 'C' :
+			case CharField.type:
 				tField = new CharField(name, iLength, buffer);
 				break;
-			case 'D' :
+			case DateField.type :
 				tField = new DateField(name, buffer);
 				break;
-			case 'F' :
+			case FloatField.type :
 				tField = new FloatField(name, iLength, decpoint, buffer);
 				break;
-			case 'L' :
+			case LogicalField.type :
 				tField = new LogicalField(name, buffer);
 				break;
-			case 'M' :
+			case MemoField.type:
 				tField = new MemoField(name, buffer, dbtobj);
 				break;
-			case 'N' :
+			case NumField.type :
 				tField = new NumField(name, iLength, decpoint, buffer);
 				break;
-			case 'P' :
+			case PictureField.type :
 				tField = new PictureField(name, buffer, dbtobj);
+				break;
+			case CurrencyField.type :
+				tField = new CurrencyField(name, buffer);
 				break;
 			default :
 				throw new xBaseJException("Unknown Field type '"+type+"' for " + name);

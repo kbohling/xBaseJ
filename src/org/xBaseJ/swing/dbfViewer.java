@@ -27,6 +27,7 @@ package org.xBaseJ.swing;
  * License along with this library; if not, write to the Free
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
+ *20110119  Joe McVerry (jrm)   Added static field type and CurrencyField class.
 */
 
 import java.awt.AWTException;

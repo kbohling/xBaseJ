@@ -27,6 +27,7 @@ package org.xBaseJ.swing;
  * License along with this library; if not, write to the Free
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
+ *20110119  Joe McVerry (jrm)   Added static field type and CurrencyField class.
 */
 
 import java.awt.Cursor;
@@ -61,6 +62,7 @@ import org.xBaseJ.xBaseJException;
 import org.xBaseJ.awt.dbfFileFilter;
 import org.xBaseJ.fields.CharField;
 import org.xBaseJ.fields.DateField;
+import org.xBaseJ.fields.CurrencyField;
 import org.xBaseJ.fields.Field;
 import org.xBaseJ.fields.FloatField;
 import org.xBaseJ.fields.LogicalField;
@@ -365,6 +367,7 @@ public class dbfCreate extends JFrame implements ActionListener, WindowListener,
 	           jcb.addItem("Memo");
 	           jcb.addItem("Num");
 	           jcb.addItem("Picture");
+	           jcb.addItem("Currency");
 	           table.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(jcb));
 
  }
@@ -435,27 +438,30 @@ class dbfCreateModel extends AbstractTableModel
 				 name.addElement(f.getName());
 				 switch (f.getType())
 				 {
-					 case 'C':
+					 case CharField.type:
 				 	   type.addElement("Char");
 				 	   break;
-					 case 'D':
+					 case DateField.type:
 				 	   type.addElement("Date");
 				 	   break;
-					 case 'F':
+					 case FloatField.type:
 				 	   type.addElement("Float");
 				 	   break;
-					 case 'L':
+					 case LogicalField.type:
 				 	   type.addElement("Logical");
 				 	   break;
-					 case 'M':
+					 case MemoField.type:
 				 	   type.addElement("Memo");
 				 	   break;
-					 case 'N':
+					 case NumField.type:
 				 	   type.addElement("Num");
 				 	   break;
-					 case 'P':
-				 	   type.addElement("Picture");
-				 	   break;
+					 case PictureField.type:
+					 	   type.addElement("Picture");
+					 	   break;
+					 case CurrencyField.type:
+					 	   type.addElement("Currency");
+					 	   break;
 				 	 default:
 				 	   type.addElement("??????");
 				 }
@@ -528,11 +534,17 @@ class dbfCreateModel extends AbstractTableModel
 				 flds[i] = df;
 			 }
 			 else if (typed.compareTo("Char") == 0)
- 		     {
-				 int len = Integer.parseInt(lengths);
-				 CharField cf = new CharField(named, len);
-				 flds[i] = cf;
-			 }
+	 		     {
+					 int len = Integer.parseInt(lengths);
+					 CharField cf = new CharField(named, len);
+					 flds[i] = cf;
+				 }
+			 else if (typed.compareTo("Currency") == 0)
+	 		     {
+					 int len = Integer.parseInt(lengths);
+					 CurrencyField cf = new CurrencyField(named);
+					 flds[i] = cf;
+				 }
 			 else if (typed.compareTo("Logical") == 0)
  		     {
 				 LogicalField lf = new LogicalField(named);
@@ -586,7 +598,9 @@ class dbfCreateModel extends AbstractTableModel
 			   String s = (String) in;
 			   if ((s.compareTo("Logical") == 0)
 			     || (s.compareTo("Memo") == 0)
-			     || (s.compareTo("Picture") == 0))
+			     || (s.compareTo("Picture") == 0)
+			     || (s.compareTo("Currency") == 0)
+			     )
 			     setValueAt(Boolean.valueOf(false), r, 4);
 			   break;
 			 case 2:
@@ -653,7 +667,9 @@ class dbfCreateModel extends AbstractTableModel
 			    if (s.compareTo("Logical") == 0)
 			      return false;
 			    if (s.compareTo("Picture") == 0)
-			      return false;
+				      return false;
+			    if (s.compareTo("Currency") == 0)
+				      return false;
 			    return true;
 			 case 3:
 			    if (s.compareTo("Num") == 0)
@@ -668,6 +684,8 @@ class dbfCreateModel extends AbstractTableModel
 			      return false;
 			    if (s.compareTo("Picture") == 0)
 			      return false;
+			    if (s.compareTo("Currency") == 0)
+				      return false;
 			    return true;
 			 case 5:
 		       return isCellEditable(r, 4);

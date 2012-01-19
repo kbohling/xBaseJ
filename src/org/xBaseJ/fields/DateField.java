@@ -48,6 +48,7 @@ public class DateField extends Field{
 	 */
 	private static final long serialVersionUID = 1L;
 private Calendar value;
+public static final char type = 'D';
 
 
 public Object clone() throws  CloneNotSupportedException
@@ -96,7 +97,7 @@ private DateField() throws xBaseJException
 */
 public char getType()
 {
-return 'D';
+return type;
 }
 
 /**
