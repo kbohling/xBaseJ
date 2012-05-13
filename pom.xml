@@ -3,6 +3,7 @@
   <groupId>xBaseJ</groupId>
   <artifactId>xBaseJ</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <packaging>bundle</packaging>
 
   <dependencies>
 
@@ -26,4 +27,35 @@
     </dependency>
   </dependencies>
 
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.felix</groupId>
+          <artifactId>maven-bundle-plugin</artifactId>
+          <version>2.3.7</version>
+          <extensions>true</extensions>
+          <configuration>
+            <excludeDependencies>true</excludeDependencies>
+            <supportedProjectTypes>
+              <supportedProjectType>jar</supportedProjectType>
+              <supportedProjectType>war</supportedProjectType>
+              <supportedProjectType>bundle</supportedProjectType>
+            </supportedProjectTypes>
+            <instructions>
+              <_nouses>true</_nouses>
+              <_removeheaders>JAVA_1_3_HOME,JAVA_1_4_HOME,JAVA_1_5_HOME,JAVA_1_6_HOME</_removeheaders>
+            </instructions>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <extensions>true</extensions>
+      </plugin>
+    </plugins>
+  </build>
 </project>
