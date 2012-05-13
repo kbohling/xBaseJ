@@ -13,61 +13,49 @@
 package org.xBaseJ.test;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.xBaseJ.DBF;
- 
 import org.xBaseJ.fields.CharField;
 import org.xBaseJ.fields.Field;
- 
-
-import junit.framework.TestCase;
 
 /**
  * @author joe
  *
  */
-public class TestDuplicateKey extends TestCase {
+public class TestDuplicateKey {
 
-	/**
-	 * @param name
-	 */
-	public TestDuplicateKey(String name) {
-		super(name);
-	}
-
-	/* (non-Javadoc)
-	 * @see junit.framework.TestCase#setUp()
-	 */
-	protected void setUp() throws Exception {
-		super.setUp();
-		File f = new File("testfiles/testupdidx.ndx");
+    private static String prefix = "target/";
+    
+    @Before
+    public void setUp() throws IOException {
+        File dir = new File(prefix + "testfiles");
+        dir.mkdirs();
+        
+		File f = new File(prefix + "testfiles/testupdidx.ndx");
 		f.delete();
-		f = new File("testfiles/testupdidx.dbf");
+		f = new File(prefix + "testfiles/testupdidx.dbf");
 		f.delete();
 	}
 
-	/* (non-Javadoc)
-	 * @see junit.framework.TestCase#tearDown()
-	 */
-	protected void tearDown() throws Exception {
-		super.tearDown();
-		
-	}
-	
+	@Test
 	public void test() throws Exception {
-		DBF db = new DBF("testfiles/testupdidx.dbf", true);
+		DBF db = new DBF(prefix + "testfiles/testupdidx.dbf", true);
 		CharField c1 = new CharField("first", 2);
 		CharField c2 = new CharField("second", 20);
 		Field f[] = {c1, c2};
 		db.addField(f);
-		db.createIndex("testfiles/testupdidx.ndx", "first", false);
+		db.createIndex(prefix + "testfiles/testupdidx.ndx", "first", false);
 		db.close();
 		
 		
-		db = new DBF("testfiles/testupdidx.dbf");
-		db.useIndex("testfiles/testupdidx.ndx");
+		db = new DBF(prefix + "testfiles/testupdidx.dbf");
+		db.useIndex(prefix + "testfiles/testupdidx.ndx");
 		c1 = (CharField) db.getField("first");
 		c2 = (CharField) db.getField("second");
 		c1.put("11");
@@ -88,10 +76,10 @@ public class TestDuplicateKey extends TestCase {
 		}
 		db.close();
 //		System.exit(0);
-		db = new DBF("testfiles/testupdidx.dbf");
+		db = new DBF(prefix + "testfiles/testupdidx.dbf");
 		c1 = (CharField) db.getField("first");
 		c2 = (CharField) db.getField("second");
-		db.useIndex("testfiles/testupdidx.ndx");
+		db.useIndex(prefix + "testfiles/testupdidx.ndx");
 		db.find("11");
 		int foundCnt = 0;
 		HashSet secondVHash = new HashSet(secondValues);
@@ -106,12 +94,12 @@ public class TestDuplicateKey extends TestCase {
 				foundCnt++;
 			}
 			else {
-				fail("can't find "+c2.get());
+				Assert.fail("can't find "+c2.get());
 			}
 			if (lp < 2)
 				db.findNext();
 		}
-		assertEquals(3, foundCnt);
+		Assert.assertEquals(3, foundCnt);
 		secondValues = new ArrayList();
 		db.startTop();
 		for (int lp = 0; lp < 3; lp++)
@@ -124,11 +112,11 @@ public class TestDuplicateKey extends TestCase {
 		db.close();
 		
 		secondVHash = new HashSet(secondValues);
-		db = new DBF("testfiles/testupdidx.dbf");
-		assertEquals(3, db.getRecordCount());
+		db = new DBF(prefix + "testfiles/testupdidx.dbf");
+		Assert.assertEquals(3, db.getRecordCount());
 		c1 = (CharField) db.getField("first");
 		c2 = (CharField) db.getField("second");
-		db.useIndex("testfiles/testupdidx.ndx");
+		db.useIndex(prefix + "testfiles/testupdidx.ndx");
 		foundCnt = 0;
 		db.find("11");
 		
@@ -138,12 +126,12 @@ public class TestDuplicateKey extends TestCase {
 				foundCnt++;
 			}
 			else {
-				fail("can't find "+c2.get());
+				Assert.fail("can't find "+c2.get());
 			}
 			if (lp < 2)
 				db.findNext();
 		}
-		assertEquals(3, foundCnt);
+		Assert.assertEquals(3, foundCnt);
 
 	}
 

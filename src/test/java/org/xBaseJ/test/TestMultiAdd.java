@@ -31,17 +31,29 @@ package org.xBaseJ.test;
 
 
 import java.io.File;
+import java.io.IOException;
 
-import junit.framework.TestCase;
-
+import org.junit.Before;
+import org.junit.Test;
 import org.xBaseJ.DBF;
+import org.xBaseJ.Util;
+import org.xBaseJ.xBaseJException;
 import org.xBaseJ.fields.CharField;
 
 
-public class TestMultiAdd extends TestCase {
+public class TestMultiAdd {
 
-
-	public void testMultipleFieldAdd() {
+    private static String prefix = "target/";
+    
+    @Before
+    public void setUp() throws IOException {
+        File dir = new File(prefix + "testfiles");
+        dir.mkdirs();
+        Util.copyFile("testfiles/test.dbf", prefix + "testfiles/test.dbf");
+    }
+    
+    @Test
+	public void testMultipleFieldAdd() throws SecurityException, xBaseJException, IOException {
 		CharField zip = null;
 
 		CharField preDir = null;
@@ -67,8 +79,7 @@ public class TestMultiAdd extends TestCase {
 		String termFieldStr = "TERM";
 
 
-		File File = new File("testfiles/test.dbf");
-		try {
+		File File = new File(prefix + "testfiles/test.dbf");
 
 		DBF dbf = new DBF(File.getPath(), DBF.DBASEIV, true);
 
@@ -101,14 +112,6 @@ public class TestMultiAdd extends TestCase {
 		dbf.addField(term);
 		term.put("12345");
 		dbf.write();
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-			fail(e.getMessage());
-
-		}
-
 
 	}
 

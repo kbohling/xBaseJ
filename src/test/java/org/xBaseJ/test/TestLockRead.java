@@ -30,8 +30,8 @@
 package org.xBaseJ.test;
 
 
-import junit.framework.TestCase;
-
+import org.junit.Assert;
+import org.junit.Test;
 import org.xBaseJ.DBF;
 import org.xBaseJ.fields.Field;
 
@@ -41,14 +41,13 @@ import org.xBaseJ.fields.Field;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public class TestLockRead extends  TestCase {
+public class TestLockRead {
 
-	/**
-	 *
-	 */
-
+    @Test
 	public void testReadLock() {
+        // TODO: Shouldn't this have contents?
 	}
+    
 	public void threadThis() {
 
 	 try {
@@ -66,7 +65,7 @@ public class TestLockRead extends  TestCase {
 	 catch (Exception e)
 	 {
 	 	e.printStackTrace();
-	 	fail(e.getMessage());
+	 	Assert.fail(e.getMessage());
 	 }
 
 	}

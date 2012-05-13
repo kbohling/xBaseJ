@@ -32,8 +32,7 @@ package org.xBaseJ.test;
 
 import java.io.IOException;
 
-import junit.framework.TestCase;
-
+import org.junit.Test;
 import org.xBaseJ.Util;
 import org.xBaseJ.xBaseJException;
 import org.xBaseJ.fields.CharField;
@@ -41,49 +40,18 @@ import org.xBaseJ.fields.Field;
 
 
 
-public class FieldNameTest extends TestCase {
+public class FieldNameTest {
 
-    public static void main(String[] args) {
-        junit.textui.TestRunner.run(FieldNameTest.class);
+    @Test(expected=xBaseJException.class)
+    public void testBadFieldName() throws xBaseJException, IOException {
+        new CharField("a$", 3);
     }
-
-    public void testBadFieldName() {
-
-        try {
-          new CharField("a$", 3);
-            fail("invalid name not caught");
-        } catch (xBaseJException e) {
-
-            ;
-        } catch (IOException e) {
-
-            fail(e.getMessage());
-        }
-
-
-
-    }
-    public void testBadFieldNameAccepted() {
-
-    	try {
-			Util.setxBaseJProperty("otherValidCharactersInFieldNames", "$");
-		} catch (IOException e1) {
-			e1.printStackTrace();
-			fail(e1.getMessage());
-		}
-        Field.otherValidCharacters = null;
-
-        try {
-            new CharField("a$", 3);
-        } catch (xBaseJException e) {
-            fail("invalid name caught, used properties file to allow for $");
-        } catch (IOException e) {
-
-            fail(e.getMessage());
-        } finally {
-
-        }
-
+    
+    @Test
+    public void testBadFieldNameAccepted() throws IOException, xBaseJException {
+		Util.setxBaseJProperty("otherValidCharactersInFieldNames", "$");
+		Field.otherValidCharacters = null;
+        new CharField("a$", 3);
     }
 
 }

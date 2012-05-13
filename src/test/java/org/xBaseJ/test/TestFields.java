@@ -33,8 +33,9 @@ package org.xBaseJ.test;
 import java.io.File;
 import java.io.IOException;
 
-import junit.framework.TestCase;
-
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.xBaseJ.DBF;
 import org.xBaseJ.xBaseJException;
 import org.xBaseJ.fields.CharField;
@@ -46,81 +47,60 @@ import org.xBaseJ.fields.NumField;
 import org.xBaseJ.fields.PictureField;
 
 
-public class TestFields extends TestCase {
+public class TestFields {
 
-
-
+    private static String prefix = "target/";
 	CharField f;
+    
+    @Before
+    public void setUp() throws IOException, xBaseJException {
+        File dir = new File(prefix + "testfiles");
+        dir.mkdirs();
+		f = new CharField("test", 10);
+    }
 
-	public  void setUp(){
-		try {
-			 f = new CharField("test", 10);
-		} catch (xBaseJException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-}
-
-
-	/*
-	 * Test method for 'org.xBaseJ.Field.put(String)'
-	 */
-	public void testPutString() {
-		try {
-			f.put("a");
-		} catch (xBaseJException e) {
-			fail(e.getMessage());
-		}
-		TestFields.assertEquals("a",f.get());
-
+    @Test
+	public void testPutString() throws xBaseJException {
+		f.put("a");
+		Assert.assertEquals("a",f.get());
 	}
 	
-	public void testType()  {
-		try {
-			CharField  c = new CharField("C", 1);
-			assertEquals('C', c.getType());
-			DateField  d = new DateField("D");
-			assertEquals('D', d.getType());
-			FloatField f = new FloatField("F", 10, 2); 
-			assertEquals('F', f.getType());
-			NumField n = new NumField("N", 10, 2);
-			assertEquals('N', n.getType());
-			LogicalField l = new LogicalField("L");
-			assertEquals('L', l.getType());
-			PictureField p = new PictureField("P");
-			assertEquals('P', p.getType());
-			CurrencyField cc = new CurrencyField("Money");
-			assertEquals('Y', cc.getType());
+	@Test
+	public void testType() throws xBaseJException, IOException  {
+	    CharField  c = new CharField("C", 1);
+	    Assert.assertEquals('C', c.getType());
+	    DateField  d = new DateField("D");
+	    Assert.assertEquals('D', d.getType());
+	    FloatField f = new FloatField("F", 10, 2); 
+	    Assert.assertEquals('F', f.getType());
+	    NumField n = new NumField("N", 10, 2);
+	    Assert.assertEquals('N', n.getType());
+	    LogicalField l = new LogicalField("L");
+	    Assert.assertEquals('L', l.getType());
+	    PictureField p = new PictureField("P");
+	    Assert.assertEquals('P', p.getType());
+	    CurrencyField cc = new CurrencyField("Money");
+	    Assert.assertEquals('Y', cc.getType());
 			
-		} catch (xBaseJException e) {
-			fail(e.getMessage());
-		} catch (IOException e) {
-			fail(e.getMessage());
-		}
 	}
 	
 	
-	public void testFloat() {
+	@Test
+	public void testFloat() throws SecurityException, xBaseJException, IOException {
 	    try {
-		DBF db = new DBF("testfiles/float.dbf", true);
-		FloatField f = new FloatField("F", 10,3);
-		db.addField(f);
-		f.put(987.123f);
-		db.write();
-		db.close();
-		db = new DBF("testfiles/float.dbf");
-		f = (FloatField) db.getField("F");
-		db.read();
-		assertEquals("   987.123", f.get());
-		} catch (xBaseJException e) {
-			fail(e.getMessage());
-		} catch (IOException e) {
-			fail(e.getMessage());
-		}
+	        DBF db = new DBF(prefix + "testfiles/float.dbf", true);
+	        FloatField f = new FloatField("F", 10,3);
+	        db.addField(f);
+	        f.put(987.123f);
+	        db.write();
+	        db.close();
+	        db = new DBF(prefix + "testfiles/float.dbf");
+	        f = (FloatField) db.getField("F");
+	        db.read();
+	        Assert.assertEquals("   987.123", f.get());
+	    }
 		finally {
-		    File f = new File("testfiles/float.dbf");
+		    File f = new File(prefix + "testfiles/float.dbf");
 		    f.delete();
 		}
 	}

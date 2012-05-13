@@ -30,29 +30,36 @@
 package org.xBaseJ.test;
 
 
-import junit.framework.TestCase;
+import java.io.File;
+import java.io.IOException;
 
+import org.junit.Before;
+import org.junit.Test;
 import org.xBaseJ.DBF;
 import org.xBaseJ.Util;
+import org.xBaseJ.xBaseJException;
 import org.xBaseJ.fields.CharField;
 
-public class testMaxLength extends TestCase {
+public class testMaxLength {
 
-	public void testMaxFieldLength() {
-		try {
-			Util.setxBaseJProperty("ignoreDBFLengthCheck", "true");
-			DBF d1 = new DBF("testfiles/test.dbf", true);
-			for (int i = 0; i < 50; i++) {
-				CharField c = new CharField("C" + i, 100);
-				d1.addField(c);
-			}
-			d1.close();
-			d1 = new DBF("testfiles/a.dbf");
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			fail(e.getMessage());
-		}
+    private static String prefix = "target/";
+    
+    @Before
+    public void setUp() throws IOException, xBaseJException {
+        File dir = new File(prefix + "testfiles");
+        dir.mkdirs();
+    }
+    
+    @Test
+	public void testMaxFieldLength() throws IOException, SecurityException, xBaseJException {
+        Util.setxBaseJProperty("ignoreDBFLengthCheck", "true");
+        DBF d1 = new DBF(prefix + "testfiles/test.dbf", true);
+        for (int i = 0; i < 50; i++) {
+            CharField c = new CharField("C" + i, 100);
+            d1.addField(c);
+        }
+        d1.close();
+        d1 = new DBF(prefix + "testfiles/a.dbf");
 	}
 
 }

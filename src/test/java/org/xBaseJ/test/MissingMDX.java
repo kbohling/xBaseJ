@@ -33,84 +33,80 @@ package org.xBaseJ.test;
 import java.io.File;
 import java.io.IOException;
 
-import junit.framework.TestCase;
-
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.xBaseJ.DBF;
 import org.xBaseJ.Util;
 import org.xBaseJ.xBaseJException;
 import org.xBaseJ.fields.CharField;
 
-public class MissingMDX extends TestCase {
+public class MissingMDX {
 
+    private static String prefix = "target/";
+    
+    @Before
+    public void setUp() throws IOException {
+        File dir = new File(prefix + "testfiles");
+        dir.mkdirs();
+        Util.copyFile("testfiles/test.dbf", prefix + "testfiles/test.dbf");
+    }
+    
+    @Test
 	public void testMissingMDX() throws  xBaseJException, IOException
 	{
-		assertEquals(Util.getxBaseJProperty("ignoreMissingMDX"), "");
+		Assert.assertEquals(Util.getxBaseJProperty("ignoreMissingMDX"), "");
 
-		File f = new File("testFiles/test.dbf");
+		File f = new File(prefix + "testfiles/test.dbf");
 		f.delete();
-		f = new File("testFiles/test.mdx");
+		f = new File(prefix + "testfiles/test.mdx");
 		f.delete();
-		DBF d = new DBF("testfiles/test.dbf", DBF.DBASEIV, true );
+		DBF d = new DBF(prefix + "testfiles/test.dbf", DBF.DBASEIV, true );
 		d.addField(new CharField("one", 10));
 		d.close();
-		f = new File("testfiles/test.mdx");
+		f = new File(prefix + "testfiles/test.mdx");
 		f.delete();
-		try {
-			d = new DBF("testfiles/test.dbf");
-			d.write();
-			d.close();
-		} catch (xBaseJException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		d = new DBF(prefix + "testfiles/test.dbf");
+		d.write();
+		d.close();
 	}
 
+    @Test
 	public void testSetPropertyMissingMDXTrue() throws  xBaseJException, IOException
 	{
-		File f = new File("testfiles/test.dbf");
+		File f = new File(prefix + "testfiles/test.dbf");
 		f.delete();
-		f = new File("testfiles/test.mdx");
+		f = new File(prefix + "testfiles/test.mdx");
 		f.delete();
-		DBF d = new DBF("testfiles/test.dbf", DBF.DBASEIV, true );
+		DBF d = new DBF(prefix + "testfiles/test.dbf", DBF.DBASEIV, true );
 		d.addField(new CharField("one", 10));
 		d.close();
-		f = new File("testfiles/test.mdx");
+		f = new File(prefix + "testfiles/test.mdx");
 		f.delete();
-		try {
-			Util.setxBaseJProperty("ignoreMissingMDX", "true");
-			assertEquals(Util.getxBaseJProperty("ignoreMissingMDX"), "true");
-			d = new DBF("testfiles/test.dbf");
-			d.write();
-			d.close();
-		} catch (xBaseJException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		Util.setxBaseJProperty("ignoreMissingMDX", "true");
+		Assert.assertEquals(Util.getxBaseJProperty("ignoreMissingMDX"), "true");
+		d = new DBF(prefix + "testfiles/test.dbf");
+		d.write();
+		d.close();
 	}
+    
+    @Test
 	public void testSetPropertyMissingMDXFalse() throws  xBaseJException, IOException
 	{
-		File f = new File("testfiles/test.dbf");
+		File f = new File(prefix + "testfiles/test.dbf");
 		f.delete();
-		f = new File("testfiles/test.mdx");
+		f = new File(prefix + "testfiles/test.mdx");
 		f.delete();
-		DBF d = new DBF("testfiles/test.dbf", DBF.DBASEIV, true );
+		DBF d = new DBF(prefix + "testfiles/test.dbf", DBF.DBASEIV, true );
 		d.addField(new CharField("one", 10));
 		d.close();
-		f = new File("testfiles/test.mdx");
+		f = new File(prefix + "testfiles/test.mdx");
 		f.delete();
-		try {
-			Util.setxBaseJProperty("ignoreMissingMDX", "false");
-			assertEquals(Util.getxBaseJProperty("ignoreMissingMDX"), "false");
-			d = new DBF("testfiles/test.dbf");
-			d.write();
-			d.close();
-		} catch (xBaseJException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		Util.setxBaseJProperty("ignoreMissingMDX", "false");
+		Assert.assertEquals(Util.getxBaseJProperty("ignoreMissingMDX"), "false");
+		d = new DBF(prefix + "testfiles/test.dbf");
+		d.write();
+		d.close();
 	}
 
 }

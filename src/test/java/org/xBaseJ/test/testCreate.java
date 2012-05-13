@@ -29,17 +29,30 @@
 */
 package org.xBaseJ.test;
 
-import junit.framework.TestCase;
+import java.io.File;
+import java.io.IOException;
 
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.xBaseJ.DBF;
+import org.xBaseJ.xBaseJException;
 import org.xBaseJ.fields.CharField;
 import org.xBaseJ.fields.MemoField;
 
-public class testCreate extends TestCase {
+public class testCreate {
 
-	public void testCreateDBF() {
-	try{
-		DBF d1 = new DBF("testfiles/temp.tmp", true);
+    private static String prefix = "target/";
+    
+    @Before
+    public void setUp() throws IOException {
+        File dir = new File(prefix + "testfiles");
+        dir.mkdirs();
+    }
+    
+    @Test
+	public void testCreateDBF() throws SecurityException, xBaseJException, IOException {
+		DBF d1 = new DBF(prefix + "testfiles/temp.tmp", true);
 		CharField c = new CharField("C3", 10);
 		d1.addField(c);
 		c = new CharField("C33", 10);
@@ -53,18 +66,11 @@ public class testCreate extends TestCase {
 		m.put("secondone");
 		d1.write();
 		d1.gotoRecord(1);
-		assertEquals(d1.getField("c333").get(), "firstone");
-		assertEquals(d1.getField("c3333").get(), "");
+		Assert.assertEquals(d1.getField("c333").get(), "firstone");
+		Assert.assertEquals(d1.getField("c3333").get(), "");
 		d1.read();
-		assertEquals(d1.getField("c333").get(), "firstone");
-		assertEquals(d1.getField("c3333").get(), "secondone");
-
-
-	}
-	catch (Exception e){
-		e.printStackTrace();
-		fail(e.getMessage());
-		}
+		Assert.assertEquals(d1.getField("c333").get(), "firstone");
+		Assert.assertEquals(d1.getField("c3333").get(), "secondone");
 	}
 
 }

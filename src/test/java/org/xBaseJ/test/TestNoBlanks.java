@@ -32,8 +32,9 @@ package org.xBaseJ.test;
 
 import java.io.IOException;
 
-import junit.framework.TestCase;
-
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Test;
 import org.xBaseJ.Util;
 import org.xBaseJ.xBaseJException;
 import org.xBaseJ.fields.CharField;
@@ -41,68 +42,30 @@ import org.xBaseJ.fields.DateField;
 
 
 
-public class TestNoBlanks extends TestCase {
+public class TestNoBlanks {
+ 
+    @After
+    public void tearDown() throws IOException {
+		Util.setxBaseJProperty("fieldFilledWithSpaces", "false");
+    }
+   
+    @Test
+	public void testBlank() throws xBaseJException, IOException{
 
-	public TestNoBlanks(String arg0) {
-		super(arg0);
-	}
-
-	public void setUp() {
-		try {
-			super.setUp();
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		}
-		try {
-			Util.closexBaseJProperty();
-			Util.copyFile("testfiles/noblanks.xBaseJ.txt", "org.xBaseJ.properties");
-		} catch (Exception e1) {
-			e1.printStackTrace();
-			System.exit(0);
-		}
-	}
-
-
-	public void testBlank(){
-
-		assertTrue(org.xBaseJ.Util.dontTrimFields()==false);
-		/*
-		try {
-			Util.setxBaseJProperty("fieldFilledWithSpaces", "true");
-		} catch (IOException e1) {
-
-			e1.printStackTrace();
-			fail(e1.getMessage());
-		}*/
-		assertTrue(org.xBaseJ.Util.fieldFilledWithSpaces());
+		Assert.assertTrue(org.xBaseJ.Util.dontTrimFields()==false);
+		Util.setxBaseJProperty("fieldFilledWithSpaces", "true");
+		Assert.assertTrue(org.xBaseJ.Util.fieldFilledWithSpaces());
 
 
 
-		try {
-			CharField f = new CharField("char", 5);
-			DateField df = new DateField("date");
-			f.put("");
-			df.put("");
-			assertEquals("     ", f.get());
-			assertEquals("        ", df.get());
-		} catch (xBaseJException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		CharField f = new CharField("char", 5);
+		DateField df = new DateField("date");
+		f.put("");
+		df.put("");
+		Assert.assertEquals("     ", f.get());
+		Assert.assertEquals("        ", df.get());
 
 	}
-
-	public void tearDown() {
-		try {
-			Util.closexBaseJProperty();
-			Util.copyFile("testfiles/reset.xBaseJ.txt", "org.xBaseJ.properties");
-		} catch (Exception e1) {
-			e1.printStackTrace();
-			System.exit(0);
-		}
-
-	}
+    
 
 }

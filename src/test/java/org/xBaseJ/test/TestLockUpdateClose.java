@@ -30,11 +30,13 @@
 package org.xBaseJ.test;
 
 
+import java.io.File;
 import java.io.IOException;
 
-import junit.framework.TestCase;
-
+import org.junit.Before;
+import org.junit.Test;
 import org.xBaseJ.DBF;
+import org.xBaseJ.xBaseJException;
 import org.xBaseJ.fields.CharField;
 import org.xBaseJ.fields.Field;
 
@@ -44,78 +46,48 @@ import org.xBaseJ.fields.Field;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public class TestLockUpdateClose extends TestCase {
+public class TestLockUpdateClose {
+    
+    private static String prefix = "target/";
+    CharField f;
+    
+    @Before
+    public void setUp() throws IOException, xBaseJException {
+        File dir = new File(prefix + "testfiles");
+        dir.mkdirs();
+        f = new CharField("test", 10);
+    }
 
-	/**
-	 *
-	 */
-	public void setup() {
-
-	}
-
-	public void testLockUpdateWithClose() {
+    @Test
+	public void testLockUpdateWithClose() throws SecurityException, xBaseJException, IOException, CloneNotSupportedException {
 		String os = System.getProperty("os.name").toLowerCase();
 		//linux or unix
 	    if (os.indexOf( "nix") >=0 || os.indexOf( "nux") >=0)
 	    	return;
 
-		try {
-			org.xBaseJ.Util.setxBaseJProperty("useSharedLocks", "true");
-		} catch (IOException e) {
-			fail(e.getMessage());
-		}
+		org.xBaseJ.Util.setxBaseJProperty("useSharedLocks", "true");
 		DBF writer = null;
-		try {
-			writer = new DBF("testfiles/temp2.dbf", true);
+		writer = new DBF(prefix + "testfiles/temp2.dbf", true);
 
-			Field str_field = new CharField("st", 10);
-			writer.addField(str_field);
+		Field str_field = new CharField("st", 10);
+		writer.addField(str_field);
 
-			str_field.put("abcd");
-			writer.write(true);
+		str_field.put("abcd");
+		writer.write(true);
 
-			str_field.put("abcd2");
-			writer.write(true);
-			// update the first record
-			writer.gotoRecord(1, true);
-			str_field.put("updated");
-		} catch (Exception ex2) {
-			ex2.printStackTrace();
-			fail(ex2.getMessage());
-		}
-		try {
-			writer.update(true); // ----> OverlappingFileLockException
-		} catch (Exception ex1) {
-			ex1.printStackTrace();
-			fail(ex1.getMessage());
-		}
+		str_field.put("abcd2");
+		writer.write(true);
+		// update the first record
+		writer.gotoRecord(1, true);
+		str_field.put("updated");
+		writer.update(true); // ----> OverlappingFileLockException
 
 		// delete the second record
-		try {
-			writer.gotoRecord(2, true);
-		} catch (Exception ex2) {
-			ex2.printStackTrace();
-			fail(ex2.getMessage());
-		}
-		try {
-			writer.delete();
-		} catch (Exception ex2) {
-			ex2.printStackTrace();
-			fail(ex2.getMessage());
-		}
-		try {
-			writer.pack();
-		} catch (Exception ex2) {
-			ex2.printStackTrace();
-			fail(ex2.getMessage());
-		}
+		writer.gotoRecord(2, true);
+		writer.delete();
+		writer.pack();
 
-		try {
-			writer.close(); // -----> incorrect descriptor
-		} catch (IOException ex2) {
-			fail(ex2.getMessage());
-		}
-
+		writer.close(); // -----> incorrect descriptor
 	}
 
 

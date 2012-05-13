@@ -30,46 +30,37 @@
 package org.xBaseJ.test;
 
 
-import junit.framework.TestCase;
+import java.io.IOException;
 
+import org.junit.Assert;
+import org.junit.Test;
+import org.xBaseJ.xBaseJException;
 import org.xBaseJ.fields.NumField;
 
-public class NumTest extends TestCase {
+public class NumTest {
 
-    public static void main(String[] args) {
-        junit.textui.TestRunner.run(NumTest.class);
+    @Test
+    public void testDouble() throws xBaseJException, IOException
+    {
+        NumField nf = new NumField("name", 6, 2);
+        double a = -50000000.36;
+        nf.put(a);
+        Assert.assertEquals(nf.get(), "-00.36");
+        a = 50000000.36;
+        nf.put(a);
+        Assert.assertEquals(nf.get(), "000.36");
+        a = -.36;
+        nf.put(a);
+        Assert.assertEquals(nf.get(), "  -.36");
     }
 
 
-    public void testDouble()
+    @Test
+    public void testNull() throws xBaseJException, IOException
     {
-        try {
-            NumField nf = new NumField("name", 6, 2);
-            double a = -50000000.36;
-            nf.put(a);
-            assertEquals(nf.get(), "-00.36");
-            a = 50000000.36;
-            nf.put(a);
-            assertEquals(nf.get(), "000.36");
-            a = -.36;
-            nf.put(a);
-            assertEquals(nf.get(), "  -.36");
-        } catch (Exception e) {
-            fail(e.getMessage());
-        }
-    }
-
-
-    public void testNull()
-    {
-    	try {
-    		NumField nf = new NumField("name", 6, 2);
-    		nf.put("");
-    		assertEquals(nf.get(), "");
-    	}
-    	catch (Exception e) {
-    		fail(e.getMessage());
-    	}
+    	NumField nf = new NumField("name", 6, 2);
+    	nf.put("");
+    	Assert.assertEquals(nf.get(), "");
     }
 
 }

@@ -30,10 +30,15 @@
 package org.xBaseJ.test;
 
 
-import junit.framework.TestCase;
+import java.io.File;
+import java.io.IOException;
 
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.xBaseJ.DBF;
 import org.xBaseJ.Util;
+import org.xBaseJ.xBaseJException;
 import org.xBaseJ.fields.CharField;
 import org.xBaseJ.fields.Field;
 
@@ -43,21 +48,25 @@ import org.xBaseJ.fields.Field;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public class TestLock extends TestCase {
+public class TestLock {
 
-	/**
-	 *
-	 */
-
-	public  void testLocking() {
-	 try {
+    private static String prefix = "target/";
+    
+    @Before
+    public void setUp() throws IOException {
+        File dir = new File(prefix + "testfiles");
+        dir.mkdirs();
+    }
+    
+    @Test
+	public  void testLocking() throws IOException, SecurityException, xBaseJException {
 		Util.setxBaseJProperty("useSharedLocks", "false");
-        assertFalse(Util.useSharedLocks());
-		DBF writer = new DBF("testfiles/temp.dbf", true);
+        Assert.assertFalse(Util.useSharedLocks());
+		DBF writer = new DBF(prefix + "testfiles/temp.dbf", true);
 		Field str_field = new CharField("st", 10);
 		writer.addField(str_field);
 		writer.close();
-		writer = new DBF("testfiles/temp.dbf");
+		writer = new DBF(prefix + "testfiles/temp.dbf");
 		str_field = writer.getField(1);
 		str_field.put("abcd");
 		writer.write(true);
@@ -66,12 +75,6 @@ public class TestLock extends TestCase {
 		writer.close();
 
 
-	 }
-	 catch (Exception e)
-	 {
-		e.printStackTrace();
-	 	fail(e.getMessage());
-	 }
 
 	}
 }

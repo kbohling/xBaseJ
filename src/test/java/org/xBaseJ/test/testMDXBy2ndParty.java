@@ -30,34 +30,30 @@
 package org.xBaseJ.test;
 
 
+import java.io.IOException;
+
 import junit.framework.TestCase;
 
+import org.junit.Assert;
+import org.junit.Test;
 import org.xBaseJ.DBF;
 import org.xBaseJ.xBaseJException;
 
 
-public class testMDXBy2ndParty extends TestCase {
+public class testMDXBy2ndParty {
 
-	public void testMDX() {//test MDX updated by DBF Manager
+    @Test
+	public void testMDX() throws xBaseJException, IOException, SecurityException, CloneNotSupportedException {//test MDX updated by DBF Manager
 		DBF aDB = null;
-		try {
-			aDB = new DBF("c:/temp/statezip.dbf");
-			aDB.useTag("zip");
-			assertFalse(aDB.find("06461"));
-			assertFalse(aDB.find("06824"));
-			assertFalse(aDB.find("06825"));
-			aDB.pack();
-			assertTrue(aDB.find("06461"));
-			assertTrue(aDB.find("06824"));
-			assertTrue(aDB.find("06825"));
-		} catch (SecurityException e) {
-			fail(e.getMessage());
-		} catch (xBaseJException e) {
-			fail(e.getMessage());
-		} catch (Exception e) {
-			fail(e.getMessage());
-		}
-
-
+		// XXX: This isn't a unit test.
+		aDB = new DBF("c:/temp/statezip.dbf");
+		aDB.useTag("zip");
+		Assert.assertFalse(aDB.find("06461"));
+		Assert.assertFalse(aDB.find("06824"));
+		Assert.assertFalse(aDB.find("06825"));
+		aDB.pack();
+		Assert.assertTrue(aDB.find("06461"));
+		Assert.assertTrue(aDB.find("06824"));
+		Assert.assertTrue(aDB.find("06825"));
 	}
 }

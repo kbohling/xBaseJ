@@ -30,121 +30,79 @@
 package org.xBaseJ.test;
 
 
+import java.io.File;
 import java.io.IOException;
 
-import junit.framework.TestCase;
-
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.xBaseJ.DBF;
 import org.xBaseJ.xBaseJException;
 import org.xBaseJ.fields.CharField;
 import org.xBaseJ.fields.MemoField;
 
 
-public class testDBF extends TestCase {
+public class testDBF {
 
-	public void testBuildDBF() {
+    private static String prefix = "target/";
+    
+    @Before
+    public void setUp() throws IOException {
+        File dir = new File(prefix + "testfiles");
+        dir.mkdirs();
+    }
+    
+    @Test
+	public void testBuildDBF() throws SecurityException, xBaseJException, IOException {
 		DBF aDB = null;
-		try {
-			aDB = new DBF("testfiles/testdbt.dbf", true);
-		} catch (SecurityException e) {
-			fail(e.getMessage());
-		} catch (xBaseJException e) {
-			fail(e.getMessage());
-		} catch (IOException e) {
-			fail(e.getMessage());
-		}
+		aDB = new DBF(prefix + "testfiles/testdbt.dbf", true);
 
 		CharField cf = null;
-		try {
-			cf = new CharField("char", 10);
-		} catch (xBaseJException e) {
-			fail(e.getMessage());
-
-		} catch (IOException e) {
-			fail(e.getMessage());
-
-		}
+		cf = new CharField("char", 10);
 		MemoField mf = null;
-		try {
-			mf = new MemoField("memo");
-		} catch (xBaseJException e) {
-			fail(e.getMessage());
+		
+		mf = new MemoField("memo");
 
-		} catch (IOException e) {
-			fail(e.getMessage());
-		}
+		aDB.addField(cf);
+		aDB.addField(mf);
+		aDB.close();
 
-		try {
-			aDB.addField(cf);
-		} catch (xBaseJException e) {
-			fail(e.getMessage());
-		} catch (IOException e) {
-			fail(e.getMessage());
-		}
-		try {
-			aDB.addField(mf);
-		} catch (xBaseJException e) {
-			e.printStackTrace();
-			fail(e.getMessage());
-		} catch (IOException e) {
-			fail(e.getMessage());
-		}
+		aDB = new DBF(prefix + "testfiles/testdbt.dbf");
+		cf = (CharField) aDB.getField("char");
+		mf = (MemoField) aDB.getField("memo");
+		cf.put("123456789");
+		mf.put("123456789");
 
-		try {
-			aDB.close();
-		} catch (IOException e) {
-			fail(e.getMessage());
+		aDB.write();
 
-		}
+		cf.put("9");
+		mf.put("9");
 
-		try {
-			aDB = new DBF("testfiles/testdbt.dbf");
-			cf = (CharField) aDB.getField("char");
-			mf = (MemoField) aDB.getField("memo");
-			cf.put("123456789");
-			mf.put("123456789");
+		aDB.write();
 
-			aDB.write();
+		aDB.close();
 
-			cf.put("9");
-			mf.put("9");
+		aDB = new DBF(prefix + "testfiles/testdbt.dbf");
 
-			aDB.write();
+		cf = (CharField) aDB.getField("char");
+		mf = (MemoField) aDB.getField("memo");
 
-			aDB.close();
-		} catch (xBaseJException e) {
-			fail(e.getMessage());
-		} catch (IOException e) {
-			fail(e.getMessage());
-		}
+		aDB.read();
 
-		try {
-			aDB = new DBF("testfiles/testdbt.dbf");
+		String s = cf.get();
+		Assert.assertEquals("123456789", s);
 
-			cf = (CharField) aDB.getField("char");
-			mf = (MemoField) aDB.getField("memo");
+		s = mf.get();
+		Assert.assertEquals("123456789", s);
 
-			aDB.read();
+		aDB.read();
 
-			String s = cf.get();
-			assertEquals("123456789", s);
+		s = cf.get();
+		Assert.assertEquals("9", s);
 
-			s = mf.get();
-			assertEquals("123456789", s);
+		s = mf.get();
+		Assert.assertEquals("9", s);
 
-			aDB.read();
-
-			s = cf.get();
-			assertEquals("9", s);
-
-			s = mf.get();
-			assertEquals("9", s);
-
-		} catch (xBaseJException e) {
-			fail(e.getMessage());
-		} catch (IOException e) {
-			fail(e.getMessage());
-		}
 
 	}
 }

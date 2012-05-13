@@ -30,43 +30,36 @@
 package org.xBaseJ.test;
 
 
+import java.io.File;
 import java.io.IOException;
 
-import junit.framework.TestCase;
-
+import org.junit.Before;
+import org.junit.Test;
 import org.xBaseJ.DBF;
 import org.xBaseJ.xBaseJException;
 import org.xBaseJ.fields.CharField;
 
-public class testAdd extends TestCase {
+public class testAdd {
 
-	public static void main(String[] args) {
-		junit.textui.TestRunner.run(testAdd.class);
+    private static String prefix = "target/";
+    
+    @Before
+    public void setUp() throws IOException {
+        File dir = new File(prefix + "testfiles");
+        dir.mkdirs();
+    }
+    
+    @Test
+	public void testNewCharField() throws SecurityException, xBaseJException, IOException {
+		DBF d1 = new DBF(prefix + "testfiles/a.dbf", true);
+		CharField c = new CharField("C3", 10);
+		d1.addField(c);
 	}
-
-	public void testNewCharField() {
-
-		try {
-			DBF d1 = new DBF("testfiles/a.dbf", true);
-			CharField c = new CharField("C3", 10);
-			d1.addField(c);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	public void testReaddSame() {
-
-		try {
-			DBF d1 = new DBF("testfiles/a.dbf");
-			CharField c = new CharField("C3", 10);
-			d1.addField(c);
-			fail("shouldn't be able to add field again");
-		} catch (xBaseJException e) {
-			;
-		}
-		catch (IOException ei)
-		{
-			fail(ei.getMessage());
-		}
+    
+    @Test(expected=xBaseJException.class)
+	public void testReaddSame() throws xBaseJException, IOException {
+		DBF d1 = new DBF(prefix + "testfiles/a.dbf");
+		CharField c = new CharField("C3", 10);
+		d1.addField(c);
 	}
 }
