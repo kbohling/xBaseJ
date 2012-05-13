@@ -45,15 +45,8 @@ import java.io.InputStream;
 
 import net.sourceforge.xBaseJ.fields.DateField;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-
-
-
 public class Util extends Object {
 
-    static Log logr = LogFactory.getLog(Util.class);
 
     static boolean log4JConfigured = false;
 
@@ -81,10 +74,8 @@ public class Util extends Object {
 		}
 		catch (Exception e)
 		{
-			logr.error(e.getMessage(), e);
 		}
 		finally {
-			logr.debug("recheckProperties is " + recheckProperties);
 
 		}
     }
@@ -272,7 +263,6 @@ public class Util extends Object {
                 propIS = getPropertiesFile();
                 if (propIS != null) {
                 	lastUpdate = propFile.lastModified();
-                	logr.debug("loading properties");
                 	props.load(propIS);
                 }
             }
@@ -283,7 +273,6 @@ public class Util extends Object {
 
                     propIS = new FileInputStream(propFile);
                     lastUpdate = propFile.lastModified();
-                    logr.debug("loading properties, because modified");
                     props.load(propIS);
                 }
             }
@@ -374,7 +363,6 @@ public class Util extends Object {
 		if (f1.exists())
 			try {
 				propFile = f1;
-				logr.debug("properties file loaded from "+f1.getAbsolutePath());
 				return new FileInputStream(f1);
 			} catch (FileNotFoundException fnfe) {
 				fnfe.printStackTrace();
@@ -386,7 +374,6 @@ public class Util extends Object {
 			if (f2.exists())
 				try {
 					propFile = f2;
-					logr.debug("properties file loaded from "+f2.getAbsolutePath());
 					return new FileInputStream(f2);
 				} catch (FileNotFoundException fnfe) {
 					fnfe.printStackTrace();
@@ -398,7 +385,6 @@ public class Util extends Object {
 				if (f3.exists()) {
 					try {
 						propFile = f3;
-						logr.debug("properties file loaded from "+f3.getAbsolutePath());
 						return new FileInputStream(f3);
 					} catch (FileNotFoundException fnfe) {
 						fnfe.printStackTrace();
@@ -414,30 +400,16 @@ public class Util extends Object {
 					 else { // context is not null
 					   try {
 						is = new FileInputStream(servletContextPath + "/org.xBaseJ.properties");
-						logr.debug("properties file loaded from servlet context path "+servletContextPath + "/org.xBaseJ.properties");
 						propFile = new File(servletContextPath + "/org.xBaseJ.properties");
 
 					   }
 					   catch (IOException ioe){
-					 	logr.debug("Searched for org.xBaseJ.properties as " + servletContextPath + "/org.xBaseJ.properties");
 					     }
 					  }
 					}
 					if (is != null) {
-						logr.debug("properties file loaded from classpath");
 						return is;
 					} else {
-						logr.debug(
-							"Searched for org.xBaseJ.properties as "
-								+ f1.getAbsolutePath());
-						logr.debug(
-							"Searched for org.xBaseJ.properties as "
-								+ f2.getAbsolutePath());
-						logr.debug(
-							"Searched for org.xBaseJ.properties as "
-								+ f3.getAbsolutePath());
-						logr.debug(
-							"Searched for org.xBaseJ.properties in classpath environment variable");
 						return null;
 					}
 				}
@@ -460,7 +432,6 @@ public class Util extends Object {
                 try {
                     propIS.close();
                 } catch (IOException e) {
-                    logr.fatal(e.getMessage(), e);
                 }
                 propIS = null;
             }
@@ -487,7 +458,6 @@ public class Util extends Object {
 		try {
 			usl = getxBaseJProperty("useSharedLocks").toLowerCase();
 		} catch (IOException e) {
-			logr.error(e.getMessage(), e);
 			usl = "false";
 		}
 		return (usl.compareTo("true") == 0);
