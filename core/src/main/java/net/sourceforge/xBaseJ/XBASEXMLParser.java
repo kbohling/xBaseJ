@@ -34,6 +34,9 @@ import java.io.CharArrayWriter;
 import java.io.FileReader;
 import java.io.IOException;
 
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
 import net.sourceforge.xBaseJ.fields.CharField;
 import net.sourceforge.xBaseJ.fields.CurrencyField;
 import net.sourceforge.xBaseJ.fields.DateField;
@@ -48,9 +51,10 @@ import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
+import org.xml.sax.helpers.DefaultHandler;
 
 
-public class XBASEXMLParser extends org.xml.sax.helpers.DefaultHandler {
+public class XBASEXMLParser extends DefaultHandler {
 
 	/** accepts on String parameter, filename to parse
 	 */
@@ -61,7 +65,7 @@ public class XBASEXMLParser extends org.xml.sax.helpers.DefaultHandler {
 	//public org.xml.sax.Parser parser;
 	/** SAX parser
 	 */
-	public org.apache.xerces.parsers.SAXParser parser;
+	public SAXParser parser;
 	// Buffer for collecting data from
 	// the "characters" SAX event.
 	private CharArrayWriter contents = new CharArrayWriter();
@@ -82,11 +86,12 @@ public class XBASEXMLParser extends org.xml.sax.helpers.DefaultHandler {
 	 */
 	public XBASEXMLParser() {
 		try {
-			parser = new org.apache.xerces.parsers.SAXParser();
-			parser.setFeature("http://xml.org/sax/features/namespaces", false);
-			parser.setFeature("http://xml.org/sax/features/validation", true);
-			parser.setContentHandler(this);
-			parser.setErrorHandler(this);
+		    SAXParserFactory factory = SAXParserFactory.newInstance();
+		    
+		    factory.setFeature("http://xml.org/sax/features/namespaces", false);
+			factory.setFeature("http://xml.org/sax/features/validation", true);
+		    
+			parser = factory.newSAXParser();
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
@@ -98,8 +103,8 @@ public class XBASEXMLParser extends org.xml.sax.helpers.DefaultHandler {
 	public void parse(String inXMLFile) {
 		try {
 			FileReader fr = new FileReader(inXMLFile);
-			InputSource is = new InputSource(fr);
-			parser.parse(is);
+			InputSource stream = new InputSource(fr);
+			parser.parse(stream, this);
 		} /* endtry */
 		catch (Exception e1) {
 			e1.printStackTrace();
