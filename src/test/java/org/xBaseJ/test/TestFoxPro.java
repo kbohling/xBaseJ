@@ -1,4 +1,3 @@
-package org.xBaseJ.test;
 /**
  * xBaseJ - Java access to dBase files
  *<p>Copyright 1997-2011 - American Coders, LTD  - Raleigh NC USA
@@ -28,46 +27,56 @@ package org.xBaseJ.test;
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
 */
+package org.xBaseJ.test;
 
+
+import java.io.File;
 
 import junit.framework.TestCase;
 
 import org.xBaseJ.DBF;
-import org.xBaseJ.fields.Field;
+import org.xBaseJ.fields.CharField;
+import org.xBaseJ.fields.MemoField;
 
-/**
- * @author Joe McVerry - American Coders, Ltd.
- *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
-public class TestLockRead extends  TestCase {
+public class TestFoxPro extends TestCase {
 
-	/**
-	 *
-	 */
+    public static void main(String[] args) {
+        junit.textui.TestRunner.run(TestFoxPro.class);
+    }
 
-	public void testReadLock() {
+
+//public void testStart()
+//{ i lost the copy of memofile.dbf
+//    try{
+//        DBF fp = new DBF("testfiles/memofile.dbf");
+//        System.out.println(fp.getVersion());
+//       }
+//    catch (Exception e)
+//    {
+//       fail(e.getMessage());
+//    }
+//}
+public void testCreateAll() {
+	try {
+		
+		DBF fp = new DBF("testfiles/foxprotest.dbf", DBF.FOXPRO_WITH_MEMO, true);
+		fp.addField(new CharField("name", 10));
+		fp.addField(new MemoField("memo"));
+		fp.close();
+		File f = new File("testfiles/foxprotest.dbf");
+		if (f.exists() == false)
+			fail("can't find foxpro dbf file");
+		f = new File("testfiles/foxprotest.fpt");
+		if (f.exists() == false)
+			fail("can't find foxpro fpt file");
+			
 	}
-	public void threadThis() {
-
-	 try {
-
-		DBF writer = new DBF("testfiles/temp.dbf");
-		for (int i = 0; i < writer.getRecordCount(); i++) {
-			writer.read(true);
-			Field str_field = writer.getField(1);
-			System.out.println(str_field.get());
-		}
-		writer.close();
+	catch (Exception e) {
+		e.printStackTrace();
+		fail(e.getMessage());
+	} 
+	
+}
 
 
-	 }
-	 catch (Exception e)
-	 {
-	 	e.printStackTrace();
-	 	fail(e.getMessage());
-	 }
-
-	}
 }

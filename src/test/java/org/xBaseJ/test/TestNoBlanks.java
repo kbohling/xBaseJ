@@ -1,4 +1,3 @@
-package org.xBaseJ.test;
 /**
  * xBaseJ - Java access to dBase files
  *<p>Copyright 1997-2011 - American Coders, LTD  - Raleigh NC USA
@@ -28,6 +27,7 @@ package org.xBaseJ.test;
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
 */
+package org.xBaseJ.test;
 
 
 import java.io.IOException;

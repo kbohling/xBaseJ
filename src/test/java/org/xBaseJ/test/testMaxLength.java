@@ -1,4 +1,3 @@
-package org.xBaseJ.test;
 /**
  * xBaseJ - Java access to dBase files
  *<p>Copyright 1997-2011 - American Coders, LTD  - Raleigh NC USA
@@ -28,36 +27,32 @@ package org.xBaseJ.test;
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
 */
+package org.xBaseJ.test;
 
 
 import junit.framework.TestCase;
 
 import org.xBaseJ.DBF;
-import org.xBaseJ.xBaseJException;
+import org.xBaseJ.Util;
+import org.xBaseJ.fields.CharField;
 
+public class testMaxLength extends TestCase {
 
-public class testMDXBy2ndParty extends TestCase {
-
-	public void testMDX() {//test MDX updated by DBF Manager
-		DBF aDB = null;
+	public void testMaxFieldLength() {
 		try {
-			aDB = new DBF("c:/temp/statezip.dbf");
-			aDB.useTag("zip");
-			assertFalse(aDB.find("06461"));
-			assertFalse(aDB.find("06824"));
-			assertFalse(aDB.find("06825"));
-			aDB.pack();
-			assertTrue(aDB.find("06461"));
-			assertTrue(aDB.find("06824"));
-			assertTrue(aDB.find("06825"));
-		} catch (SecurityException e) {
-			fail(e.getMessage());
-		} catch (xBaseJException e) {
-			fail(e.getMessage());
+			Util.setxBaseJProperty("ignoreDBFLengthCheck", "true");
+			DBF d1 = new DBF("testfiles/test.dbf", true);
+			for (int i = 0; i < 50; i++) {
+				CharField c = new CharField("C" + i, 100);
+				d1.addField(c);
+			}
+			d1.close();
+			d1 = new DBF("testfiles/a.dbf");
+
 		} catch (Exception e) {
+			e.printStackTrace();
 			fail(e.getMessage());
 		}
-
-
 	}
+
 }

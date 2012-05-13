@@ -1,4 +1,3 @@
-package org.xBaseJ.test;
 /**
  * xBaseJ - Java access to dBase files
  *<p>Copyright 1997-2011 - American Coders, LTD  - Raleigh NC USA
@@ -28,9 +27,9 @@ package org.xBaseJ.test;
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
 */
+package org.xBaseJ.test;
 
 
-import java.io.File;
 import java.io.IOException;
 
 import junit.framework.TestCase;
@@ -38,91 +37,114 @@ import junit.framework.TestCase;
 import org.xBaseJ.DBF;
 import org.xBaseJ.xBaseJException;
 import org.xBaseJ.fields.CharField;
-import org.xBaseJ.fields.CurrencyField;
-import org.xBaseJ.fields.DateField;
-import org.xBaseJ.fields.FloatField;
-import org.xBaseJ.fields.LogicalField;
-import org.xBaseJ.fields.NumField;
-import org.xBaseJ.fields.PictureField;
+import org.xBaseJ.fields.MemoField;
 
 
-public class TestFields extends TestCase {
+public class testDBF extends TestCase {
 
-
-
-	CharField f;
-
-	public  void setUp(){
+	public void testBuildDBF() {
+		DBF aDB = null;
 		try {
-			 f = new CharField("test", 10);
+			aDB = new DBF("testfiles/testdbt.dbf", true);
+		} catch (SecurityException e) {
+			fail(e.getMessage());
+		} catch (xBaseJException e) {
+			fail(e.getMessage());
+		} catch (IOException e) {
+			fail(e.getMessage());
+		}
+
+		CharField cf = null;
+		try {
+			cf = new CharField("char", 10);
+		} catch (xBaseJException e) {
+			fail(e.getMessage());
+
+		} catch (IOException e) {
+			fail(e.getMessage());
+
+		}
+		MemoField mf = null;
+		try {
+			mf = new MemoField("memo");
+		} catch (xBaseJException e) {
+			fail(e.getMessage());
+
+		} catch (IOException e) {
+			fail(e.getMessage());
+		}
+
+		try {
+			aDB.addField(cf);
+		} catch (xBaseJException e) {
+			fail(e.getMessage());
+		} catch (IOException e) {
+			fail(e.getMessage());
+		}
+		try {
+			aDB.addField(mf);
 		} catch (xBaseJException e) {
 			e.printStackTrace();
+			fail(e.getMessage());
 		} catch (IOException e) {
-			e.printStackTrace();
+			fail(e.getMessage());
 		}
 
-}
-
-
-	/*
-	 * Test method for 'org.xBaseJ.Field.put(String)'
-	 */
-	public void testPutString() {
 		try {
-			f.put("a");
-		} catch (xBaseJException e) {
+			aDB.close();
+		} catch (IOException e) {
 			fail(e.getMessage());
-		}
-		TestFields.assertEquals("a",f.get());
 
-	}
-	
-	public void testType()  {
+		}
+
 		try {
-			CharField  c = new CharField("C", 1);
-			assertEquals('C', c.getType());
-			DateField  d = new DateField("D");
-			assertEquals('D', d.getType());
-			FloatField f = new FloatField("F", 10, 2); 
-			assertEquals('F', f.getType());
-			NumField n = new NumField("N", 10, 2);
-			assertEquals('N', n.getType());
-			LogicalField l = new LogicalField("L");
-			assertEquals('L', l.getType());
-			PictureField p = new PictureField("P");
-			assertEquals('P', p.getType());
-			CurrencyField cc = new CurrencyField("Money");
-			assertEquals('Y', cc.getType());
-			
-		} catch (xBaseJException e) {
-			fail(e.getMessage());
-		} catch (IOException e) {
-			fail(e.getMessage());
-		}
-	}
-	
-	
-	public void testFloat() {
-	    try {
-		DBF db = new DBF("testfiles/float.dbf", true);
-		FloatField f = new FloatField("F", 10,3);
-		db.addField(f);
-		f.put(987.123f);
-		db.write();
-		db.close();
-		db = new DBF("testfiles/float.dbf");
-		f = (FloatField) db.getField("F");
-		db.read();
-		assertEquals("   987.123", f.get());
-		} catch (xBaseJException e) {
-			fail(e.getMessage());
-		} catch (IOException e) {
-			fail(e.getMessage());
-		}
-		finally {
-		    File f = new File("testfiles/float.dbf");
-		    f.delete();
-		}
-	}
+			aDB = new DBF("testfiles/testdbt.dbf");
+			cf = (CharField) aDB.getField("char");
+			mf = (MemoField) aDB.getField("memo");
+			cf.put("123456789");
+			mf.put("123456789");
 
+			aDB.write();
+
+			cf.put("9");
+			mf.put("9");
+
+			aDB.write();
+
+			aDB.close();
+		} catch (xBaseJException e) {
+			fail(e.getMessage());
+		} catch (IOException e) {
+			fail(e.getMessage());
+		}
+
+		try {
+			aDB = new DBF("testfiles/testdbt.dbf");
+
+			cf = (CharField) aDB.getField("char");
+			mf = (MemoField) aDB.getField("memo");
+
+			aDB.read();
+
+			String s = cf.get();
+			assertEquals("123456789", s);
+
+			s = mf.get();
+			assertEquals("123456789", s);
+
+			aDB.read();
+
+			s = cf.get();
+			assertEquals("9", s);
+
+			s = mf.get();
+			assertEquals("9", s);
+
+		} catch (xBaseJException e) {
+			fail(e.getMessage());
+		} catch (IOException e) {
+			fail(e.getMessage());
+		}
+
+	}
 }

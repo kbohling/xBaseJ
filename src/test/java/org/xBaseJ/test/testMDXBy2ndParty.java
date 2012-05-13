@@ -1,4 +1,3 @@
-package org.xBaseJ.test;
 /**
  * xBaseJ - Java access to dBase files
  *<p>Copyright 1997-2011 - American Coders, LTD  - Raleigh NC USA
@@ -28,50 +27,37 @@ package org.xBaseJ.test;
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
 */
+package org.xBaseJ.test;
 
 
 import junit.framework.TestCase;
 
 import org.xBaseJ.DBF;
-import org.xBaseJ.Util;
-import org.xBaseJ.fields.CharField;
-import org.xBaseJ.fields.Field;
-
-/**
- * @author Joe McVerry - American Coders, Ltd.
- *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
-public class TestLock extends TestCase {
-
-	/**
-	 *
-	 */
-
-	public  void testLocking() {
-	 try {
-		Util.setxBaseJProperty("useSharedLocks", "false");
-        assertFalse(Util.useSharedLocks());
-		DBF writer = new DBF("testfiles/temp.dbf", true);
-		Field str_field = new CharField("st", 10);
-		writer.addField(str_field);
-		writer.close();
-		writer = new DBF("testfiles/temp.dbf");
-		str_field = writer.getField(1);
-		str_field.put("abcd");
-		writer.write(true);
-		str_field.put("abcd2");
-		writer.write(true);
-		writer.close();
+import org.xBaseJ.xBaseJException;
 
 
-	 }
-	 catch (Exception e)
-	 {
-		e.printStackTrace();
-	 	fail(e.getMessage());
-	 }
+public class testMDXBy2ndParty extends TestCase {
+
+	public void testMDX() {//test MDX updated by DBF Manager
+		DBF aDB = null;
+		try {
+			aDB = new DBF("c:/temp/statezip.dbf");
+			aDB.useTag("zip");
+			assertFalse(aDB.find("06461"));
+			assertFalse(aDB.find("06824"));
+			assertFalse(aDB.find("06825"));
+			aDB.pack();
+			assertTrue(aDB.find("06461"));
+			assertTrue(aDB.find("06824"));
+			assertTrue(aDB.find("06825"));
+		} catch (SecurityException e) {
+			fail(e.getMessage());
+		} catch (xBaseJException e) {
+			fail(e.getMessage());
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
+
 
 	}
 }

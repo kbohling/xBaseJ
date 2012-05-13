@@ -1,4 +1,3 @@
-package org.xBaseJ.test;
 /**
  * xBaseJ - Java access to dBase files
  *<p>Copyright 1997-2011 - American Coders, LTD  - Raleigh NC USA
@@ -28,43 +27,46 @@ package org.xBaseJ.test;
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
 */
+package org.xBaseJ.test;
+
+
+import java.io.IOException;
 
 import junit.framework.TestCase;
 
 import org.xBaseJ.DBF;
+import org.xBaseJ.xBaseJException;
 import org.xBaseJ.fields.CharField;
-import org.xBaseJ.fields.MemoField;
 
-public class testCreate extends TestCase {
+public class testAdd extends TestCase {
 
-	public void testCreateDBF() {
-	try{
-		DBF d1 = new DBF("testfiles/temp.tmp", true);
-		CharField c = new CharField("C3", 10);
-		d1.addField(c);
-		c = new CharField("C33", 10);
-		d1.addField(c);
-		MemoField m = new MemoField("c333");
-		d1.addField(m);
-		m.put("firstone");
-		d1.write();
-		m = new MemoField("c3333");
-		d1.addField(m);
-		m.put("secondone");
-		d1.write();
-		d1.gotoRecord(1);
-		assertEquals(d1.getField("c333").get(), "firstone");
-		assertEquals(d1.getField("c3333").get(), "");
-		d1.read();
-		assertEquals(d1.getField("c333").get(), "firstone");
-		assertEquals(d1.getField("c3333").get(), "secondone");
-
-
+	public static void main(String[] args) {
+		junit.textui.TestRunner.run(testAdd.class);
 	}
-	catch (Exception e){
-		e.printStackTrace();
-		fail(e.getMessage());
+
+	public void testNewCharField() {
+
+		try {
+			DBF d1 = new DBF("testfiles/a.dbf", true);
+			CharField c = new CharField("C3", 10);
+			d1.addField(c);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
+	public void testReaddSame() {
 
+		try {
+			DBF d1 = new DBF("testfiles/a.dbf");
+			CharField c = new CharField("C3", 10);
+			d1.addField(c);
+			fail("shouldn't be able to add field again");
+		} catch (xBaseJException e) {
+			;
+		}
+		catch (IOException ei)
+		{
+			fail(ei.getMessage());
+		}
+	}
 }

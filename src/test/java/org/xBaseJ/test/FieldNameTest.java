@@ -1,4 +1,3 @@
-package org.xBaseJ.test;
 /**
  * xBaseJ - Java access to dBase files
  *<p>Copyright 1997-2011 - American Coders, LTD  - Raleigh NC USA
@@ -28,48 +27,63 @@ package org.xBaseJ.test;
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
 */
+package org.xBaseJ.test;
 
+
+import java.io.IOException;
 
 import junit.framework.TestCase;
 
-import org.xBaseJ.fields.NumField;
+import org.xBaseJ.Util;
+import org.xBaseJ.xBaseJException;
+import org.xBaseJ.fields.CharField;
+import org.xBaseJ.fields.Field;
 
-public class NumTest extends TestCase {
+
+
+public class FieldNameTest extends TestCase {
 
     public static void main(String[] args) {
-        junit.textui.TestRunner.run(NumTest.class);
+        junit.textui.TestRunner.run(FieldNameTest.class);
     }
 
+    public void testBadFieldName() {
 
-    public void testDouble()
-    {
         try {
-            NumField nf = new NumField("name", 6, 2);
-            double a = -50000000.36;
-            nf.put(a);
-            assertEquals(nf.get(), "-00.36");
-            a = 50000000.36;
-            nf.put(a);
-            assertEquals(nf.get(), "000.36");
-            a = -.36;
-            nf.put(a);
-            assertEquals(nf.get(), "  -.36");
-        } catch (Exception e) {
+          new CharField("a$", 3);
+            fail("invalid name not caught");
+        } catch (xBaseJException e) {
+
+            ;
+        } catch (IOException e) {
+
             fail(e.getMessage());
         }
+
+
+
     }
+    public void testBadFieldNameAccepted() {
 
-
-    public void testNull()
-    {
     	try {
-    		NumField nf = new NumField("name", 6, 2);
-    		nf.put("");
-    		assertEquals(nf.get(), "");
-    	}
-    	catch (Exception e) {
-    		fail(e.getMessage());
-    	}
+			Util.setxBaseJProperty("otherValidCharactersInFieldNames", "$");
+		} catch (IOException e1) {
+			e1.printStackTrace();
+			fail(e1.getMessage());
+		}
+        Field.otherValidCharacters = null;
+
+        try {
+            new CharField("a$", 3);
+        } catch (xBaseJException e) {
+            fail("invalid name caught, used properties file to allow for $");
+        } catch (IOException e) {
+
+            fail(e.getMessage());
+        } finally {
+
+        }
+
     }
 
 }

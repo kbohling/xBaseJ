@@ -1,4 +1,3 @@
-package org.xBaseJ.test;
 /**
  * xBaseJ - Java access to dBase files
  *<p>Copyright 1997-2011 - American Coders, LTD  - Raleigh NC USA
@@ -28,62 +27,51 @@ package org.xBaseJ.test;
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
 */
+package org.xBaseJ.test;
 
-
-import java.io.IOException;
 
 import junit.framework.TestCase;
 
+import org.xBaseJ.DBF;
 import org.xBaseJ.Util;
-import org.xBaseJ.xBaseJException;
 import org.xBaseJ.fields.CharField;
 import org.xBaseJ.fields.Field;
 
+/**
+ * @author Joe McVerry - American Coders, Ltd.
+ *
+ * To change the template for this generated type comment go to
+ * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ */
+public class TestLock extends TestCase {
+
+	/**
+	 *
+	 */
+
+	public  void testLocking() {
+	 try {
+		Util.setxBaseJProperty("useSharedLocks", "false");
+        assertFalse(Util.useSharedLocks());
+		DBF writer = new DBF("testfiles/temp.dbf", true);
+		Field str_field = new CharField("st", 10);
+		writer.addField(str_field);
+		writer.close();
+		writer = new DBF("testfiles/temp.dbf");
+		str_field = writer.getField(1);
+		str_field.put("abcd");
+		writer.write(true);
+		str_field.put("abcd2");
+		writer.write(true);
+		writer.close();
 
 
-public class FieldNameTest extends TestCase {
+	 }
+	 catch (Exception e)
+	 {
+		e.printStackTrace();
+	 	fail(e.getMessage());
+	 }
 
-    public static void main(String[] args) {
-        junit.textui.TestRunner.run(FieldNameTest.class);
-    }
-
-    public void testBadFieldName() {
-
-        try {
-          new CharField("a$", 3);
-            fail("invalid name not caught");
-        } catch (xBaseJException e) {
-
-            ;
-        } catch (IOException e) {
-
-            fail(e.getMessage());
-        }
-
-
-
-    }
-    public void testBadFieldNameAccepted() {
-
-    	try {
-			Util.setxBaseJProperty("otherValidCharactersInFieldNames", "$");
-		} catch (IOException e1) {
-			e1.printStackTrace();
-			fail(e1.getMessage());
-		}
-        Field.otherValidCharacters = null;
-
-        try {
-            new CharField("a$", 3);
-        } catch (xBaseJException e) {
-            fail("invalid name caught, used properties file to allow for $");
-        } catch (IOException e) {
-
-            fail(e.getMessage());
-        } finally {
-
-        }
-
-    }
-
+	}
 }

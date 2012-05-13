@@ -1,4 +1,3 @@
-package org.xBaseJ.test;
 /**
  * xBaseJ - Java access to dBase files
  *<p>Copyright 1997-2011 - American Coders, LTD  - Raleigh NC USA
@@ -28,45 +27,49 @@ package org.xBaseJ.test;
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
 */
+package org.xBaseJ.test;
 
-
-import java.io.IOException;
 
 import junit.framework.TestCase;
 
-import org.xBaseJ.DBF;
-import org.xBaseJ.xBaseJException;
-import org.xBaseJ.fields.CharField;
+import org.xBaseJ.fields.NumField;
 
-public class testAdd extends TestCase {
+public class NumTest extends TestCase {
 
-	public static void main(String[] args) {
-		junit.textui.TestRunner.run(testAdd.class);
-	}
+    public static void main(String[] args) {
+        junit.textui.TestRunner.run(NumTest.class);
+    }
 
-	public void testNewCharField() {
 
-		try {
-			DBF d1 = new DBF("testfiles/a.dbf", true);
-			CharField c = new CharField("C3", 10);
-			d1.addField(c);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	public void testReaddSame() {
+    public void testDouble()
+    {
+        try {
+            NumField nf = new NumField("name", 6, 2);
+            double a = -50000000.36;
+            nf.put(a);
+            assertEquals(nf.get(), "-00.36");
+            a = 50000000.36;
+            nf.put(a);
+            assertEquals(nf.get(), "000.36");
+            a = -.36;
+            nf.put(a);
+            assertEquals(nf.get(), "  -.36");
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
 
-		try {
-			DBF d1 = new DBF("testfiles/a.dbf");
-			CharField c = new CharField("C3", 10);
-			d1.addField(c);
-			fail("shouldn't be able to add field again");
-		} catch (xBaseJException e) {
-			;
-		}
-		catch (IOException ei)
-		{
-			fail(ei.getMessage());
-		}
-	}
+
+    public void testNull()
+    {
+    	try {
+    		NumField nf = new NumField("name", 6, 2);
+    		nf.put("");
+    		assertEquals(nf.get(), "");
+    	}
+    	catch (Exception e) {
+    		fail(e.getMessage());
+    	}
+    }
+
 }
