@@ -94,7 +94,7 @@ public class DBF extends Object {
 	protected short fldcount = 0;
 	protected File ffile;
 	public RandomAccessFile file;
-	protected Vector fld_root;
+	protected Vector<Field> fld_root;
 	protected DBTFile dbtobj = null;
 	protected byte delete_ind = (byte) ' ';
 
@@ -112,8 +112,8 @@ public class DBF extends Object {
 	protected byte reserve2[] = new byte[2];
 
 	protected Index jNDX;
-	protected Vector jNDXes;
-	protected Vector jNDXID;
+	protected Vector<Index> jNDXes;
+	protected Vector<String> jNDXID;
 	public MDXFile MDXfile = null;
 	public static final byte DBASEIII = 3;
 	public static final byte DBASEIV = 4;
@@ -328,8 +328,8 @@ public class DBF extends Object {
 	protected void openDBF(String DBFname) throws IOException, xBaseJException {
 		int i;
 		jNDX = null;
-		jNDXes = new Vector(1);
-		jNDXID = new Vector(1);
+		jNDXes = new Vector<Index>(1);
+		jNDXID = new Vector<String>(1);
 
 		ffile = new File(DBFname);
 		if (!ffile.exists() || !ffile.isFile()) {
@@ -370,7 +370,7 @@ public class DBF extends Object {
 		else if (version == DBASEIV_WITH_MEMO)
 			dbtobj = new DBT_iv(this, readonly);
 
-		fld_root = new Vector(new Long(fldcount).intValue());
+		fld_root = new Vector<Field>(new Long(fldcount).intValue());
 
 		for (i = 0; i < fldcount; i++) {
 			fld_root.addElement(read_Field_header());
@@ -418,8 +418,8 @@ public class DBF extends Object {
 	protected void createDBF(String DBFname, int format, boolean destroy)
 		throws xBaseJException, IOException, SecurityException {
 		jNDX = null;
-		jNDXes = new Vector(1);
-		jNDXID = new Vector(1);
+		jNDXes = new Vector<Index>(1);
+		jNDXID = new Vector<String>(1);
 		ffile = new File(DBFname);
 
 		if (format != DBASEIII
@@ -453,7 +453,7 @@ public class DBF extends Object {
 
 		buffer = ByteBuffer.allocateDirect(lrecl+1);
 
-		fld_root = new Vector(0);
+		fld_root = new Vector<Field>(0);
 		if (format == DBASEIV ||
 			     format == DBASEIV_WITH_MEMO)
 			     MDX_exist = 1;

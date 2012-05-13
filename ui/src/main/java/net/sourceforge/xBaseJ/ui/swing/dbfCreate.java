@@ -80,7 +80,7 @@ public class dbfCreate extends JFrame implements ActionListener, WindowListener,
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	Vector names;
+	Vector<String> names;
     String fname = null;
 
     JTable table;
@@ -414,24 +414,24 @@ class dbfCreateModel extends AbstractTableModel
      int rowCount;
      Boolean deleted[];
      JFrame parent;
-     Vector name;
-     Vector type;
-     Vector length;
-     Vector decPos;
-     Vector indexInd;
-     Vector indexName;
+     Vector<String> name;
+     Vector<String> type;
+     Vector<String> length;
+     Vector<String> decPos;
+     Vector<Boolean> indexInd;
+     Vector<String> indexName;
 
 
 
     public dbfCreateModel(DBF dbf)
        throws xBaseJException
       {
-          name = new Vector();
-          type = new Vector();
-          length = new Vector();
-          decPos = new Vector();
-          indexInd = new Vector();
-          indexName = new Vector();
+          name = new Vector<String>();
+          type = new Vector<String>();
+          length = new Vector<String>();
+          decPos = new Vector<String>();
+          indexInd = new Vector<Boolean>();
+          indexName = new Vector<String>();
           Field f;
           for (int i = 1; i <= dbf.getFieldCount(); i++)
              {
@@ -478,12 +478,12 @@ class dbfCreateModel extends AbstractTableModel
     public dbfCreateModel()
       {
           rowCount = 1;
-          name = new Vector();
-          type = new Vector();
-          length = new Vector();
-          decPos = new Vector();
-          indexInd = new Vector();
-          indexName = new Vector();
+          name = new Vector<String>();
+          type = new Vector<String>();
+          length = new Vector<String>();
+          decPos = new Vector<String>();
+          indexInd = new Vector<Boolean>();
+          indexName = new Vector<String>();
 
 
           name.addElement("");
@@ -542,7 +542,7 @@ class dbfCreateModel extends AbstractTableModel
 				 }
 			 else if (typed.compareTo("Currency") == 0)
 	 		     {
-					 int len = Integer.parseInt(lengths);
+//					 int len = Integer.parseInt(lengths);
 					 CurrencyField cf = new CurrencyField(named);
 					 flds[i] = cf;
 				 }
@@ -592,10 +592,10 @@ class dbfCreateModel extends AbstractTableModel
 		switch (c)
 			 {
 			 case 0:
-			   name.setElementAt(in, r);
+			   name.setElementAt((String) in, r);
 			   break;
 			 case 1:
-			   type.setElementAt(in, r);
+			   type.setElementAt((String) in, r);
 			   String s = (String) in;
 			   if ((s.compareTo("Logical") == 0)
 			     || (s.compareTo("Memo") == 0)
@@ -605,16 +605,16 @@ class dbfCreateModel extends AbstractTableModel
 			     setValueAt(Boolean.valueOf(false), r, 4);
 			   break;
 			 case 2:
-			   length.setElementAt(in, r);
+			   length.setElementAt((String) in, r);
 			   break;
 			 case 3:
-			   decPos.setElementAt(in, r);
+			   decPos.setElementAt((String) in, r);
 			   break;
 			 case 4:
-			   indexInd.setElementAt(in, r);
+			   indexInd.setElementAt((Boolean) in, r);
 			   break;
 			 case 5:
-		       indexName.setElementAt(in, r);
+		       indexName.setElementAt((String) in, r);
 			   break;
 		     default:
 			   break;
@@ -645,7 +645,7 @@ class dbfCreateModel extends AbstractTableModel
           }
 
 
-   public Class getColumnClass(int c){return getValueAt(0,c).getClass();}
+   public Class<?> getColumnClass(int c){return getValueAt(0,c).getClass();}
 
 
    public  int getRowCount() { return name.size(); }

@@ -26,7 +26,7 @@ public class example2 {
 			//Define fields
 			CharField classId  = (CharField) classDB.getField("classId");      
 			CharField name  = (CharField) classDB.getField("className");    
-			CharField teacher = (CharField) classDB.getField("teacherId");    
+//			CharField teacher = (CharField) classDB.getField("teacherId");    
 			CharField daysMeet  = (CharField) classDB.getField("daysMeet");     
 			CharField time = (CharField) classDB.getField("timeMeet");     
 			NumField credits = (NumField) classDB.getField("credits");      

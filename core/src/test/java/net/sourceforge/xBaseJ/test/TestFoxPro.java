@@ -41,7 +41,6 @@ import net.sourceforge.xBaseJ.fields.MemoField;
 
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Test;
 
 public class TestFoxPro {
     

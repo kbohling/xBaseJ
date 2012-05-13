@@ -72,7 +72,7 @@ public byte reserved_04;
 public byte unique_key;
 public byte key_definition[];
 
-public Vector keyControl;
+public Vector<Field> keyControl;
 public NodeKey activeKey;
 public int record; // the current key's record
 
@@ -97,7 +97,7 @@ public  boolean foundExact = false;
 public Index()
 {
     key_definition = new byte[488];
-    keyControl = new Vector();
+    keyControl = new Vector<Field>();
     dosname = new String("");
     activeKey = null;
 

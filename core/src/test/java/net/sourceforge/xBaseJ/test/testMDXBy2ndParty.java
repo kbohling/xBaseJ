@@ -32,8 +32,6 @@ package net.sourceforge.xBaseJ.test;
 
 import java.io.IOException;
 
-import junit.framework.TestCase;
-
 import net.sourceforge.xBaseJ.DBF;
 import net.sourceforge.xBaseJ.xBaseJException;
 

@@ -106,7 +106,7 @@ public class dbfViewer extends JFrame implements ActionListener, WindowListener,
 
     int editingRow = -1;
 
-    Vector names;
+    Vector<String> names;
     String fname = null;
 
     JTable table;
@@ -725,7 +725,7 @@ class dbfTableModel extends AbstractTableModel
            }
 
 
-   public Class getColumnClass(int c){
+   public Class<?> getColumnClass(int c){
 	   return getValueAt(0,c).getClass();
 	   }
 
@@ -791,7 +791,7 @@ class dbfViewerRecordPanel extends JPanel implements ActionListener
     JLabel crl, trl;
     JCheckBox delCB;
     JButton Prev, Next, Add,  Update, Clear;
-    Vector fldObjects;
+    Vector<Component> fldObjects;
 
     JLabel l;
     JTextField t;
@@ -827,7 +827,7 @@ class dbfViewerRecordPanel extends JPanel implements ActionListener
 
          int i;
          if (tableModel.getColumnCount()>0) {
-            fldObjects = new Vector(tableModel.getColumnCount()-1);
+            fldObjects = new Vector<Component>(tableModel.getColumnCount()-1);
             Field f;
             for (i = 0; i < tableModel.getColumnCount()-1; i++)
                {

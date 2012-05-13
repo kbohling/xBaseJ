@@ -37,7 +37,7 @@ import java.util.Comparator;
  *
  * a comparator class for keylist objects
  */
-public class KeyList implements Comparator {
+public class KeyList implements Comparator<KeyList> {
     NodeKey value;
     int where;
 	/**
@@ -55,9 +55,7 @@ public class KeyList implements Comparator {
 	/* (non-Javadoc)
 	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 	 */
-	public int compare(Object arg0, Object arg1) {
-		KeyList a = (KeyList) arg0;
-		KeyList b = (KeyList) arg1;
+	public int compare(KeyList a, KeyList b) {
 		return a.value.compareKey(b.value);
 
 	}

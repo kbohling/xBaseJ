@@ -220,8 +220,8 @@ reindex knows there are zero records on file.
 		Field teacherId = aDB.getField("teacherId");
 		Field daysMeet = aDB.getField("daysMeet");
 		Field timeMeet =aDB.getField("timeMeet");
-		Field credits = aDB.getField("credits");
-		Field UnderGrad = aDB.getField("UnderGrad");
+//		Field credits = aDB.getField("credits");
+//		Field UnderGrad = aDB.getField("UnderGrad");
 		Field discuss = aDB.getField("discuss");
 		
 		classId.put("JAVA10100");

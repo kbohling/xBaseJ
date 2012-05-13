@@ -87,7 +87,7 @@ public class dbfShow extends Frame
     boolean scrollBarTracking = false;
     Checkbox delCB;
     Button Prev, Next, Add,  Update, Clear;
-    Vector fldObjects;
+    Vector<Component> fldObjects;
     memoDialog md;
     MenuItem opener, packer, quiter, firstRecord, nextRecord, prevRecord, lastRecord, addRecord, updateRecord, clearRecord;
 
@@ -199,7 +199,7 @@ public void setupDBFields(String dbname)  throws Exception
          viewPane.setLayout(gb);
 
          int i, j;
-         fldObjects = new Vector(db.getFieldCount());
+         fldObjects = new Vector<Component>(db.getFieldCount());
          for (i = 1; i <= db.getFieldCount(); i++)
             {
                j = i - 1;

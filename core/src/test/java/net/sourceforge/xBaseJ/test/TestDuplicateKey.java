@@ -69,7 +69,7 @@ public class TestDuplicateKey {
 		c2.put("third");
 		db.write(); // all three rows have the same value
 		db.startTop();
-		ArrayList secondValues = new ArrayList();
+		ArrayList<String> secondValues = new ArrayList<String>();
 		for (int lp = 0; lp < 3; lp++)
 		{
 			db.findNext();
@@ -83,7 +83,7 @@ public class TestDuplicateKey {
 		db.useIndex(prefix + "testfiles/testupdidx.ndx");
 		db.find("11");
 		int foundCnt = 0;
-		HashSet secondVHash = new HashSet(secondValues);
+		HashSet<String> secondVHash = new HashSet<String>(secondValues);
 		for (int lp = 0; lp < 3; lp++) {
 			if (secondVHash.contains(c2.get())) {
 				if (c2.get().equals("second")) {
@@ -101,7 +101,7 @@ public class TestDuplicateKey {
 				db.findNext();
 		}
 		Assert.assertEquals(3, foundCnt);
-		secondValues = new ArrayList();
+		secondValues = new ArrayList<String>();
 		db.startTop();
 		for (int lp = 0; lp < 3; lp++)
 		{
@@ -112,7 +112,7 @@ public class TestDuplicateKey {
 		}
 		db.close();
 		
-		secondVHash = new HashSet(secondValues);
+		secondVHash = new HashSet<String>(secondValues);
 		db = new DBF(prefix + "testfiles/testupdidx.dbf");
 		Assert.assertEquals(3, db.getRecordCount());
 		c1 = (CharField) db.getField("first");

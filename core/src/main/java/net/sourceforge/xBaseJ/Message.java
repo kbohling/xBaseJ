@@ -38,8 +38,8 @@ import java.util.Vector;
 public class Message extends Object
 {
 
-   Vector idVector;
-   Vector dataVector;
+   Vector<String> idVector;
+   Vector<String> dataVector;
 
 /**
  * creates a message class used by the client/server objects
@@ -47,8 +47,8 @@ public class Message extends Object
 
 public Message()
  {
-   idVector = new Vector();
-   dataVector = new Vector();
+   idVector = new Vector<String>();
+   dataVector = new Vector<String>();
  }
 
 /**
@@ -88,8 +88,8 @@ public Message(DataInputStream InStream) throws IOException, xBaseJException
    InStream.readFully(DataIn, 0, dataLen);
 
 
-   idVector = new Vector();
-   dataVector = new Vector();
+   idVector = new Vector<String>();
+   dataVector = new Vector<String>();
 
 
    for (i=0; i<dataLen; )
