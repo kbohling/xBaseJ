@@ -11,6 +11,20 @@
   <packaging>pom</packaging>
 
   <name>${project.groupId}.${project.artifactId}</name>
+  <url>http://xbasej.sourceforge.net/</url>
+  <inceptionYear>1997</inceptionYear>
+
+  <licenses>
+     <license>
+       <name>LGPLv2</name>
+       <url>http://www.gnu.org/licenses/lgpl-3.0-standalone.html</url>
+       <comments>LGPLv3</comments>
+     </license>
+  </licenses>
+
+  <prerequisites>
+    <maven>3.0</maven>
+  </prerequisites>
 
   <properties>
     <maven.compiler.source>1.6</maven.compiler.source>
