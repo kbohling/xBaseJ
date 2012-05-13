@@ -58,6 +58,7 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellEditor;
 
 import net.sourceforge.xBaseJ.DBF;
+import net.sourceforge.xBaseJ.DBFConstants;
 import net.sourceforge.xBaseJ.xBaseJException;
 import net.sourceforge.xBaseJ.fields.CharField;
 import net.sourceforge.xBaseJ.fields.CurrencyField;
@@ -99,7 +100,7 @@ public class dbfCreate extends JFrame implements ActionListener, WindowListener,
 
     public dbfCreate() {
 
-        setTitle("org.xBaseJ Version: " + DBF.xBaseJVersion + " Create dBase File: unnamed");
+        setTitle("org.xBaseJ Version: " + DBFConstants.xBaseJVersion + " Create dBase File: unnamed");
 
         tableModel = new dbfCreateModel();
 
@@ -183,19 +184,19 @@ public class dbfCreate extends JFrame implements ActionListener, WindowListener,
 		   DBF dbf = new DBF(fname);
                    tableModel = new dbfCreateModel(dbf);
                    setTitle("Create dBase File: "+fil.getName());
-                    if (dbf.getVersion() == net.sourceforge.xBaseJ.DBF.DBASEIV || dbf.getVersion() == net.sourceforge.xBaseJ.DBF.DBASEIV_WITH_MEMO) {
+                    if (dbf.getVersion() == net.sourceforge.xBaseJ.DBFConstants.DBASEIV || dbf.getVersion() == net.sourceforge.xBaseJ.DBFConstants.DBASEIV_WITH_MEMO) {
 		       menuType.setText("Type: dBaseIV");
 		       typeIV.setState(true);
 		       typeIII.setState(false);
 		       typeFP.setState(false);
     	            }
-                  else if (dbf.getVersion() == net.sourceforge.xBaseJ.DBF.DBASEIII || dbf.getVersion() == net.sourceforge.xBaseJ.DBF.DBASEIII_WITH_MEMO) {
+                  else if (dbf.getVersion() == net.sourceforge.xBaseJ.DBFConstants.DBASEIII || dbf.getVersion() == net.sourceforge.xBaseJ.DBFConstants.DBASEIII_WITH_MEMO) {
    		       menuType.setText("Type: dBaseIII");
 		       typeIV.setState(false);
 		       typeIII.setState(true);
 		       typeFP.setState(false);
       	          }
-                 else if (dbf.getVersion() == net.sourceforge.xBaseJ.DBF.FOXPRO_WITH_MEMO) {
+                 else if (dbf.getVersion() == net.sourceforge.xBaseJ.DBFConstants.FOXPRO_WITH_MEMO) {
 		       menuType.setText("Type: FoxPro");
 		       typeIV.setState(false);
 		       typeIII.setState(false);
@@ -261,9 +262,9 @@ public class dbfCreate extends JFrame implements ActionListener, WindowListener,
            if (editor != null)
               editor.stopCellEditing();
            int type = -1;
-           if (typeIII.getState()) type = net.sourceforge.xBaseJ.DBF.DBASEIII;
-           if (typeFP.getState()) type = net.sourceforge.xBaseJ.DBF.FOXPRO_WITH_MEMO;
-           else type = net.sourceforge.xBaseJ.DBF.DBASEIV;
+           if (typeIII.getState()) type = net.sourceforge.xBaseJ.DBFConstants.DBASEIII;
+           if (typeFP.getState()) type = net.sourceforge.xBaseJ.DBFConstants.FOXPRO_WITH_MEMO;
+           else type = net.sourceforge.xBaseJ.DBFConstants.DBASEIV;
            try {
                 tableModel.create(fil, type);
 			}
@@ -574,7 +575,7 @@ class dbfCreateModel extends AbstractTableModel
  		     {
 				 PictureField pf = new PictureField(named);
 				 flds[i] = pf;
-				 dbfType = net.sourceforge.xBaseJ.DBF.FOXPRO_WITH_MEMO;
+				 dbfType = net.sourceforge.xBaseJ.DBFConstants.FOXPRO_WITH_MEMO;
 			 }
 		 }
 

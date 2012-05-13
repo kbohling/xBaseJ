@@ -115,20 +115,11 @@ public class DBF extends Object {
 	protected Vector<Index> jNDXes;
 	protected Vector<String> jNDXID;
 	public MDXFile MDXfile = null;
-	public static final byte DBASEIII = 3;
-	public static final byte DBASEIV = 4;
-	public static final byte DBASEIII_WITH_MEMO = -125;
-	public static final byte DBASEIV_WITH_MEMO = -117;
-	public static final byte FOXPRO_WITH_MEMO = -11;
-	public static final byte NOTDELETED = (byte) ' ';
-	public static final byte DELETED = 0x2a;
 
 	public static final char READ_ONLY = 'r';
 	public boolean readonly = false;
 
-	public static final String xBaseJVersion = "2.1.R";
-
-	public static final String version() { return xBaseJVersion;}
+	public static final String version() { return DBFConstants.xBaseJVersion;}
 
 	public static String encodedType = "8859_1";
 
@@ -156,7 +147,7 @@ public class DBF extends Object {
 
 	public DBF(String DBFname, boolean destroy)
 		throws xBaseJException, IOException, SecurityException {
-		createDBF(DBFname, DBASEIII, destroy);
+		createDBF(DBFname, DBFConstants.DBASEIII, destroy);
 	}
 
 	/**
@@ -239,7 +230,7 @@ public class DBF extends Object {
 	public DBF(String DBFname, boolean destroy, String inEncodeType)
 		throws xBaseJException, IOException, SecurityException {
 		setEncodingType(inEncodeType);
-		createDBF(DBFname, DBASEIII, destroy);
+		createDBF(DBFname, DBFConstants.DBASEIII, destroy);
 	}
 
 	/**
@@ -351,11 +342,11 @@ public class DBF extends Object {
 
 		fldcount = (short) ((offset - 1) / 32 - 1);
 
-		if (( version != DBASEIII)
-              && ( version != DBASEIII_WITH_MEMO)
-   		      && ( version != DBASEIV)
- 			&& ( version != DBASEIV_WITH_MEMO)
-			&& ( version != FOXPRO_WITH_MEMO)) {
+		if (( version != DBFConstants.DBASEIII)
+              && ( version != DBFConstants.DBASEIII_WITH_MEMO)
+   		      && ( version != DBFConstants.DBASEIV)
+ 			&& ( version != DBFConstants.DBASEIV_WITH_MEMO)
+			&& ( version != DBFConstants.FOXPRO_WITH_MEMO)) {
 			String mismatch = Util.getxBaseJProperty("ignoreVersionMismatch").toLowerCase();
 			if (mismatch != null && (mismatch.compareTo("true") ==0 || mismatch.compareTo("yes") ==0))
 				System.err.println("Wrong Version " + String.valueOf((short) version));
@@ -363,11 +354,11 @@ public class DBF extends Object {
 				throw new xBaseJException("Wrong Version " + String.valueOf((short) version));
 			}
 
-		if (version == FOXPRO_WITH_MEMO)
+		if (version == DBFConstants.FOXPRO_WITH_MEMO)
 			dbtobj = new DBT_fpt(this, readonly);
-		else if (version == DBASEIII_WITH_MEMO)
+		else if (version == DBFConstants.DBASEIII_WITH_MEMO)
 			dbtobj = new DBT_iii(this, readonly);
-		else if (version == DBASEIV_WITH_MEMO)
+		else if (version == DBFConstants.DBASEIV_WITH_MEMO)
 			dbtobj = new DBT_iv(this, readonly);
 
 		fld_root = new Vector<Field>(new Long(fldcount).intValue());
@@ -422,11 +413,11 @@ public class DBF extends Object {
 		jNDXID = new Vector<String>(1);
 		ffile = new File(DBFname);
 
-		if (format != DBASEIII
-			&& format != DBASEIV
-			&& format != DBASEIII_WITH_MEMO
-			&& format != DBASEIV_WITH_MEMO
-			&& format != FOXPRO_WITH_MEMO)
+		if (format != DBFConstants.DBASEIII
+			&& format != DBFConstants.DBASEIV
+			&& format != DBFConstants.DBASEIII_WITH_MEMO
+			&& format != DBFConstants.DBASEIV_WITH_MEMO
+			&& format != DBFConstants.FOXPRO_WITH_MEMO)
 			throw new xBaseJException("Invalid format specified");
 
 		if (destroy == false)
@@ -454,14 +445,14 @@ public class DBF extends Object {
 		buffer = ByteBuffer.allocateDirect(lrecl+1);
 
 		fld_root = new Vector<Field>(0);
-		if (format == DBASEIV ||
-			     format == DBASEIV_WITH_MEMO)
+		if (format == DBFConstants.DBASEIV ||
+			     format == DBFConstants.DBASEIV_WITH_MEMO)
 			     MDX_exist = 1;
 
 		boolean memoExists =
-			(format == DBASEIII_WITH_MEMO
-				|| format == DBASEIV_WITH_MEMO
-				|| format == FOXPRO_WITH_MEMO);
+			(format == DBFConstants.DBASEIII_WITH_MEMO
+				|| format == DBFConstants.DBASEIV_WITH_MEMO
+				|| format == DBFConstants.FOXPRO_WITH_MEMO);
 
 
 		db_offset(format, memoExists);
@@ -506,8 +497,8 @@ public class DBF extends Object {
 		if (aField.length == 0)
 			throw new xBaseJException("No Fields in array to add");
 
-		if ((version == DBASEIII && MDX_exist == 0)
-			|| (version == DBASEIII_WITH_MEMO)) {
+		if ((version == DBFConstants.DBASEIII && MDX_exist == 0)
+			|| (version == DBFConstants.DBASEIII_WITH_MEMO)) {
 			if ((fldcount + aField.length) > 128)
 				throw new xBaseJException(
 					"Number of fields exceed limit of 128.  New Field count is "
@@ -545,11 +536,11 @@ public class DBF extends Object {
 					|| (aField[j - 1] instanceof PictureField)))
 				newMemo = true;
 			if (aField[j - 1] instanceof PictureField)
-				version = FOXPRO_WITH_MEMO;
+				version = DBFConstants.FOXPRO_WITH_MEMO;
 			else if (
 				(aField[j - 1] instanceof MemoField)
 					&& (((MemoField) aField[j - 1]).isFoxPro()))
-				version = FOXPRO_WITH_MEMO;
+				version = DBFConstants.FOXPRO_WITH_MEMO;
 		}
 
         String ignoreDBFLength = Util.getxBaseJProperty("ignoreDBFLengthCheck");
@@ -576,8 +567,8 @@ public class DBF extends Object {
 			f.delete();
 
 			int format = version;
-			if ((format == DBASEIII) && (MDX_exist == 1))
-				format = DBASEIV;
+			if ((format == DBFConstants.DBASEIII) && (MDX_exist == 1))
+				format = DBFConstants.DBASEIV;
 
 			tempDBF = new DBF(newName, format, true);
 			tempDBF.version = (byte) format;
@@ -587,27 +578,27 @@ public class DBF extends Object {
 
 		if (newMemo) {
 			if (createTemp) {
-				if ((version == DBASEIII || version == DBASEIII_WITH_MEMO)
+				if ((version == DBFConstants.DBASEIII || version == DBFConstants.DBASEIII_WITH_MEMO)
 					&& (MDX_exist == 0))
 					tempDBF.dbtobj = new DBT_iii(this, newName, true);
-				else if (version == FOXPRO_WITH_MEMO)
+				else if (version == DBFConstants.FOXPRO_WITH_MEMO)
 					tempDBF.dbtobj = new DBT_fpt(this, newName, true);
 				else
 					tempDBF.dbtobj = new DBT_iv(this, newName, true);
 			} else {
-				if ((version == DBASEIII || version == DBASEIII_WITH_MEMO)
+				if ((version == DBFConstants.DBASEIII || version == DBFConstants.DBASEIII_WITH_MEMO)
 					&& (MDX_exist == 0))
 					dbtobj = new DBT_iii(this, dosname, true);
-				else if (version == FOXPRO_WITH_MEMO)
+				else if (version == DBFConstants.FOXPRO_WITH_MEMO)
 					dbtobj = new DBT_fpt(this, dosname, true);
 				else
 					dbtobj = new DBT_iv(this, dosname, true);
 			}
 		} else if (createTemp && oldMemo) {
-			if ((version == DBASEIII || version == DBASEIII_WITH_MEMO)
+			if ((version == DBFConstants.DBASEIII || version == DBFConstants.DBASEIII_WITH_MEMO)
 				&& (MDX_exist == 0))
 				tempDBF.dbtobj = new DBT_iii(this, newName, true);
-			else if (version == FOXPRO_WITH_MEMO)
+			else if (version == DBFConstants.FOXPRO_WITH_MEMO)
 				tempDBF.dbtobj = new DBT_fpt(this, newName, true);
 			else
 				tempDBF.dbtobj = new DBT_iv(this, newName, true);
@@ -659,15 +650,15 @@ public class DBF extends Object {
 			offset += (32 * aField.length);
 			if (newMemo) {
 				if (dbtobj instanceof DBT_iii)
-					version = DBASEIII_WITH_MEMO;
+					version = DBFConstants.DBASEIII_WITH_MEMO;
 				else if (
 					dbtobj instanceof DBT_iv)
 					// if it's not dbase 3 format make it at least dbaseIV format.
-					version = DBASEIV_WITH_MEMO;
+					version = DBFConstants.DBASEIV_WITH_MEMO;
 				else if (
 					dbtobj instanceof DBT_fpt)
 					// if it's not foxpro format make it at least dbaseIV format.
-					version = FOXPRO_WITH_MEMO;
+					version = DBFConstants.FOXPRO_WITH_MEMO;
 			}
 			channel = file.getChannel();
 			buffer = ByteBuffer.allocateDirect(lrecl+1);
@@ -740,14 +731,14 @@ public class DBF extends Object {
 				}
 			}
 			tempDBF.dbtobj.rename(dosname);
-			if ((version == DBASEIII || version == DBASEIII_WITH_MEMO)
+			if ((version == DBFConstants.DBASEIII || version == DBFConstants.DBASEIII_WITH_MEMO)
 			&& (MDX_exist == 0)) {
  				if (dosname.endsWith("dbf"))
  					dbtobj = new DBT_iii(this, readonly);
  				else
  					dbtobj = new DBT_iii(this, dosname,  true);
  			}
- 			else if (version == FOXPRO_WITH_MEMO) {
+ 			else if (version == DBFConstants.FOXPRO_WITH_MEMO) {
  				if (dosname.endsWith("dbf"))
  					dbtobj = new DBT_fpt(this, readonly);
  				else
@@ -1600,7 +1591,7 @@ public class DBF extends Object {
 		seek(count);
 
 
-		delete_ind = NOTDELETED;
+		delete_ind = DBFConstants.NOTDELETED;
 		buffer.position(0);
 		buffer.put(delete_ind);
 
@@ -1617,7 +1608,7 @@ public class DBF extends Object {
         file.writeByte(wb);
 
 
-		if (MDX_exist != 1 && (version == DBASEIII || version == DBASEIII_WITH_MEMO)) {
+		if (MDX_exist != 1 && (version == DBFConstants.DBASEIII || version == DBFConstants.DBASEIII_WITH_MEMO)) {
 			buffer.position(0);
 			channel.write(buffer);
 			wb = ' ';
@@ -1750,7 +1741,7 @@ public class DBF extends Object {
 
 	    	lockRecord();
 		seek(current_record-1);
-		delete_ind = DELETED;
+		delete_ind = DBFConstants.DELETED;
 
 		file.writeByte(delete_ind);
 		unlockRecord();
@@ -1769,7 +1760,7 @@ public class DBF extends Object {
 
 		lockRecord();
 		seek(current_record-1);
-		delete_ind = NOTDELETED;
+		delete_ind = DBFConstants.NOTDELETED;
 
 		file.writeByte(delete_ind);
 		unlockRecord();
@@ -1866,26 +1857,26 @@ public class DBF extends Object {
 	 */
 
 	public boolean deleted() {
-		return (delete_ind == DELETED);
+		return (delete_ind == DBFConstants.DELETED);
 	}
 
 	protected void db_offset(int format, boolean memoPresent) {
 
-		if (format == FOXPRO_WITH_MEMO)
+		if (format == DBFConstants.FOXPRO_WITH_MEMO)
 			if (memoPresent)
-				version = FOXPRO_WITH_MEMO;
+				version = DBFConstants.FOXPRO_WITH_MEMO;
 			else
-				version = DBASEIV;
+				version = DBFConstants.DBASEIV;
 		else if (
-			format == DBASEIV_WITH_MEMO || format == DBASEIV || MDX_exist == 1)
+			format == DBFConstants.DBASEIV_WITH_MEMO || format == DBFConstants.DBASEIV || MDX_exist == 1)
 			if (memoPresent)
-				version = DBASEIV_WITH_MEMO;
+				version = DBFConstants.DBASEIV_WITH_MEMO;
 			else
-				version = DBASEIII; //DBASEIV;
+				version = DBFConstants.DBASEIII; //DBASEIV;
 		else if (memoPresent)
-			version = DBASEIII_WITH_MEMO;
+			version = DBFConstants.DBASEIII_WITH_MEMO;
 		else
-			version = DBASEIII;
+			version = DBFConstants.DBASEIII;
 
 		count = 0; /* number of records in file */
 		offset = 33; /* length of the offset includes the \r at end */
@@ -2049,7 +2040,7 @@ public class DBF extends Object {
 		file.writeByte((int) tField.getLength());
 		file.writeByte(tField.getDecimalPositionCount());
 
-		if (version == DBASEIII || version == DBASEIII_WITH_MEMO)
+		if (version == DBFConstants.DBASEIII || version == DBFConstants.DBASEIII_WITH_MEMO)
 			byter[2] = 1;
 
 		file.write(byter, 0, 14);
@@ -2218,7 +2209,7 @@ public class DBF extends Object {
 	 */
 	public void getXML(PrintWriter pw)throws IOException, xBaseJException  {
 		pw.println("<?xml version=\"1.0\"?>");
-		pw.println("<!-- org.xBaseJ release " + xBaseJVersion + "-->");
+		pw.println("<!-- org.xBaseJ release " + DBFConstants.xBaseJVersion + "-->");
 		pw.println("<!-- http://www.americancoders.com-->");
 		pw.println("<!DOCTYPE dbf SYSTEM \"xbase.dtd\">");
 		int i;

@@ -38,12 +38,12 @@ public class DBT_iii extends DBTFile
 
 public DBT_iii(DBF iDBF, boolean readOnly) throws IOException, xBaseJException
 {
-super(iDBF, readOnly, DBF.DBASEIII_WITH_MEMO);
+super(iDBF, readOnly, DBFConstants.DBASEIII_WITH_MEMO);
 }
 
 public DBT_iii(DBF iDBF, String name, boolean destroy) throws IOException, xBaseJException
 {
- super(iDBF, name, destroy, DBF.DBASEIII_WITH_MEMO);
+ super(iDBF, name, destroy, DBFConstants.DBASEIII_WITH_MEMO);
 }
 
 public void setNextBlock() throws IOException

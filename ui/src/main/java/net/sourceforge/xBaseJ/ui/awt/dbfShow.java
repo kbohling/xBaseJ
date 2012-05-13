@@ -178,7 +178,7 @@ public class dbfShow extends Frame
          Clear = new Button("Clear");
          Clear.addActionListener(this);
          setupDBFields(dbname);
-         setTitle(dbname + ",   org.xBaseJ Version:" + net.sourceforge.xBaseJ.DBF.xBaseJVersion);
+         setTitle(dbname + ",   org.xBaseJ Version:" + net.sourceforge.xBaseJ.DBFConstants.xBaseJVersion);
          pack();
          setVisible(true);
 

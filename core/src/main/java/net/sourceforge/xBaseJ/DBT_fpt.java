@@ -43,7 +43,7 @@ public class DBT_fpt extends DBTFile
 
 public DBT_fpt(DBF iDBF, boolean readOnly) throws IOException, xBaseJException
 {
-super(iDBF, readOnly, DBF.FOXPRO_WITH_MEMO);
+super(iDBF, readOnly, DBFConstants.FOXPRO_WITH_MEMO);
 nextBlock = file.readInt();
 //file.skipBytes(2);
 memoBlockSize = file.readInt();
@@ -51,7 +51,7 @@ memoBlockSize = file.readInt();
 
 public DBT_fpt(DBF iDBF, String name, boolean destroy) throws IOException, xBaseJException
 {
- super(iDBF, name, destroy, DBF.FOXPRO_WITH_MEMO);
+ super(iDBF, name, destroy, DBFConstants.FOXPRO_WITH_MEMO);
  nextBlock = 8;
  file.writeInt(nextBlock);
  file.writeByte(0);

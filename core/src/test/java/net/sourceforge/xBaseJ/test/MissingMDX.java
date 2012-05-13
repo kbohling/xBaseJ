@@ -34,6 +34,7 @@ import java.io.File;
 import java.io.IOException;
 
 import net.sourceforge.xBaseJ.DBF;
+import net.sourceforge.xBaseJ.DBFConstants;
 import net.sourceforge.xBaseJ.Util;
 import net.sourceforge.xBaseJ.xBaseJException;
 import net.sourceforge.xBaseJ.fields.CharField;
@@ -62,7 +63,7 @@ public class MissingMDX {
 		f.delete();
 		f = new File(prefix + "testfiles/test.mdx");
 		f.delete();
-		DBF d = new DBF(prefix + "testfiles/test.dbf", DBF.DBASEIV, true );
+		DBF d = new DBF(prefix + "testfiles/test.dbf", DBFConstants.DBASEIV, true );
 		d.addField(new CharField("one", 10));
 		d.close();
 		f = new File(prefix + "testfiles/test.mdx");
@@ -79,7 +80,7 @@ public class MissingMDX {
 		f.delete();
 		f = new File(prefix + "testfiles/test.mdx");
 		f.delete();
-		DBF d = new DBF(prefix + "testfiles/test.dbf", DBF.DBASEIV, true );
+		DBF d = new DBF(prefix + "testfiles/test.dbf", DBFConstants.DBASEIV, true );
 		d.addField(new CharField("one", 10));
 		d.close();
 		f = new File(prefix + "testfiles/test.mdx");
@@ -98,7 +99,7 @@ public class MissingMDX {
 		f.delete();
 		f = new File(prefix + "testfiles/test.mdx");
 		f.delete();
-		DBF d = new DBF(prefix + "testfiles/test.dbf", DBF.DBASEIV, true );
+		DBF d = new DBF(prefix + "testfiles/test.dbf", DBFConstants.DBASEIV, true );
 		d.addField(new CharField("one", 10));
 		d.close();
 		f = new File(prefix + "testfiles/test.mdx");

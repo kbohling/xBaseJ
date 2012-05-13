@@ -42,7 +42,7 @@ public class DBT_iv extends DBTFile
 
 public DBT_iv(DBF iDBF, boolean readOnly) throws IOException, xBaseJException
 {
-super(iDBF, readOnly, DBF.DBASEIV_WITH_MEMO);
+super(iDBF, readOnly, DBFConstants.DBASEIV_WITH_MEMO);
 nextBlock = Util.x86(file.readInt());
 file.skipBytes(16);
 memoBlockSize = Util.x86(file.readInt());
@@ -50,7 +50,7 @@ memoBlockSize = Util.x86(file.readInt());
 
 public DBT_iv(DBF iDBF, String name, boolean destroy) throws IOException, xBaseJException
 {
- super(iDBF, name, destroy, DBF.DBASEIV_WITH_MEMO);
+ super(iDBF, name, destroy, DBFConstants.DBASEIV_WITH_MEMO);
  nextBlock = 1;
  file.writeInt(Util.x86(nextBlock));
  for (int i = 0; i < 16; i++)

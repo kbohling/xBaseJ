@@ -34,6 +34,7 @@ import java.io.File;
 import java.io.IOException;
 
 import net.sourceforge.xBaseJ.DBF;
+import net.sourceforge.xBaseJ.DBFConstants;
 import net.sourceforge.xBaseJ.Util;
 import net.sourceforge.xBaseJ.xBaseJException;
 import net.sourceforge.xBaseJ.fields.CharField;
@@ -69,7 +70,7 @@ public class TestFoxPro {
     // @Test
     public void testCreateAll() throws SecurityException, xBaseJException, IOException {
 
-        DBF fp = new DBF(prefix + "testfiles/foxprotest.dbf", DBF.FOXPRO_WITH_MEMO, true);
+        DBF fp = new DBF(prefix + "testfiles/foxprotest.dbf", DBFConstants.FOXPRO_WITH_MEMO, true);
         fp.addField(new CharField("name", 10));
         fp.addField(new MemoField("memo"));
         fp.close();

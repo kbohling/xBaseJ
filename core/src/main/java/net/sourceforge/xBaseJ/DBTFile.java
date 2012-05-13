@@ -73,7 +73,7 @@ public DBTFile(DBF iDBF, boolean readonly, int type) throws IOException, xBaseJE
      extension = ext;
    }
    else
-   if (type == DBF.FOXPRO_WITH_MEMO) {
+   if (type == DBFConstants.FOXPRO_WITH_MEMO) {
 	extension = "fpt";
     tname = new String(name.substring(0,name.length()-3) + extension);
     thefile = new File(tname);
@@ -95,7 +95,7 @@ public DBTFile(DBF iDBF, boolean readonly, int type) throws IOException, xBaseJE
 	         throw new xBaseJException("Can't find Memo Text file "+ dtname);
 	      }
 	    else {
-	    	//type = DBF.FOXPRO_WITH_MEMO;
+	    	//type = DBFConstants.FOXPRO_WITH_MEMO;
 	    	tname = dtname;
 	    }
 
@@ -120,7 +120,7 @@ public DBTFile(DBF iDBF, String name, boolean destroy, int type) throws IOExcept
     extension = ext;
   }
   else
-  if (type == DBF.FOXPRO_WITH_MEMO) // foxpro
+  if (type == DBFConstants.FOXPRO_WITH_MEMO) // foxpro
 	  extension = "fpt";
 
   tname = new String(name.substring(0,name.length()-3) + extension);

@@ -34,6 +34,7 @@ import java.io.File;
 import java.io.IOException;
 
 import net.sourceforge.xBaseJ.DBF;
+import net.sourceforge.xBaseJ.DBFConstants;
 import net.sourceforge.xBaseJ.Util;
 import net.sourceforge.xBaseJ.xBaseJException;
 import net.sourceforge.xBaseJ.fields.CharField;
@@ -82,7 +83,7 @@ public class TestMultiAdd {
 
 		File File = new File(prefix + "testfiles/test.dbf");
 
-		DBF dbf = new DBF(File.getPath(), DBF.DBASEIV, true);
+		DBF dbf = new DBF(File.getPath(), DBFConstants.DBASEIV, true);
 
 		zip = new CharField(zipFieldStr, 5);
 		dbf.addField(zip);

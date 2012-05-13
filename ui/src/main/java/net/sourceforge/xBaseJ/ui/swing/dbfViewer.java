@@ -88,6 +88,7 @@ import javax.swing.table.TableColumnModel;
 import javax.swing.text.Document;
 
 import net.sourceforge.xBaseJ.DBF;
+import net.sourceforge.xBaseJ.DBFConstants;
 import net.sourceforge.xBaseJ.fields.Field;
 import net.sourceforge.xBaseJ.fields.MemoField;
 import net.sourceforge.xBaseJ.ui.awt.dbfFileFilter;
@@ -185,14 +186,14 @@ public class dbfViewer extends JFrame implements ActionListener, WindowListener,
 
         if (arg == null) {
            tableModel = new dbfTableModel();
-           setTitle("org.xBaseJ Version: "+ DBF.xBaseJVersion);
+           setTitle("org.xBaseJ Version: "+ DBFConstants.xBaseJVersion);
         }
         else {
 
            tableModel = new dbfTableModel(arg, this);
            File fil = new File(arg);
            lastDirectory = fil.getPath();
-           setTitle("org.xBaseJ Version: "+ DBF.xBaseJVersion + " " + arg);
+           setTitle("org.xBaseJ Version: "+ DBFConstants.xBaseJVersion + " " + arg);
            startEnabled = true;
            tableSetUpToGo();
         }
